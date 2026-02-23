@@ -30,54 +30,77 @@ body {
 header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
-    padding: 6rem 0 4rem;
+    padding: 7rem 0 5rem;
     text-align: center;
 }
 
     header h1 {
-        font-size: 3.5rem;
+        font-size: 3.8rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
     }
 
-    header p {
-        font-size: 1.4rem;
+    header p.tagline {
+        font-size: 1.5rem;
         opacity: 0.95;
-        max-width: 700px;
-        margin: 0 auto;
+        max-width: 780px;
+        margin: 1.2rem auto 2.5rem;
     }
 
-.tagline {
-    font-size: 1.25rem;
-    margin: 2rem 0;
-    font-weight: 500;
+nav {
+    background: rgba(0,0,0,0.07);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
 }
 
+    nav .container {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        transition: all 0.25s;
+    }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
 main {
-    padding: 4rem 0;
+    padding: 5rem 0 6rem;
 }
 
 section {
-    margin-bottom: 5rem;
+    margin-bottom: 6rem;
 }
 
 h2 {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     color: var(--primary-dark);
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
 }
 
 .card {
     background: white;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 2.2rem;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -88,8 +111,8 @@ h2 {
     }
 
     .card h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
+        font-size: 1.6rem;
+        margin-bottom: 1.1rem;
         color: var(--primary);
     }
 
@@ -100,8 +123,8 @@ h2 {
 }
 
     .cert-list li {
-        margin-bottom: 0.8rem;
-        padding-left: 1.5rem;
+        margin-bottom: 0.9rem;
+        padding-left: 1.6rem;
         position: relative;
     }
 
@@ -115,15 +138,15 @@ h2 {
 
 .cta {
     text-align: center;
-    margin: 4rem 0;
+    margin: 5rem 0;
 }
 
 .btn {
     display: inline-block;
     background: var(--primary);
     color: white;
-    padding: 1rem 2.5rem;
-    font-size: 1.2rem;
+    padding: 1.1rem 2.8rem;
+    font-size: 1.25rem;
     font-weight: 600;
     border-radius: 50px;
     text-decoration: none;
@@ -136,7 +159,7 @@ h2 {
 
 footer {
     background: var(--gray);
-    padding: 3rem 0;
+    padding: 3.5rem 0;
     text-align: center;
     font-size: 0.95rem;
     color: var(--text-light);
@@ -144,14 +167,18 @@ footer {
 
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2.8rem;
+        font-size: 2.9rem;
     }
 
-    header p {
-        font-size: 1.2rem;
+    header p.tagline {
+        font-size: 1.3rem;
     }
 
     h2 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+    }
+
+    nav .container {
+        gap: 1.2rem;
     }
 }
