@@ -1,11 +1,11 @@
 :root {
-    --primary: #0066cc;
-    --primary-dark: #004080;
-    --text: #1a1a1a;
-    --text-light: #4a4a4a;
-    --bg: #f8f9fc;
-    --white: #ffffff;
-    --gray: #e5e7eb;
+    --bg: #0f1117;
+    --surface: #161b22;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --accent: #3b82f6; /* blue-500 */
+    --accent-d: #1d4ed8; /* blue-700 */
+    --border: #334155;
 }
 
 * {
@@ -19,166 +19,178 @@ body {
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    font-size: 1.05rem;
 }
 
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+    a:hover {
+        color: #60a5fa;
+    }
+
 .container {
-    max-width: 1200px;
+    max-width: 980px;
     margin: 0 auto;
     padding: 0 1.5rem;
 }
 
 header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    padding: 7rem 0 5rem;
+    padding: 9rem 0 6rem;
     text-align: center;
 }
 
     header h1 {
-        font-size: 3.8rem;
+        font-size: clamp(2.8rem, 7vw, 4.2rem);
         font-weight: 700;
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.8rem;
     }
 
-    header p.tagline {
-        font-size: 1.5rem;
-        opacity: 0.95;
-        max-width: 780px;
-        margin: 1.2rem auto 2.5rem;
-    }
+.tagline {
+    font-size: clamp(1.3rem, 3.5vw, 1.55rem);
+    color: var(--text-dim);
+    max-width: 720px;
+    margin: 0 auto;
+}
 
 nav {
-    background: rgba(0,0,0,0.07);
-    padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(8px);
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
 }
 
     nav .container {
         display: flex;
         justify-content: center;
-        gap: 2.5rem;
         flex-wrap: wrap;
+        gap: 1.8rem 2.4rem;
     }
 
     nav a {
-        color: var(--primary-dark);
-        text-decoration: none;
         font-weight: 500;
-        padding: 0.6rem 1.2rem;
-        border-radius: 50px;
-        transition: all 0.25s;
+        padding: 0.4rem 0.8rem;
+        transition: all 0.18s;
     }
 
         nav a:hover {
-            background: rgba(255,255,255,0.15);
+            color: white;
         }
 
-main {
-    padding: 5rem 0 6rem;
-}
-
 section {
-    margin-bottom: 6rem;
+    padding: 5rem 0;
 }
 
 h2 {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
+    font-weight: 700;
     text-align: center;
     margin-bottom: 2.5rem;
-    color: var(--primary-dark);
+    color: white;
+}
+
+.intro {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 4rem;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.8rem;
 }
 
 .card {
-    background: white;
-    border-radius: 12px;
-    padding: 2.2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem;
 }
-
-    .card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-    }
 
     .card h3 {
-        font-size: 1.6rem;
-        margin-bottom: 1.1rem;
-        color: var(--primary);
+        font-size: 1.35rem;
+        margin-bottom: 1rem;
+        color: var(--accent);
     }
 
-.cert-list {
+ul {
     list-style: none;
-    font-size: 1.1rem;
-    color: var(--text-light);
+    padding-left: 1.4rem;
 }
 
-    .cert-list li {
-        margin-bottom: 0.9rem;
-        padding-left: 1.6rem;
+    ul li {
+        margin-bottom: 0.6rem;
         position: relative;
+        color: var(--text-dim);
     }
 
-        .cert-list li::before {
-            content: "✓";
+        ul li::before {
+            content: "•";
             position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
+            left: -1.1rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+            line-height: 1;
         }
 
 .cta {
     text-align: center;
-    margin: 5rem 0;
+    padding: 7rem 0 9rem;
 }
 
 .btn {
     display: inline-block;
-    background: var(--primary);
+    background: var(--accent);
     color: white;
-    padding: 1.1rem 2.8rem;
-    font-size: 1.25rem;
     font-weight: 600;
+    padding: 1rem 2.4rem;
     border-radius: 50px;
-    text-decoration: none;
-    transition: background 0.3s;
+    font-size: 1.15rem;
+    transition: all 0.25s;
 }
 
     .btn:hover {
-        background: var(--primary-dark);
+        background: var(--accent-d);
+        transform: translateY(-2px);
     }
 
-footer {
-    background: var(--gray);
-    padding: 3.5rem 0;
-    text-align: center;
-    font-size: 0.95rem;
-    color: var(--text-light);
+.social-links {
+    margin: 2.5rem 0 1.5rem;
+    font-size: 1.1rem;
 }
 
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.9rem;
+footer {
+    text-align: center;
+    padding: 3rem 0 4rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 680px) {
+    header {
+        padding: 7rem 0 5rem;
     }
 
-    header p.tagline {
-        font-size: 1.3rem;
+    section {
+        padding: 4rem 0;
     }
 
     h2 {
-        font-size: 2.2rem;
+        font-size: 1.9rem;
     }
 
     nav .container {
         gap: 1.2rem;
+        font-size: 0.98rem;
     }
 }
