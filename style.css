@@ -3,8 +3,8 @@
     --surface: #161b22;
     --text: #e2e8f0;
     --text-dim: #94a3b8;
-    --accent: #3b82f6; /* blue-500 */
-    --accent-d: #1d4ed8; /* blue-700 */
+    --accent: #3b82f6; 
+    --accent-d: #1d4ed8; 
     --border: #334155;
 }
 
@@ -39,7 +39,7 @@ a {
 }
 
 header {
-    padding: 9rem 0 6rem;
+    padding: 3rem 0 3rem;
     text-align: center;
 }
 
@@ -84,7 +84,7 @@ nav {
         }
 
 section {
-    padding: 5rem 0;
+    padding: 3rem 0;
 }
 
 h2 {
