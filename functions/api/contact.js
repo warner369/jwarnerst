@@ -15,15 +15,16 @@ export async function onRequestPost(context) {
         return json({ error: 'Invalid request body' }, 400);
     }
 
-    const { message, from_email } = body;
+    const { message, from_email, email } = body;
 
-    if (!message) {
-        return json({ error: 'Missing message' }, 400);
+    if (!message || !email) {
+        return json({ error: 'Message and email are required fields.' }, 400);
     }
 
-    const fromEmail = from_email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(from_email)
-        ? from_email
-        : null;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return json({ error: 'Please provide a valid email address.' }, 400);
+    }
 
     const resendRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -33,7 +34,7 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
             from:     FROM_ADDRESS,
-            to:       [TO_ADDRESS],
+            to:       [TO_ADDRESS,email],
             reply_to: TO_ADDRESS,
             subject:  'Someone wants to get in touch',
             text:     (fromEmail ? `From: ${fromEmail}\n\n` : '') + message,

@@ -2,7 +2,7 @@
 const DAILY_RATE = 1200; // AUD excl. GST
 
 const UPLIFTS = {
-    itsm_pro: {
+    itsm: {
         label: 'ITSM Implementation',
         base: 15,
         scopes: {
@@ -50,7 +50,7 @@ let lastResults = null;
 const calcBtn = document.getElementById('calc-btn');
 
 function updateCalcBtnState() {
-    const anyChecked = ['chk-itsm-pro']
+    const anyChecked = ['chk-itsm']
         .some(id => document.getElementById(id).checked);
     calcBtn.classList.toggle('ready', anyChecked);
 }
@@ -58,7 +58,7 @@ function updateCalcBtnState() {
 // ** Render results **********************************************
 function renderResults() {
     const selected = [
-        { key: 'itsm_pro', checked: document.getElementById('chk-itsm-pro').checked },
+        { key: 'itsm', checked: document.getElementById('chk-itsm').checked },
     ].filter(u => u.checked);
 
     const body         = document.getElementById('results-body');
@@ -274,6 +274,8 @@ async function sendEstimateEmail(recipientEmail) {
 }
 
 // ** Email button handler **********************************************
+
+/*
 document.getElementById('email-btn').addEventListener('click', async () => {
     const emailInput = document.getElementById('recipient-email');
     const statusEl   = document.getElementById('email-status');
@@ -296,17 +298,17 @@ document.getElementById('email-btn').addEventListener('click', async () => {
     try {
         generatePDF(email).save('groundwork-estimate.pdf');
         await sendEstimateEmail(email);
-        statusEl.textContent = 'PDF downloaded. Estimate sent — check your inbox.';
+        statusEl.textContent = 'PDF generated. Estimate sent — check your inbox.';
         statusEl.className   = 'email-status success';
     } catch (err) {
         console.error('Email send failed:', err);
-        statusEl.textContent = 'PDF downloaded. Email failed — check server config.';
+        statusEl.textContent = 'PDF generated. Email failed — check server config.';
         statusEl.className   = 'email-status error';
     }
 
     btn.textContent = 'Download PDF & Send →';
     btn.disabled    = false;
-});
+});*/
 
 // ** Card toggle bindings **********************************************
 function bindCard(checkId, scopesId) {
@@ -321,7 +323,7 @@ function bindCard(checkId, scopesId) {
     });
 }
 
-bindCard('chk-itsm-pro', 'scopes-itsm-pro');
+bindCard('chk-itsm', 'scopes-itsm');
 
 // Scope checkbox visual state
 document.querySelectorAll('.scope-check input[type="checkbox"]').forEach(cb => {
