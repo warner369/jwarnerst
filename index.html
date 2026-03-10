@@ -1,143 +1,40 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>James Warner</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="./style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="#services">Services</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
-        </div>
+
+<aside class="rail">
+    <a href="/" class="rail-name">JW</a>
+    <nav class="rail-nav">
+        <a href="/tools">Tools</a>
+        <a href="/experience">Experience</a>
+        <a href="/about">About</a>
     </nav>
+    <div class="rail-foot">
+        <div>Sydney, AU</div>
+        <div>2026</div>
+    </div>
+</aside>
 
-    <header>
-        <div class="container">
-            <h1>James Warner</h1>
-            <p class="tagline">Enterprise Solutions Consultant · ServiceNow Architect · AI Workflow & Automation Specialist</p>
+<main class="content">
+    <section class="hero">
+        <p class="hero-label">Enterprise Solutions Consultant</p>
+        <h1 class="hero-name">James<br>Warner.</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-sub">ServiceNow architect. I build tools to take the grunt work out of implementation scoping.</p>
+        <div class="hero-links">
+            <a href="/tools" class="hero-link hero-link-primary">Browse Tools ↗</a>
+            <a href="/about" class="hero-link">About me →</a>
         </div>
-    </header>
+    </section>
+</main>
 
-    <main class="container">
-
-        <section id="services">
-            <h2>What I Help With</h2>
-            <p class="intro">I design, implement and accelerate enterprise-grade solutions. I have experience doing this by combining ServiceNow architecture with modern AI automation to deliver measurable business outcomes.</p>
-
-            <div class="grid">
-                <div class="card">
-                    <h3>ServiceNow Architecture & Delivery</h3>
-                    <p>End-to-end implementations: ITSM, CMDB, Discovery, Service Mapping, Event Mgmt, SecOps, SPM/ITBM, custom apps, portals, accessibility, MSP patterns.</p>
-                </div>
-                <div class="card">
-                    <h3>AI-Powered Workflows & Automation</h3>
-                    <p>Integrate LLMs (Gemini, Claude, Perplexity, Now Assist), n8n, Relevance AI agents, generative discovery, development accelerators, BI automation.</p>
-                </div>
-                <div class="card">
-                    <h3>Strategic Advisory & Alignment</h3>
-                    <p>Technical discovery, roadmap planning, tool consolidation, multi-threaded enterprise sales strategy, turning complex problems into scalable outcomes.</p>
-                </div>
-                <div class="card">
-                    <h3>Project & Expansion Leadership</h3>
-                    <p>Full lifecycle ownership. From PoC to production, adoption, stakeholder alignment, workshops, post-sales expansion in globally.</p>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="experience">
-            <h2>Professional Experience</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>P1 Consulting</h3>
-                    <p><strong>Enterprise Account Executive & Technical Lead</strong><br>Mar 2025 – Present</p>
-                    <ul>
-                        <li>Full-cycle enterprise sales + delivery ownership</li>
-                        <li>Custom PoCs, technical workshops, SOM rollout</li>
-                        <li>Strategic advisor for platform transitions</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>ServiceNow</h3>
-                    <p><strong>Solution Consultant</strong><br>Jan 2022 – Mar 2025</p>
-                    <ul>
-                        <li>Led multi-workflow new-logo deals across APJ</li>
-                        <li>C-level demos, CMDB + AI Service Mapping sessions</li>
-                        <li>Created best-practice assets</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>ServiceNow</h3>
-                    <p><strong>Technical Consultant</strong><br>Sep 2018 – Jan 2022</p>
-                    <ul>
-                        <li>Discovery, CMDB, Service Portal, ATF, custom apps</li>
-                        <li>Knowledge Mgmt & integrations in complex estates</li>
-                        <li>Key contributor to Vaccine Management rollout in 2020</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="skills">
-            <h2>Skills & Certifications</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>AI & Automation</h3>
-                    <ul>
-                        <li>Prompt Engineering & LLM orchestration</li>
-                        <li>Gemini · Claude · Perplexity · Now Assist</li>
-                        <li>n8n workflows · Relevance AI agents</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>ServiceNow</h3>
-                    <ul>
-                        <li>CSA · CAD</li>
-                        <li>CIS – Discovery · Event Management · Service Mapping · ITSM</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>Core Technical & Commercial</h3>
-                    <ul>
-                        <li>JavaScript · Python · REST/SOAP APIs</li>
-                        <li>Solution Architecture · Agile Delivery</li>
-                        <li>Strategic Account Planning · Multi-threaded Negotiations</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="contact" class="cta">
-            <h2>Let's Talk</h2>
-            <p style="font-size:1.25rem; max-width:680px; margin:0 auto 2.5rem; color:var(--text-dim);">
-                Available for ServiceNow architecture, AI workflow design, enterprise automation, strategic advisory, and delivery leadership engagements.
-            </p>
-
-            <a href="mailto:jwarnerst@gmail.com" class="btn">Get in Touch</a>
-
-            <div class="social-links">
-                <a href="https://linkedin.com/in/james-warner1">LinkedIn</a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© 2026 James Warner</p>
-        </div>
-    </footer>
+<footer class="site-footer">© 2026 James Warner</footer>
 
 </body>
 </html>
