@@ -50,9 +50,15 @@ export async function onRequestPost(context) {
     return json({ ok: true }, 200);
 }
 
+
 function json(data, status = 200) {
     return new Response(JSON.stringify(data), {
         status,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+   'Content-Type': 'application/json',
+   'Access-Control-Allow-Origin': '*', // Adjust to your frontend domain
+   'Access-Control-Allow-Methods': 'POST',
+   'Access-Control-Allow-Headers': 'Content-Type',
+        },
     });
 }

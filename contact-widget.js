@@ -52,7 +52,7 @@
             trigger.textContent = '✓';
             setTimeout(() => { trigger.textContent = '@'; }, 3000);
         } catch {
-            sendBtn.textContent = 'error — retry →';
+            sendBtn.textContent = 'error. retry? →';
         } finally {
             sendBtn.disabled = false;
             if (sendBtn.textContent === '...') sendBtn.textContent = 'send →';
