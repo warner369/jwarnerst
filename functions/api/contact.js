@@ -1,6 +1,17 @@
 const TO_ADDRESS   = 'jwarnerst@gmail.com';
 const FROM_ADDRESS = 'jwarnerst.com <noreply@jameswarner.com.au>';
 
+export async function onRequestOptions() {
+    return new Response(null, {
+        status: 204,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        },
+    });
+}
+
 export async function onRequestPost(context) {
     const { request, env } = context;
 
@@ -15,14 +26,14 @@ export async function onRequestPost(context) {
         return json({ error: 'Invalid request body' }, 400);
     }
 
-    const { message, from_email, email } = body;
+    const { message, from_email } = body;
 
-    if (!message || !email) {
-        return json({ error: 'Message and email are required fields.' }, 400);
+    if (!message) {
+        return json({ error: 'Message is required.' }, 400);
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (from_email && !emailRegex.test(from_email)) {
         return json({ error: 'Please provide a valid email address.' }, 400);
     }
 
@@ -34,10 +45,10 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
             from:     FROM_ADDRESS,
-            to:       [TO_ADDRESS,email],
+            to:       from_email ? [TO_ADDRESS, from_email] : [TO_ADDRESS],
             reply_to: TO_ADDRESS,
             subject:  'Someone wants to get in touch',
-            text:     (fromEmail ? `From: ${fromEmail}\n\n` : '') + message,
+            text:     (from_email ? `From: ${from_email}\n\n` : '') + message,
         }),
     });
 

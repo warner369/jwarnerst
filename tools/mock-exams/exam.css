@@ -123,11 +123,20 @@
 
 /* Domain tag colours */
 
+/* CIS-DF */
 .tag-Configuration { background: rgba(124, 58, 237, 0.12); color: #a78bfa; }
 .tag-Ingest        { background: rgba(8, 145, 178, 0.12);  color: #67e8f9; }
 .tag-Govern        { background: rgba(220, 38, 38, 0.12);   color: #fca5a5; }
 .tag-Insight       { background: rgba(202, 138, 4, 0.12);   color: #fde047; }
 .tag-CSDM          { background: rgba(5, 150, 105, 0.12);   color: #6ee7b7; }
+
+/* CAD */
+.tag-Design        { background: rgba(124, 58, 237, 0.12);  color: #c4b5fd; }
+.tag-UI            { background: rgba(8, 145, 178, 0.12);   color: #67e8f9; }
+.tag-Security      { background: rgba(220, 38, 38, 0.12);   color: #fca5a5; }
+.tag-Automation    { background: rgba(202, 138, 4, 0.12);   color: #fde047; }
+.tag-External-Data { background: rgba(5, 150, 105, 0.12);   color: #6ee7b7; }
+.tag-Managing-Apps { background: rgba(99, 102, 241, 0.12);  color: #a5b4fc; }
 
 .question {
     margin-bottom: 1rem;
@@ -167,7 +176,8 @@
 .choices li:hover { border-color: var(--border); color: var(--text); }
 
 .choices li label { cursor: pointer; display: flex; align-items: flex-start; gap: 0.5rem; }
-.choices li input { margin-top: 0.2rem; accent-color: var(--accent); }
+.choices li label span { flex: 1; min-width: 0; }
+.choices li input { margin-top: 0.2rem; accent-color: var(--accent); flex-shrink: 0; }
 
 .choices li.correct-choice   { background: rgba(0, 200, 100, 0.08); border-color: var(--accent); color: var(--text); }
 .choices li.incorrect-choice { background: rgba(248, 81, 73, 0.08); border-color: #f85149; color: var(--text); }

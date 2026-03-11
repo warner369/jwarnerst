@@ -1,14 +1,17 @@
 (function () {
+    const TRIGGER_LABEL = 'work with me';
+
     const widget = document.createElement('div');
     widget.id = 'contact-widget';
     widget.innerHTML = `
         <div class="cw-panel">
-            <p class="cw-question">what do you wanna chat about?</p>
-            <textarea class="cw-message" placeholder="..."></textarea>
-            <input class="cw-email" type="email" placeholder="your email" />
+            <p class="cw-question">Work with me</p>
+            <p class="cw-context">I take on ServiceNow strategy, pre-sales scoping, and custom builds. Typical engagement: a discovery call, a fixed-scope proposal, then delivery. Advisory-only works too.</p>
+            <textarea class="cw-message" placeholder="what are you working on?"></textarea>
+            <input class="cw-email" type="email" placeholder="your email (optional)" />
             <button class="cw-send">send →</button>
         </div>
-        <button class="cw-trigger">@</button>
+        <button class="cw-trigger">${TRIGGER_LABEL}</button>
     `;
     document.body.appendChild(widget);
 
@@ -38,7 +41,7 @@
         sendBtn.disabled = true;
 
         try {
-            const res = await fetch('/functions/api/contact', {
+            const res = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg, from_email: email.value.trim() }),
@@ -50,7 +53,7 @@
             email.value   = '';
             widget.classList.remove('cw-open');
             trigger.textContent = '✓';
-            setTimeout(() => { trigger.textContent = '@'; }, 3000);
+            setTimeout(() => { trigger.textContent = TRIGGER_LABEL; }, 3000);
         } catch {
             sendBtn.textContent = 'error. retry? →';
         } finally {

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CAD Mock Exam: James Warner</title>
+    <link rel="stylesheet" href="../../../style.css" />
+    <link rel="stylesheet" href="../exam.css" />
+</head>
+<body>
+
+<aside class="rail">
+    <a href="/" class="rail-name">JW</a>
+    <nav class="rail-nav">
+        <a href="/tools" class="active">Tools</a>
+        <a href="/experience">Experience</a>
+        <a href="/about">About</a>
+    </nav>
+    <div class="rail-foot">
+        <div>Sydney, AU</div>
+        <div>2026</div>
+    </div>
+</aside>
+
+<main class="content">
+
+    <div class="pg-header">
+        <p class="pg-label"><a href="/tools/mock-exams" style="color:inherit;text-decoration:none;transition:color 0.12s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Mock Exams</a> &mdash; ServiceNow</p>
+        <h1 class="pg-title">CAD Mock Exam</h1>
+        <p class="pg-sub">60 questions &bull; 90 minutes &bull; Zurich Release &bull; Aligned to the 2026 exam blueprint.</p>
+    </div>
+
+    <div class="exam-header">
+        <div class="domain-legend">
+            <span class="domain-tag tag-Design">Design 20%</span>
+            <span class="domain-tag tag-UI">UI 20%</span>
+            <span class="domain-tag tag-Security">Security 20%</span>
+            <span class="domain-tag tag-Automation">Automation 20%</span>
+            <span class="domain-tag tag-External-Data">External Data 10%</span>
+            <span class="domain-tag tag-Managing-Apps">Managing Apps 10%</span>
+        </div>
+    </div>
+
+    <div class="exam-controls">
+        <span class="exam-progress" id="navProgress">0 / 60</span>
+        <span class="timer-display" id="timerDisplay">90:00</span>
+        <button class="quiz-btn" id="timerToggle">Start Timer</button>
+        <button class="quiz-btn" id="revealAllNav">Reveal All</button>
+        <button class="quiz-btn" id="resetQuizNav">Reset</button>
+    </div>
+
+    <div id="quiz"></div>
+
+    <div class="quiz-actions">
+        <button class="quiz-btn quiz-btn-primary" id="submitAnswers">Submit All Answers</button>
+        <button class="quiz-btn" id="resetQuiz">Reset Quiz</button>
+    </div>
+
+    <div class="score-summary" id="scoreSummary" style="display:none"></div>
+
+</main>
+
+<footer class="site-footer"><a href="mailto:jwarnerst@gmail.com" class="contact-link">Email ↗</a> <a href="https://linkedin.com/in/james-warner1" target="_blank" rel="noopener" class="contact-link">LinkedIn ↗</a>
+<br/>
+    &copy; 2026 James Warner
+</footer>
+
+<script id="quiz-data" type="application/json">
+{
+  "results": [
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A company needs to track employee volunteer hours and the charities they support. They need approval workflows, reporting, and integration with HR data already in ServiceNow.</p><p>Is this a good fit for a ServiceNow application?</p>",
+        "answers": [
+          "<p>Yes \u2014 it leverages existing platform data (HR), requires workflows and approvals, and benefits from ServiceNow's reporting engine</p>",
+          "<p>No \u2014 volunteer tracking is not an ITSM function and should be built externally</p>",
+          "<p>No \u2014 ServiceNow cannot integrate with HR data</p>",
+          "<p>Yes \u2014 but only if the company purchases a separate ServiceNow HR module</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ServiceNow is a platform, not just an ITSM tool. Applications that leverage existing platform data (like HR records), require workflow/approval capabilities, and benefit from built-in reporting and role-based security are excellent candidates for custom ServiceNow applications. The platform's extensibility is precisely designed for these use cases.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>When designing a data model for a new application, which approach follows ServiceNow best practices for a table that tracks \"Project Tasks\" with fields common to the base Task table?</p>",
+        "answers": [
+          "<p>Extend the Task [task] table to inherit standard fields like State, Priority, Assignment Group, and Short Description</p>",
+          "<p>Create a standalone table with no parent, and manually add State, Priority, and Assignment Group fields</p>",
+          "<p>Add custom fields directly to the base Task table</p>",
+          "<p>Create a Database View that joins the Task table with a new custom table</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ServiceNow best practice is to <strong>extend the Task table</strong> when your new table needs task-like functionality (states, assignments, priorities, SLAs, approvals). This provides inheritance of standard fields, business rules, and platform integrations. Creating a standalone table would require manually recreating all this functionality, and adding custom fields directly to the Task table would affect all task-based applications.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>An application developer creates a new scoped application called \"Expense Tracker\" with the scope name <code>x_myco_expense</code>. The developer creates a Script Include within this application.</p><p>Which statement is true about the Script Include's accessibility?</p>",
+        "answers": [
+          "<p>By default, the Script Include is only accessible within the <code>x_myco_expense</code> application scope</p>",
+          "<p>By default, the Script Include is accessible from all application scopes</p>",
+          "<p>The Script Include cannot be called from any Business Rule</p>",
+          "<p>The Script Include is automatically available in the global scope</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>In a <strong>scoped application</strong>, artifacts like Script Includes are private to the application scope by default. They can only be accessed by other scripts running within the same scope. To make a Script Include accessible from other scopes, the developer must explicitly set the <strong>Accessible from</strong> field to \"All application scopes\" on the Script Include record. This is a fundamental principle of application scope isolation.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A developer needs to create a new application module that displays a filtered list of records from the <code>x_myco_expense_request</code> table, showing only records where the State is \"Pending Approval\".</p><p>How should the module be configured?</p>",
+        "answers": [
+          "<p>Set the module's <strong>Link type</strong> to \"List of Records\" and add a <strong>Filter</strong> condition of <code>state=pending_approval</code></p>",
+          "<p>Set the module's Link type to \"URL\" and enter the table list URL with a query parameter</p>",
+          "<p>Create a UI Page that queries the table and link the module to it</p>",
+          "<p>Set the module's Link type to \"Separator\" with a filter condition</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Application modules with a Link type of <strong>\"List of Records\"</strong> allow developers to specify a target table and a filter condition. The filter is applied automatically when users click the module, showing only the matching records. This is the standard and simplest approach for filtered list views.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>Which three are valid field types when adding a new column to a ServiceNow table? (Select 3)</p>",
+        "answers": [
+          "<p>Reference</p>",
+          "<p>Choice</p>",
+          "<p>Glide List</p>",
+          "<p>Array</p>",
+          "<p>Object</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p><strong>Reference</strong> creates a foreign key relationship to another table. <strong>Choice</strong> provides a dropdown list of predefined values. <strong>Glide List</strong> allows multiple reference values in a single field (stored as a comma-separated list of sys_ids). \"Array\" and \"Object\" are not standard ServiceNow field types.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A developer is designing an application and needs to determine the table inheritance structure. The <strong>Server</strong> table extends <strong>Computer</strong>, which extends <strong>Hardware</strong>, which extends <strong>Configuration Item</strong> (<code>cmdb_ci</code>).</p><p>If a field is added to the Computer table, which tables will have access to this field?</p>",
+        "answers": [
+          "<p>Computer and all tables that extend Computer (including Server)</p>",
+          "<p>Only the Computer table</p>",
+          "<p>All tables in the CMDB hierarchy, including Configuration Item</p>",
+          "<p>Computer, Hardware, and Configuration Item</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>In ServiceNow's table inheritance model, fields are inherited <strong>downward</strong>. A field added to a parent table is available on all child (extended) tables. However, it is <strong>not</strong> available on the parent's own parent tables. So a field added to Computer is available on Computer and Server (and any other extensions of Computer), but not on Hardware or Configuration Item above it.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>Which statement correctly describes the relationship between Application Scope and the Global scope?</p>",
+        "answers": [
+          "<p>Scripts in the Global scope can access artifacts in a scoped application only if those artifacts have their <strong>Accessible from</strong> property set to \"All application scopes\"</p>",
+          "<p>Scripts in the Global scope can always access all artifacts in any scoped application</p>",
+          "<p>Scoped applications can never access Global scope artifacts</p>",
+          "<p>Application scope only applies to UI elements, not server-side scripts</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Application scope provides <strong>isolation by default</strong>. Global scripts cannot access scoped artifacts unless the artifact's <strong>Accessible from</strong> property is explicitly set to \"All application scopes\". This protection applies to Script Includes, tables, and other application artifacts. Conversely, scoped applications <em>can</em> access many Global scope APIs (like GlideRecord on global tables), but with some restrictions enforced at runtime.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A developer creates a new table in a scoped application and needs to configure the <strong>Application Access</strong> settings. What does enabling <strong>\"Allow access to this table via web services\"</strong> do?</p>",
+        "answers": [
+          "<p>It allows external systems to query and modify records in this table through the ServiceNow REST/SOAP APIs</p>",
+          "<p>It makes the table visible in the Application Navigator for all users</p>",
+          "<p>It allows the table to be used as a data source in Performance Analytics</p>",
+          "<p>It enables the table for use in Service Portal widgets</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>\"Allow access to this table via web services\"</strong> checkbox in the Application Access configuration controls whether the table's records can be accessed through the ServiceNow Table API (REST) or SOAP web services. When disabled, external API calls to this table are blocked, even if the user has appropriate roles. This is a scoped application security feature.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A developer is creating a custom application and needs a field that stores a reference to multiple user records (e.g., a list of approvers). Which field type is most appropriate?</p>",
+        "answers": [
+          "<p>Glide List (with a reference to the User table)</p>",
+          "<p>Reference (to the User table)</p>",
+          "<p>String (storing comma-separated user names)</p>",
+          "<p>Journal field</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Glide List</strong> field stores multiple reference values (sys_ids) in a single field, making it ideal for storing a list of related records like multiple approvers. A standard Reference field can only hold a single reference value. Storing comma-separated strings is not a best practice as it loses the referential integrity and cannot be used in dot-walking.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>When creating a new application using the Guided Application Creator (App Engine Studio or Application Creator), which of the following is automatically generated?</p>",
+        "answers": [
+          "<p>An application scope, application menu, and a set of default roles (user and admin)</p>",
+          "<p>Only the application scope</p>",
+          "<p>An application scope and a single table</p>",
+          "<p>An application scope, three tables, and a dashboard</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When you create a new application using the Guided Application Creator, ServiceNow automatically generates the <strong>application scope</strong> (with a unique namespace), an <strong>application menu</strong> (for the navigation), and <strong>default roles</strong> (typically a user role and an admin role). Tables, modules, and other artifacts are created as you configure them during the creation process.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A developer wants to prevent other applications from extending a table in their scoped application. Which setting achieves this?</p>",
+        "answers": [
+          "<p>Set the table's <strong>Extensible</strong> property to false</p>",
+          "<p>Set the table's <strong>Application Access</strong> to \"This application scope only\"</p>",
+          "<p>Create an ACL that denies create access to the table</p>",
+          "<p>Mark the table as read-only in the data dictionary</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Extensible</strong> property on a table definition controls whether other tables can extend (inherit from) it. Setting this to false prevents other developers and applications from creating child tables. Application Access controls runtime data access, not schema extension. ACLs control record-level access, not table structure.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Design",
+      "prompt": {
+        "question": "<p>A scoped application needs to store configuration values that administrators can change without modifying code (e.g., a default approval group name or a maximum retry count).</p><p>Where should these values be stored?</p>",
+        "answers": [
+          "<p>In <strong>Application Properties</strong> (system properties scoped to the application)</p>",
+          "<p>In a hardcoded constant within a Script Include</p>",
+          "<p>In a custom configuration table with a single record</p>",
+          "<p>In the application's <code>sys_app</code> record description field</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Application Properties</strong> are the standard mechanism for storing configurable values in a scoped application. They provide a clean interface for administrators to modify settings without touching code. They can be accessed programmatically using <code>gs.getProperty()</code> and managed through the Application Properties module. Hardcoding values creates maintenance issues, and a custom configuration table is unnecessary overhead for simple key-value settings.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer needs to make the <strong>Priority</strong> field mandatory on a form <em>only</em> when the <strong>State</strong> field is set to \"In Progress\". The requirement should work without writing any code.</p><p>Which approach should the developer use?</p>",
+        "answers": [
+          "<p>A <strong>UI Policy</strong> with a condition of <code>State = In Progress</code> that sets Priority to mandatory</p>",
+          "<p>A <strong>Client Script</strong> (onChange) that checks the State value and uses <code>g_form.setMandatory()</code></p>",
+          "<p>A <strong>Data Policy</strong> that enforces Priority as mandatory on the server side</p>",
+          "<p>A <strong>Business Rule</strong> that aborts the update if Priority is empty</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>UI Policy</strong> is the no-code solution for conditionally making fields mandatory, read-only, or visible/hidden based on field values. It evaluates the condition (State = In Progress) and applies the action (set Priority to mandatory) declaratively, without writing any script. A Client Script would also work but requires code. Data Policies enforce server-side validation but do not provide the conditional form behaviour described.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer writes an <strong>onChange</strong> Client Script on the <strong>Category</strong> field. The script should only execute when a user manually changes the field value, not when the form first loads.</p><p>Which built-in parameter should the developer check?</p>",
+        "answers": [
+          "<p>Check if the <code>isLoading</code> parameter is <strong>false</strong></p>",
+          "<p>Check if the <code>newValue</code> parameter is not empty</p>",
+          "<p>Check if <code>g_form.isNewRecord()</code> returns false</p>",
+          "<p>Check if the <code>control</code> parameter is not null</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <code>onChange</code> Client Script function receives three parameters: <code>control</code>, <code>oldValue</code>, <code>newValue</code>, and <code>isLoading</code>. The <code>isLoading</code> parameter is <strong>true</strong> when the form is initially loading and the field value is being set as part of that load. To skip execution during form load, the script should return early if <code>isLoading</code> is true (or equivalently, only execute when <code>isLoading</code> is false).</p><p>Standard pattern: <code>if (isLoading) return;</code></p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>Which three are valid <strong>Client Script</strong> types in ServiceNow? (Select 3)</p>",
+        "answers": [
+          "<p>onLoad</p>",
+          "<p>onChange</p>",
+          "<p>onSubmit</p>",
+          "<p>onQuery</p>",
+          "<p>onDelete</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The three standard Client Script types are: <strong>onLoad</strong> (runs when a form loads), <strong>onChange</strong> (runs when a specified field value changes), and <strong>onSubmit</strong> (runs when the form is submitted/saved). There is also onCellEdit for list editing. \"onQuery\" and \"onDelete\" are not valid client script types \u2014 query and delete operations are handled server-side via Business Rules.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer needs to display an informational message at the top of a form when it loads. Which <code>g_form</code> method should be used?</p>",
+        "answers": [
+          "<p><code>g_form.addInfoMessage('Your message here')</code></p>",
+          "<p><code>g_form.showMessage('Your message here')</code></p>",
+          "<p><code>g_form.setValue('message', 'Your message here')</code></p>",
+          "<p><code>gs.addInfoMessage('Your message here')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><code>g_form.addInfoMessage()</code> displays a blue informational banner at the top of the form. This is a client-side method available in Client Scripts. <code>gs.addInfoMessage()</code> is a <strong>server-side</strong> method (GlideSystem) and cannot be called from a Client Script. <code>g_form.showMessage()</code> is not a valid method. <code>g_form.setValue()</code> sets a field value, not a message.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer needs to make an asynchronous server-side call from a Client Script to retrieve data without reloading the form.</p><p>Which approach should they use?</p>",
+        "answers": [
+          "<p>Use <strong>GlideAjax</strong> to call a client-callable Script Include</p>",
+          "<p>Use <strong>GlideRecord</strong> directly in the Client Script</p>",
+          "<p>Use <strong>g_form.getReference()</strong> to query any table</p>",
+          "<p>Use a <strong>Business Rule</strong> triggered by a field change</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>GlideAjax</strong> is the standard mechanism for making asynchronous server calls from Client Scripts. The developer creates a <strong>client-callable Script Include</strong> (extending <code>AbstractAjaxProcessor</code>) on the server side, then calls it from the client using GlideAjax. While GlideRecord is available client-side, it makes synchronous calls that can freeze the browser and is deprecated for most use cases. <code>g_form.getReference()</code> only retrieves the record referenced by a Reference field.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>Which statement about the <strong>Form Designer</strong> is correct?</p>",
+        "answers": [
+          "<p>You can create a new field on a form's table by dragging a data type from the <strong>Field Types</strong> tab to the form layout</p>",
+          "<p>Removing a field from the form layout permanently deletes the field from the table</p>",
+          "<p>The Form Designer can only be used for tables in the Global scope</p>",
+          "<p>The Form Designer does not support adding sections to the form layout</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The Form Designer allows developers to create new fields by dragging a data type from the <strong>Field Types</strong> tab onto the form canvas. This simultaneously creates the field in the table's data dictionary and adds it to the form layout. Removing a field from the form layout only removes it from the <em>view</em> \u2014 it does not delete the field from the table. The Form Designer works with scoped applications. Sections can be added by dragging from the Field Types tab.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer wants to create a user-facing form for submitting requests that does <strong>not</strong> require direct access to the underlying table. The form should be accessible through the Service Catalog.</p><p>Which feature should the developer use?</p>",
+        "answers": [
+          "<p>A <strong>Record Producer</strong></p>",
+          "<p>A <strong>UI Page</strong></p>",
+          "<p>A <strong>Form View</strong></p>",
+          "<p>A <strong>Scripted REST API</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Record Producer</strong> is a Service Catalog item that creates a record on a specified table when submitted. It provides a user-friendly catalog interface without exposing the underlying table structure. Users interact with the catalog form rather than the table's native form. This is a key concept in the blueprint: \"Use a Record Producer as an application's UI\".</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer writes the following <strong>onSubmit</strong> Client Script:</p><pre><code>function onSubmit() {\n  if (g_form.getValue('priority') == '') {\n    g_form.addErrorMessage('Priority is required');\n    return false;\n  }\n}</code></pre><p>What happens when a user submits the form with an empty Priority field?</p>",
+        "answers": [
+          "<p>The form submission is <strong>cancelled</strong>, an error message is displayed, and the record is not saved</p>",
+          "<p>The error message is displayed but the form is still submitted</p>",
+          "<p>A server-side error is thrown and the transaction is rolled back</p>",
+          "<p>The script has a syntax error and will not execute</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>In an <strong>onSubmit</strong> Client Script, returning <code>false</code> cancels the form submission and prevents the record from being saved. The <code>g_form.addErrorMessage()</code> displays a red error banner at the top of the form. This is a standard client-side validation pattern.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer writes a <strong>server-side script</strong> (Business Rule) that needs to display a message to the user after a record is saved. Which method should be used?</p>",
+        "answers": [
+          "<p><code>gs.addInfoMessage('Record saved successfully')</code></p>",
+          "<p><code>g_form.addInfoMessage('Record saved successfully')</code></p>",
+          "<p><code>current.addMessage('Record saved successfully')</code></p>",
+          "<p><code>alert('Record saved successfully')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><code>gs.addInfoMessage()</code> is a <strong>server-side</strong> GlideSystem method that queues an informational message to be displayed to the user after the server-side processing completes. <code>g_form</code> is a <strong>client-side</strong> object and is not available in Business Rules. <code>alert()</code> is a browser-side JavaScript function not available server-side.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>Which <code>GlideForm</code> (g_form) method is used to hide a field on a form in a Client Script?</p>",
+        "answers": [
+          "<p><code>g_form.setVisible('field_name', false)</code></p>",
+          "<p><code>g_form.hideField('field_name')</code></p>",
+          "<p><code>g_form.setDisplay('field_name', false)</code></p>",
+          "<p><code>g_form.removeField('field_name')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: C</strong></p><p><code>g_form.setDisplay('field_name', false)</code> hides the field and its label from the form. <code>g_form.setVisible('field_name', false)</code> hides the field but preserves the space it occupies on the form layout. <code>g_form.hideField()</code> and <code>g_form.removeField()</code> are not valid GlideForm methods. Both <code>setDisplay</code> and <code>setVisible</code> are valid, but <code>setDisplay</code> is the standard method for fully hiding a field.</p>"
+      },
+      "correct_response": [
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>What is the purpose of a <strong>UI Policy</strong> compared to a <strong>Data Policy</strong>?</p>",
+        "answers": [
+          "<p>UI Policies control form behaviour (mandatory, visible, read-only) on the client side; Data Policies enforce field requirements on both the client side and server side (including web services and imports)</p>",
+          "<p>UI Policies run server-side only; Data Policies run client-side only</p>",
+          "<p>UI Policies and Data Policies are identical in functionality</p>",
+          "<p>UI Policies apply to list views; Data Policies apply to form views</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>UI Policies</strong> dynamically change form behaviour (making fields mandatory, read-only, or visible/hidden) based on conditions. They run <strong>client-side</strong> and only affect the form view. <strong>Data Policies</strong> enforce field requirements (mandatory, read-only) on both the <strong>client and server side</strong>, meaning they also apply when records are created via web services, import sets, or other server-side processes. Data Policies are stronger enforcement mechanisms.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>An Access Control List (ACL) rule is configured with a <strong>Role</strong>, a <strong>Condition</strong>, and a <strong>Script</strong>. In what order does ServiceNow evaluate these components?</p>",
+        "answers": [
+          "<p>Role \u2192 Condition \u2192 Script</p>",
+          "<p>Script \u2192 Role \u2192 Condition</p>",
+          "<p>Condition \u2192 Script \u2192 Role</p>",
+          "<p>Role \u2192 Script \u2192 Condition</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ServiceNow evaluates ACL rules in the order: <strong>Role \u2192 Condition \u2192 Script</strong>. The Role check is the cheapest evaluation (just a role membership check), so it runs first. If the user has the required role, the Condition (a declarative filter) is evaluated next. Only if both pass does the Script execute. All three must pass for access to be granted. This order is designed for performance optimisation.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>A developer creates a table-level ACL rule that <strong>denies</strong> read access for a specific role. The same table has a field-level ACL that <strong>grants</strong> read access to a specific field for the same role.</p><p>What is the result when a user with that role tries to view a record?</p>",
+        "answers": [
+          "<p>The user is <strong>denied access to the entire record</strong> \u2014 the table-level ACL must pass before field-level ACLs are evaluated</p>",
+          "<p>The user can see only the specific field allowed by the field-level ACL</p>",
+          "<p>The field-level ACL overrides the table-level ACL</p>",
+          "<p>Both ACLs cancel each other out and default access is granted</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ACL evaluation follows a <strong>hierarchical order</strong>: table-level ACLs are evaluated first, then field-level ACLs. If a user <strong>fails</strong> a table-level ACL, they are denied access to all fields in the table \u2014 field-level ACLs are never evaluated. Field-level ACLs only apply if the user has already passed the table-level ACL.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>In an ACL rule's Script field, a developer wants to check if the current user has the \"approver\" role. Which method should they use?</p>",
+        "answers": [
+          "<p><code>gs.hasRole('approver')</code></p>",
+          "<p><code>g_user.hasRole('approver')</code></p>",
+          "<p><code>current.user.hasRole('approver')</code></p>",
+          "<p><code>session.hasRole('approver')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ACL scripts execute <strong>server-side</strong>, so the <code>gs</code> (GlideSystem) object is available. <code>gs.hasRole('approver')</code> checks whether the current user has the specified role. <code>g_user</code> is a <strong>client-side</strong> object (GlideUser) and is not available in ACL scripts. The ACL script has access to <code>current</code> (the record being accessed) and <code>gs</code> (GlideSystem).</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>What is the effect of leaving the <strong>Role</strong> field blank in an ACL rule?</p>",
+        "answers": [
+          "<p>The Role check is considered <strong>passed</strong> (true) \u2014 any authenticated user satisfies the role requirement</p>",
+          "<p>The ACL rule is disabled and will not be evaluated</p>",
+          "<p>Only the admin role can pass the ACL</p>",
+          "<p>The ACL denies access to all users</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>In ServiceNow ACLs, <strong>blank fields evaluate to true</strong>. If the Role field is left blank, the role check passes for any authenticated user. Similarly, a blank Condition and a blank Script both evaluate to true. This means an ACL with all three fields blank would grant access to any authenticated user. This is a commonly tested concept.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>Which three operations can be controlled by Access Control List (ACL) rules in ServiceNow? (Select 3)</p>",
+        "answers": [
+          "<p>Read</p>",
+          "<p>Write</p>",
+          "<p>Delete</p>",
+          "<p>Execute</p>",
+          "<p>Query</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The standard database operations controlled by ACLs are: <strong>Read</strong> (view records), <strong>Write</strong> (update records), <strong>Create</strong> (insert records), and <strong>Delete</strong> (remove records). <strong>Execute</strong> is not a standard ACL operation type. While there are some specialty ACL types, the core CRUD operations are Read, Write, Create, and Delete.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>A developer creates a scoped application and wants to restrict access to the application's <strong>modules</strong> so that only users with a specific role can see them in the navigation.</p><p>How is this configured?</p>",
+        "answers": [
+          "<p>Set the <strong>Roles</strong> field on each module record to the required role</p>",
+          "<p>Create an ACL rule for each module</p>",
+          "<p>Set the application's scope to \"private\"</p>",
+          "<p>Remove the modules from the Application Navigator</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Application modules have a <strong>Roles</strong> field that controls which roles can see the module in the Application Navigator. Only users with the specified role(s) will see the module. This is the standard mechanism for restricting navigation access. ACLs control data access (table/record level), not module visibility.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>A scoped application has the <strong>Application Access</strong> configuration set to <strong>\"Can read\"</strong> only for cross-scope access. A script in another application scope attempts to update a record in this table using GlideRecord.</p><p>What happens?</p>",
+        "answers": [
+          "<p>The update is <strong>silently prevented</strong> at runtime \u2014 no error is thrown, but the record is not modified</p>",
+          "<p>A runtime error is thrown and the script aborts</p>",
+          "<p>The update succeeds because GlideRecord bypasses Application Access settings</p>",
+          "<p>The update succeeds but a warning is logged</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When Application Access restricts cross-scope operations, <strong>unauthorised access is prevented at runtime but does not cause runtime errors</strong>. The update operation is silently blocked. This is by design \u2014 scoped application protection prevents other scopes from modifying data they are not authorised to change, without breaking the calling script's execution flow.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>Which GlideSystem method is used in a <strong>Business Rule</strong> to check if the current user has the \"admin\" role, and returns a Boolean?</p>",
+        "answers": [
+          "<p><code>gs.hasRole('admin')</code></p>",
+          "<p><code>gs.getUser().hasRole('admin')</code></p>",
+          "<p><code>gs.userHasRole('admin')</code></p>",
+          "<p><code>current.hasRole('admin')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><code>gs.hasRole('admin')</code> is the direct GlideSystem method that checks if the currently logged-in user has the specified role and returns true or false. While <code>gs.getUser().hasRole()</code> would also work, <code>gs.hasRole()</code> is the more concise and commonly tested method. <code>current.hasRole()</code> is not valid \u2014 <code>current</code> refers to the record, not the user.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>When debugging an ACL rule, a developer enables <strong>Debug Security</strong>. What does this provide?</p>",
+        "answers": [
+          "<p>A small bug icon appears beside each field on the form, showing which ACL rules were evaluated and their pass/fail status</p>",
+          "<p>A pop-up window showing all ACL rules in the system</p>",
+          "<p>A server log of all ACL evaluations for the last 24 hours</p>",
+          "<p>An email notification sent to the admin with ACL details</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When <strong>Debug Security</strong> is enabled (via the System Diagnostics > Security Diagnostics module or the session debug option), a small debug icon appears beside each field on the form. Clicking the icon shows which ACL rules were evaluated for that field, whether each rule passed or failed, and the evaluation details. This is the primary tool for troubleshooting access control issues.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>An ACL rule for a table has a <strong>Condition</strong> of <code>active=true</code> and no role or script. What does this ACL do?</p>",
+        "answers": [
+          "<p>Grants access only to records where the Active field is true \u2014 access is denied for inactive records</p>",
+          "<p>Grants access to all records regardless of the Active field</p>",
+          "<p>Denies access to records where Active is true</p>",
+          "<p>The condition is ignored because no role is specified</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Condition</strong> in an ACL acts as a filter. Only records that match the condition will pass the ACL check. Since the Role and Script are blank (both evaluate to true), the only effective filter is the condition: <code>active=true</code>. This means users can only access records where the Active field is true. Inactive records will be denied.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>Which of the following best describes how <strong>before query</strong> Business Rules can be used for security?</p>",
+        "answers": [
+          "<p>They can add encoded query conditions to restrict which records a user can see, acting as row-level security</p>",
+          "<p>They can prevent users from opening the form for a specific record</p>",
+          "<p>They can encrypt field values before they are displayed</p>",
+          "<p>They can override ACL rules for specific users</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>before query</strong> Business Rule runs before a query is executed against the database. By calling <code>current.addEncodedQuery()</code>, the developer can inject additional filter conditions that restrict which records are returned. This effectively provides <strong>row-level security</strong> \u2014 for example, ensuring users only see records assigned to their department. This is a server-side mechanism that works alongside ACLs.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Security",
+      "prompt": {
+        "question": "<p>In a scoped application, a developer wants to allow another application to call a specific Script Include. What must the developer configure?</p>",
+        "answers": [
+          "<p>Set the Script Include's <strong>Accessible from</strong> field to \"All application scopes\"</p>",
+          "<p>Move the Script Include to the Global scope</p>",
+          "<p>Create a cross-scope ACL rule for the Script Include</p>",
+          "<p>Mark the Script Include as \"public\" in the source code</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Accessible from</strong> field on a Script Include (and other scoped artifacts) controls cross-scope access. Setting it to \"All application scopes\" allows scripts in other scopes to call this Script Include. The default is \"This application scope only\", which provides isolation. Moving to Global scope is not recommended as it defeats the purpose of scoped development.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer needs to automatically assign a record to a specific group whenever a new record is inserted into a custom table. The logic should run server-side and should execute <strong>before</strong> the record is committed to the database.</p><p>Which automation should the developer use?</p>",
+        "answers": [
+          "<p>A <strong>before insert</strong> Business Rule</p>",
+          "<p>An <strong>after insert</strong> Business Rule</p>",
+          "<p>An <strong>onLoad</strong> Client Script</p>",
+          "<p>A <strong>UI Action</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>before insert</strong> Business Rule runs server-side before the record is saved to the database. This is ideal for setting field values (like assignment group) because changes made in a <code>before</code> Business Rule are included in the same database transaction \u2014 no additional update is needed. An <code>after</code> Business Rule would require a separate <code>current.update()</code> call, which is less efficient and can trigger additional Business Rules.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>What is the key difference between a <strong>Business Rule</strong> and a <strong>Flow Designer flow</strong>?</p>",
+        "answers": [
+          "<p>Business Rules are synchronous server-side scripts tied to database operations; Flow Designer provides a visual, primarily asynchronous automation tool with actions, conditions, and subflows</p>",
+          "<p>Business Rules run client-side; Flow Designer runs server-side</p>",
+          "<p>Business Rules can only run on task tables; Flow Designer can run on any table</p>",
+          "<p>There is no difference \u2014 they are interchangeable</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Business Rules</strong> are script-based automations that execute synchronously (before/after) or asynchronously (async) in response to database operations (insert, update, delete, query). <strong>Flow Designer</strong> provides a no-code/low-code visual interface for building automations using triggers, actions, conditions, and subflows. Flows can be triggered by record changes, schedules, or other events and typically run asynchronously. Both run server-side.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer creates a <strong>Scheduled Script Execution</strong> (Scheduled Job) that needs to run on the <strong>last day of every month</strong>.</p><p>How should the <strong>Run</strong> field be configured?</p>",
+        "answers": [
+          "<p>Set Run to <strong>Monthly</strong> and the Day field to <strong>last</strong></p>",
+          "<p>Set Run to <strong>Periodically</strong> and the Repeat Interval to <strong>Last Day</strong></p>",
+          "<p>Set Run to <strong>Monthly</strong> and the Day field to <strong>31</strong></p>",
+          "<p>Set Run to <strong>Daily</strong> with a script condition that checks the date</p>"
+        ],
+        "explanation": "<p><strong>Correct: C</strong></p><p>To run on the last day of every month, set Run to <strong>Monthly</strong> and the Day field to <strong>31</strong>. ServiceNow interprets Day = 31 as \"the last day of the month\" \u2014 for months with fewer than 31 days, it automatically adjusts to the actual last day (e.g., February 28/29, April 30). This is directly from the blueprint's sample question #2.</p>"
+      },
+      "correct_response": [
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer creates a <strong>Script Include</strong> in a scoped application that needs to be callable from a <strong>Client Script</strong> via GlideAjax.</p><p>Which configuration is required?</p>",
+        "answers": [
+          "<p>The Script Include must extend <code>AbstractAjaxProcessor</code> and have the <strong>Client callable</strong> checkbox enabled</p>",
+          "<p>The Script Include only needs the <strong>Client callable</strong> checkbox enabled</p>",
+          "<p>The Script Include must be in the Global scope</p>",
+          "<p>No special configuration is needed \u2014 any Script Include can be called from GlideAjax</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>For a Script Include to be callable from a Client Script via GlideAjax, two things are required: (1) the Script Include must <strong>extend <code>AbstractAjaxProcessor</code></strong> (which provides the framework for handling Ajax requests), and (2) the <strong>Client callable</strong> checkbox must be enabled on the Script Include record. Without both, the GlideAjax call will fail.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>Which three components are configured in an <strong>Email Notification</strong> record? (Select 3)</p>",
+        "answers": [
+          "<p>Who will receive the notification (recipients)</p>",
+          "<p>When the notification will be sent (conditions/trigger)</p>",
+          "<p>What content will be in the notification (message template)</p>",
+          "<p>How the email server authenticates (SMTP credentials)</p>",
+          "<p>Which client script runs after delivery</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>Email Notification records are configured with three main components: <strong>Who</strong> (recipients \u2014 users, groups, or email addresses), <strong>When</strong> (the trigger conditions that determine when the notification is sent, such as record insert/update with specific conditions), and <strong>What</strong> (the email content including subject line and message body, which can use mail scripts and template variables). SMTP configuration is handled at the system level, not per notification.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer wants to create a reusable piece of server-side logic that can be called from multiple Business Rules and Scheduled Jobs within the same application.</p><p>Where should this logic be placed?</p>",
+        "answers": [
+          "<p>In a <strong>Script Include</strong></p>",
+          "<p>In a <strong>UI Script</strong></p>",
+          "<p>In a <strong>Client Script</strong></p>",
+          "<p>In a <strong>Fix Script</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Script Includes</strong> are the standard mechanism for creating reusable server-side logic. They define classes or functions that can be called from any server-side context (Business Rules, Scheduled Jobs, other Script Includes, Flow Designer scripts, etc.). UI Scripts run client-side. Client Scripts are form-specific. Fix Scripts are one-time execution scripts.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer needs to create a <strong>custom event</strong> that triggers an Email Notification when a high-priority incident is assigned to a specific group.</p><p>What are the steps to set this up?</p>",
+        "answers": [
+          "<p>Register the event in the Event Registry, fire the event from a Business Rule using <code>gs.eventQueue()</code>, and configure the Email Notification to trigger on the event</p>",
+          "<p>Create the Email Notification with a condition and skip the Event Registry entirely</p>",
+          "<p>Create a Scheduled Job that checks for matching incidents and sends emails</p>",
+          "<p>Use a Client Script to call a REST API that sends the email</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The standard pattern for custom event-driven notifications is: (1) <strong>Register the event</strong> in the Event Registry (System Policy > Events > Registry), (2) <strong>Fire the event</strong> from a Business Rule using <code>gs.eventQueue('event.name', current, param1, param2)</code>, and (3) <strong>Configure an Email Notification</strong> that triggers when this event fires. While option B would also work for simple cases, using events decouples the notification from the Business Rule logic and is the recommended approach for custom automation.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>In a <strong>Business Rule</strong>, a developer uses the following code:</p><pre><code>current.state = 2;\ncurrent.update();</code></pre><p>This code is in an <strong>after</strong> Business Rule. What potential problem does this create?</p>",
+        "answers": [
+          "<p>Calling <code>current.update()</code> in an after Business Rule can trigger the same Business Rule again, creating an <strong>infinite loop</strong></p>",
+          "<p>The <code>current.state</code> assignment will not work in an after Business Rule</p>",
+          "<p>The <code>current.update()</code> method does not exist</p>",
+          "<p>There is no problem with this code</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Calling <code>current.update()</code> in an <strong>after</strong> Business Rule triggers another update operation on the same record, which can re-trigger the same Business Rule, creating an <strong>infinite loop</strong> (or at least redundant processing). Best practice is to set field values in a <strong>before</strong> Business Rule where they are saved as part of the original transaction without needing <code>current.update()</code>. If you must update in an after rule, use <code>current.setWorkflow(false)</code> to prevent re-triggering.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer needs to create a reusable automation that can be called from multiple flows in Flow Designer. Which Flow Designer component should they use?</p>",
+        "answers": [
+          "<p>A <strong>Subflow</strong></p>",
+          "<p>A <strong>Flow trigger</strong></p>",
+          "<p>A <strong>Flow action</strong></p>",
+          "<p>A <strong>Flow variable</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Subflow</strong> is a reusable sequence of actions in Flow Designer that can be called from multiple parent flows. It is the Flow Designer equivalent of a Script Include \u2014 a modular, reusable component. Flow actions are individual steps within a flow. Flow triggers define what starts a flow. Flow variables store data within a flow execution.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer needs to access an <strong>Application Property</strong> value in a server-side script. Which method should they use?</p>",
+        "answers": [
+          "<p><code>gs.getProperty('x_myco_app.property_name')</code></p>",
+          "<p><code>gs.getApplicationProperty('property_name')</code></p>",
+          "<p><code>current.getProperty('property_name')</code></p>",
+          "<p><code>g_form.getProperty('property_name')</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><code>gs.getProperty()</code> is the GlideSystem method used to retrieve system property values, including application-scoped properties. The property name must include the full scope prefix (e.g., <code>x_myco_app.property_name</code>). There is no <code>gs.getApplicationProperty()</code> method. <code>current</code> refers to a GlideRecord, not properties. <code>g_form</code> is client-side.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>Which statement about <strong>inbound email actions</strong> is correct?</p>",
+        "answers": [
+          "<p>Inbound email actions can create or update records in ServiceNow when emails are received that match defined conditions</p>",
+          "<p>Inbound email actions can only create new records, never update existing ones</p>",
+          "<p>Inbound email actions require a separate email server plugin to be installed</p>",
+          "<p>Inbound email actions are configured in Flow Designer only</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Inbound email actions</strong> (System Policy > Email > Inbound Actions) process incoming emails and can either <strong>create new records</strong> or <strong>update existing records</strong> based on configurable conditions (like subject line matching, sender address, or watermark detection). For example, a reply to an incident notification can automatically update the incident's work notes.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>A developer needs to import data from a CSV file into a custom table. What is the correct sequence of steps?</p>",
+        "answers": [
+          "<p>Load the CSV into an <strong>Import Set</strong> table \u2192 Create a <strong>Transform Map</strong> to map source columns to target fields \u2192 Run the transform to insert/update records</p>",
+          "<p>Upload the CSV directly to the target table using the List Import feature</p>",
+          "<p>Create a REST API endpoint that reads the CSV file</p>",
+          "<p>Use GlideRecord in a Fix Script to parse the CSV manually</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The standard ServiceNow data import process uses <strong>Import Sets</strong> and <strong>Transform Maps</strong>. First, the CSV data is loaded into a staging table (Import Set). Then, a Transform Map defines how source columns map to target table fields. Finally, running the transform processes the staged data and creates/updates records in the target table. This approach provides data validation, transformation scripts, and error handling.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>Which utility is used to automatically match field names in an Import Set to field names on the target table when importing data?</p>",
+        "answers": [
+          "<p><strong>Auto Map Matching Fields</strong></p>",
+          "<p><strong>Transform Maps</strong></p>",
+          "<p><strong>CI Relationship Builder</strong></p>",
+          "<p><strong>Business Service Management Map</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Auto Map Matching Fields</strong> is the utility that automatically maps source fields (from the Import Set) to target fields (on the destination table) when the field names match. This saves time when setting up Transform Maps by pre-populating the field mappings. This is directly from the blueprint's sample question #3.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>A developer needs to integrate with an external system's REST API to retrieve data. They create an <strong>Outbound REST Message</strong> in ServiceNow.</p><p>Which component defines a specific API call (e.g., GET /users) within the REST Message?</p>",
+        "answers": [
+          "<p>An <strong>HTTP Method</strong> (defined as a child of the REST Message)</p>",
+          "<p>A <strong>Transform Map</strong></p>",
+          "<p>A <strong>MID Server</strong></p>",
+          "<p>A <strong>Business Rule</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>An Outbound REST Message contains one or more <strong>HTTP Methods</strong> (GET, POST, PUT, PATCH, DELETE). Each HTTP Method record defines a specific API endpoint, including the relative path, query parameters, headers, and request body. The REST Message itself defines the base endpoint URL and authentication. The HTTP Method defines the specific call.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>A developer is testing an Outbound REST Message and needs to verify the response. Which tool within the REST Message configuration allows testing without writing any code?</p>",
+        "answers": [
+          "<p>The <strong>Test</strong> link on the HTTP Method record, which sends the request and displays the response</p>",
+          "<p>The <strong>REST API Explorer</strong></p>",
+          "<p>The <strong>JavaScript Debugger</strong></p>",
+          "<p>The <strong>System Log</strong></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Each HTTP Method record on an Outbound REST Message has a <strong>Test</strong> link (under Related Links). Clicking it sends the actual HTTP request to the external endpoint and displays the response status code, headers, and body. This allows developers to verify their configuration without writing script. The REST API Explorer is for testing <em>inbound</em> ServiceNow APIs, not outbound calls.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>A developer creates a <strong>Scripted REST API</strong> in ServiceNow. What does this allow?</p>",
+        "answers": [
+          "<p>It creates a custom <strong>inbound</strong> API endpoint that external systems can call to interact with ServiceNow data</p>",
+          "<p>It creates an <strong>outbound</strong> connection to an external REST API</p>",
+          "<p>It replaces the standard ServiceNow Table API</p>",
+          "<p>It is used only for importing CSV files</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Scripted REST API</strong> allows developers to create custom <strong>inbound</strong> API endpoints on the ServiceNow instance. External systems can call these endpoints (e.g., <code>/api/x_myco_app/my_api</code>) to retrieve, create, update, or delete data using custom server-side logic. This is different from an Outbound REST Message, which is used to <em>call</em> external APIs.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "External Data",
+      "prompt": {
+        "question": "<p>When configuring a <strong>Transform Map</strong> for a data import, the developer needs to execute custom logic to set a field value that does not have a direct mapping from the source. Which script type should they use?</p>",
+        "answers": [
+          "<p>An <strong>onBefore</strong> Transform Script on the Transform Map</p>",
+          "<p>A <strong>Business Rule</strong> on the target table</p>",
+          "<p>A <strong>Client Script</strong> on the Import Set table</p>",
+          "<p>A <strong>UI Policy</strong> on the target table</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Transform Maps support <strong>Transform Scripts</strong> that run during the import process. An <strong>onBefore</strong> Transform Script executes before each row is transformed and can set field values, apply custom logic, or skip records. This is the correct place for import-specific transformation logic. Business Rules would also fire during the import, but using Transform Scripts keeps the logic with the import configuration and provides access to the source row data.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>A developer has completed building a scoped application and wants to publish it to the <strong>ServiceNow Store</strong> or share it with other instances. What is the first step?</p>",
+        "answers": [
+          "<p>Publish the application to the <strong>application repository</strong> (or source control) from ServiceNow Studio</p>",
+          "<p>Export the application as an Update Set</p>",
+          "<p>Email the application's XML files to the target instance admin</p>",
+          "<p>Copy the application files to a shared network drive</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Scoped applications are published to the <strong>application repository</strong> from ServiceNow Studio or the Application Manager. From there, they can be installed on other instances, submitted to the ServiceNow Store, or managed via source control. Update Sets are used for moving <em>customisations</em> between instances, not for publishing scoped applications as a whole.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>What is the purpose of <strong>Delegated Development</strong> in ServiceNow?</p>",
+        "answers": [
+          "<p>It allows administrators to grant controlled development permissions to non-admin developers for a specific scoped application</p>",
+          "<p>It allows any user to modify Global scope applications</p>",
+          "<p>It automatically deploys code changes to production</p>",
+          "<p>It provides a code review workflow for Business Rules</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Delegated Development</strong> allows system administrators to grant specific development privileges to developers who do not have the admin role. The administrator can control which artifacts (tables, scripts, ACLs, etc.) the delegated developer can create or modify within a specific scoped application. This supports team-based development without giving full admin access.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>A development team wants to use <strong>Git integration</strong> to manage their application's source code. What does ServiceNow's Git integration provide?</p>",
+        "answers": [
+          "<p>The ability to link a scoped application to a Git repository (e.g., GitHub, GitLab) for version control, branching, and collaboration</p>",
+          "<p>Automatic deployment from Git to production instances</p>",
+          "<p>A built-in Git client within the ServiceNow UI for writing code</p>",
+          "<p>Git integration is only available for Global scope applications</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>ServiceNow's <strong>Source Control integration</strong> allows developers to link scoped applications to external Git repositories (GitHub, GitLab, Bitbucket, Azure DevOps). This enables version control, branching, pull requests, code review, and collaboration using standard Git workflows. Application files are serialised to the repository. It works with scoped applications, not just Global.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>When managing <strong>global application files</strong>, which action is allowed?</p>",
+        "answers": [
+          "<p>Adding files from Global scope to a global application</p>",
+          "<p>Moving application files into or out of a scoped application</p>",
+          "<p>Changing the scope of a global application to a scoped application</p>",
+          "<p>Removing an application's scope entirely</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Global application files can be <strong>added from Global scope to a global application</strong>. However, you cannot move files between scoped and global applications, change an application's scope after creation, or remove an application's scope. This is directly from the blueprint's sample question #4.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>A developer wants to install a third-party application from the <strong>ServiceNow Store</strong>. Where do they navigate to do this?</p>",
+        "answers": [
+          "<p>System Applications > <strong>All Available Applications > All</strong>, then search for and install the application</p>",
+          "<p>System Definition > Plugins, then search for the application</p>",
+          "<p>System Import Sets > Load Data, then import the application XML</p>",
+          "<p>System Update Sets > Retrieved Update Sets, then preview and commit</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>To install applications from the ServiceNow Store, navigate to <strong>System Applications > All Available Applications > All</strong>. This shows both installed and available applications. Developers can search for, view details about, and install applications directly from this interface. Plugins are platform features, not Store applications. Update Sets are for moving customisations, not installing Store apps.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Managing Apps",
+      "prompt": {
+        "question": "<p>With <strong>Delegated Development</strong>, which two capabilities can an administrator grant to a non-admin developer? (Select 2)</p>",
+        "answers": [
+          "<p>Creating and maintaining Access Controls (ACLs) for the application's tables</p>",
+          "<p>Deleting the scoped application</p>",
+          "<p>Developing and deploying Global scope applications</p>",
+          "<p>Modifying the platform's system properties</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B</strong></p><p>Delegated Development can grant developers permissions to manage <strong>security artifacts (ACLs)</strong> for the application's tables and resources, as well as the ability to <strong>delete the scoped application</strong>. However, it does not grant authority to develop Global scope applications or modify platform-level system properties \u2014 those require admin-level access.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "UI",
+      "prompt": {
+        "question": "<p>A developer needs to dynamically populate a <strong>Choice</strong> field's options based on the value of another field on the form. Which approach is correct?</p>",
+        "answers": [
+          "<p>Use an <strong>onChange</strong> Client Script with <code>g_form.clearOptions()</code> and <code>g_form.addOption()</code> to rebuild the choice list dynamically</p>",
+          "<p>Use a <strong>UI Policy</strong> to change the choice field's options</p>",
+          "<p>Use a <strong>Business Rule</strong> to modify the choice table directly</p>",
+          "<p>Create multiple choice fields and show/hide them with UI Policies</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>To dynamically change choice list options based on another field's value, use an <strong>onChange</strong> Client Script. The script clears existing options with <code>g_form.clearOptions('field_name')</code> and adds new ones with <code>g_form.addOption('field_name', 'value', 'label')</code>. UI Policies can make fields mandatory/visible/read-only but cannot modify choice options. Business Rules run server-side and don't directly affect form behaviour.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Automation",
+      "prompt": {
+        "question": "<p>A developer writes a Business Rule that queries another table using GlideRecord inside a <strong>before</strong> Business Rule. The query is inside a <code>while</code> loop that iterates over thousands of records.</p><p>What is the primary concern?</p>",
+        "answers": [
+          "<p><strong>Performance degradation</strong> \u2014 GlideRecord queries inside loops can cause excessive database calls, slowing down the transaction and impacting all users</p>",
+          "<p>The Business Rule will not execute because GlideRecord is not available in before rules</p>",
+          "<p>The while loop will cause a syntax error</p>",
+          "<p>There is no concern \u2014 this is standard practice</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Running GlideRecord queries inside loops (especially in <strong>before</strong> Business Rules, which are synchronous) is a major <strong>performance anti-pattern</strong>. Each iteration of the loop executes a separate database query, and with thousands of iterations this creates thousands of database calls within a single user transaction. This slows down record saves and can impact the entire instance. Best practice is to use GlideAggregate, batch queries, or move heavy processing to async Business Rules or Scheduled Jobs.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    }
+  ]
+}
+</script>
+<script src="script.js"></script>
+<script src="../../../contact-widget.js"></script>
+</body>
+</html>
