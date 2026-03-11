@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CIS-DF Mock Exam: James Warner</title>
+    <link rel="stylesheet" href="../../../style.css" />
+    <link rel="stylesheet" href="../exam.css" />
+</head>
+<body>
+
+<aside class="rail">
+    <a href="/" class="rail-name">JW</a>
+    <nav class="rail-nav">
+        <a href="/tools" class="active">Tools</a>
+        <a href="/experience">Experience</a>
+        <a href="/about">About</a>
+    </nav>
+    <div class="rail-foot">
+        <div>Sydney, AU</div>
+        <div>2026</div>
+    </div>
+</aside>
+
+<main class="content">
+
+    <div class="pg-header">
+        <p class="pg-label"><a href="/tools/mock-exams" style="color:inherit;text-decoration:none;transition:color 0.12s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Mock Exams</a> &mdash; ServiceNow</p>
+        <h1 class="pg-title">CIS-DF Mock Exam</h1>
+        <p class="pg-sub">75 questions &bull; 90 minutes &bull; Aligned to the 2026 exam blueprint.</p>
+    </div>
+
+    <div class="exam-header">
+        <div class="domain-legend">
+            <span class="domain-tag tag-Configuration">Configuration 15%</span>
+            <span class="domain-tag tag-Ingest">Ingest 19%</span>
+            <span class="domain-tag tag-Govern">Govern 35%</span>
+            <span class="domain-tag tag-Insight">Insight 20%</span>
+            <span class="domain-tag tag-CSDM">CSDM 11%</span>
+        </div>
+    </div>
+
+    <div class="exam-controls">
+        <span class="exam-progress" id="navProgress">0 / 75</span>
+        <span class="timer-display" id="timerDisplay">90:00</span>
+        <button class="quiz-btn" id="timerToggle">Start Timer</button>
+        <button class="quiz-btn" id="revealAllNav">Reveal All</button>
+        <button class="quiz-btn" id="resetQuizNav">Reset</button>
+    </div>
+
+    <div id="quiz"></div>
+
+    <div class="quiz-actions">
+        <button class="quiz-btn quiz-btn-primary" id="submitAnswers">Submit All Answers</button>
+        <button class="quiz-btn" id="resetQuiz">Reset Quiz</button>
+    </div>
+
+    <div class="score-summary" id="scoreSummary" style="display:none"></div>
+
+</main>
+
+<footer class="site-footer"><a href="mailto:jwarnerst@gmail.com" class="contact-link">Email ↗</a> <a href="https://linkedin.com/in/james-warner1" target="_blank" rel="noopener" class="contact-link">LinkedIn ↗</a>
+<br/>
+    © 2026 James Warner
+</footer>
+
+
+<script id="quiz-data" type="application/json">
+{
+  "results": [
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>A CMDB architect is setting up identification rules for a custom hardware CI class called <strong>IoT Sensor</strong>. The class extends <code>cmdb_ci_hardware</code>. The architect has not yet created any identifier entries specific to IoT Sensor.</p><p>If an inbound payload for an IoT Sensor is processed by the IRE, what will happen?</p>",
+        "answers": [
+          "<p>The IRE will reject the payload because no identification rule exists for the IoT Sensor class</p>",
+          "<p>The IRE will fall back to the parent class (<code>cmdb_ci_hardware</code>) identification rules automatically</p>",
+          "<p>The IRE will create a new CI in the base <code>cmdb_ci</code> table with no class assignment</p>",
+          "<p>The IRE will create a de-duplication task and wait for manual resolution</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>The IRE uses an inheritance model for identification rules. If no identifier entries are configured for a child class, the engine automatically falls back to the parent class's rules. In this case, the <code>cmdb_ci_hardware</code> rules would be used. This is the default behaviour unless the <strong>Allow fallback to parent's rules</strong> checkbox has been explicitly unchecked (which requires a rule to exist first).</p><p><strong>Why A is wrong:</strong> The IRE does not reject payloads; it searches up the hierarchy for applicable rules.</p><p><strong>Why C is wrong:</strong> The CI would still be created in the target class specified by the integration, not dumped into the base table.</p><p><strong>Why D is wrong:</strong> De-duplication tasks are created when duplicates are found, not when identification rules are missing.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>You are configuring CI identification for the <strong>Windows Server</strong> class. You have three CI Identifier entries:</p><ul><li>Priority 1: Serial Number + Name</li><li>Priority 2: Serial Number</li><li>Priority 3: Name + IP Address</li></ul><p>The <strong>Allow null attributes</strong> option is <strong>disabled</strong> on all three entries. An inbound record arrives with Serial Number = <code>SN-1234</code>, Name = <code>null</code>, and IP Address = <code>10.0.0.5</code>.</p><p>Which identifier entry will the IRE use to attempt a match?</p>",
+        "answers": [
+          "<p>Priority 1 (Serial Number + Name)</p>",
+          "<p>Priority 2 (Serial Number)</p>",
+          "<p>Priority 3 (Name + IP Address)</p>",
+          "<p>No identifier will be evaluated and the record will be rejected</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>The IRE evaluates identifier entries in priority order. With <strong>Allow null attributes</strong> disabled, all attributes in an identifier entry must have non-null values for that entry to be evaluated.</p><p>Priority 1 requires Serial Number + Name \u2014 Name is null, so this entry is <strong>skipped</strong>.</p><p>Priority 2 requires only Serial Number \u2014 this has a value (<code>SN-1234</code>), so this entry <strong>is used</strong>.</p><p>Priority 3 is never reached because Priority 2 qualifies.</p><p><strong>Why D is wrong:</strong> The IRE does not reject records; if no identifiers match, it creates a new CI.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>The system property <code>glide.class.upgrade.enabled</code> is set to <strong>true</strong> and <code>glide.class.downgrade.enabled</code> is set to <strong>false</strong>.</p><p>An existing CI is classified as <strong>Computer</strong> (<code>cmdb_ci_computer</code>). Discovery now identifies the same device as a <strong>Linux Server</strong> (<code>cmdb_ci_linux_server</code>), which is a child class of Computer.</p><p>What will the IRE do?</p>",
+        "answers": [
+          "<p>Automatically reclassify the CI from Computer to Linux Server</p>",
+          "<p>Create a reclassification task for manual review</p>",
+          "<p>Create a new, separate Linux Server CI</p>",
+          "<p>Keep the CI as Computer and update its attributes only</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Moving from a parent class (Computer) to a child class (Linux Server) is an <strong>upgrade</strong>. Since <code>glide.class.upgrade.enabled</code> is <strong>true</strong>, the IRE will automatically reclassify the CI to the more specific child class without manual intervention. No reclassification task is generated for automatic upgrades when the property is enabled.</p><p><strong>Why B is wrong:</strong> Reclassification tasks are generated when the relevant system property is set to false (manual mode), or for <strong>switch</strong> operations.</p><p><strong>Why C is wrong:</strong> The IRE matched the existing CI via identification rules, so it updates rather than creates a duplicate.</p><p><strong>Why D is wrong:</strong> With upgrade enabled, reclassification happens automatically.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>A CMDB Administrator is using the <strong>CI Class Manager</strong> to configure a new custom class. Which three actions can be performed directly from within the CI Class Manager? (Select 3)</p>",
+        "answers": [
+          "<p>Configure identification rules for the class</p>",
+          "<p>Configure reconciliation rules for the class</p>",
+          "<p>Create new Discovery patterns for the class</p>",
+          "<p>Run the CMDB Health Scorecard calculation jobs</p>",
+          "<p>Define the class icon and set the Extensible flag</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, E</strong></p><p>The CI Class Manager is a centralised tool for managing CI class configuration. From within it, administrators can configure identification rules, reconciliation rules, class attributes, the Managed By Group, the class icon, the Extensible flag, principal class designation, health inclusion rules, orphan rules, and more.</p><p><strong>Why C is wrong:</strong> Discovery patterns are created and managed in the Discovery application, not in the CI Class Manager.</p><p><strong>Why D is wrong:</strong> Health scorecard calculation jobs are managed via Health Preferences or CMDB Dashboard Jobs, not from within CI Class Manager.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "e"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>A CMDB Administrator needs to ensure that a specific CI class (<strong>Storage Device</strong>) is visible and filterable in the \"Configuration Item and Services\" picker used in ITSM modules like Incident and Change.</p><p>Which CI Class Manager setting controls this behaviour?</p>",
+        "answers": [
+          "<p>Setting the class as a <strong>Principal Class</strong></p>",
+          "<p>Enabling the <strong>Extensible</strong> flag on the class</p>",
+          "<p>Adding a Health Inclusion Rule for the class</p>",
+          "<p>Configuring a suggested relationship for the class</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Marking a class as a <strong>Principal Class</strong> in the CI Class Manager makes it visible in the CI/Service picker used across ITSM processes. This controls whether end users can select CIs of that class when linking them to incidents, changes, problems, and other records. Without this designation, the class may exist in the CMDB but not be selectable in those contexts.</p><p><strong>Why B is wrong:</strong> The Extensible flag controls whether child classes can extend from this class, not its visibility in pickers.</p><p><strong>Why C is wrong:</strong> Health Inclusion Rules define which CIs are evaluated by CMDB Health, not their visibility in ITSM modules.</p><p><strong>Why D is wrong:</strong> Suggested relationships control the relationship type picker, not the CI/Service picker.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>When configuring a <strong>Dynamic Reconciliation Rule</strong> for the <code>RAM (MB)</code> attribute on the Server class, an administrator selects the rule type <strong>\"Largest value\"</strong>.</p><p>Three data sources report RAM for Server-X:</p><ul><li>ServiceNow Discovery: 32768 MB</li><li>SCCM (via Service Graph Connector): 32000 MB</li><li>Manual Entry: 16384 MB</li></ul><p>What value will the IRE accept for RAM on Server-X?</p>",
+        "answers": [
+          "<p>32768 MB (from Discovery)</p>",
+          "<p>32000 MB (from SCCM)</p>",
+          "<p>16384 MB (from Manual Entry)</p>",
+          "<p>The value from whichever source has the highest priority in the static reconciliation rules</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Dynamic Reconciliation Rule</strong> with the type \"Largest value\" evaluates the actual data values from all contributing sources and selects the numerically largest one. In this case, 32768 MB from Discovery is the largest. This differs from a static rule, which would pick based on source priority regardless of the actual values.</p><p><strong>Key point:</strong> \"Largest value\" and \"Smallest value\" dynamic rule types only apply to numeric field types.</p><p><strong>Why D is wrong:</strong> When a dynamic reconciliation rule is configured, it takes precedence over static rules for that attribute.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>An identification rule for the <strong>Application</strong> class uses a single criterion attribute: <code>Name</code>. After months of operation, the CMDB team notices that hundreds of unrelated applications from different servers are being matched to the same CI record.</p><p>What is this problem called, and what is the root cause?</p>",
+        "answers": [
+          "<p>An <strong>overloaded CI</strong> \u2014 the identification rule is too broad, matching too many distinct items to a single record</p>",
+          "<p>A <strong>stale CI</strong> \u2014 the CI has not been updated by Discovery recently</p>",
+          "<p>An <strong>orphan CI</strong> \u2014 the CI is missing required relationships</p>",
+          "<p>A <strong>duplicate CI</strong> \u2014 the IRE is creating multiple records for the same application</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>An <strong>overloaded CI</strong> occurs when an identification rule is too generic (e.g., using only \"Name\" for applications, where many different deployed instances share the same application name). The IRE matches all inbound records to the same CI, causing data from multiple distinct items to overwrite each other. The fix is to use more specific identification criteria (e.g., Name + IP Address, or use dependent relationships like a hosting rule).</p><p><strong>Why B is wrong:</strong> Staleness refers to CIs not being refreshed within a defined timeframe.</p><p><strong>Why C is wrong:</strong> Orphan CIs are those missing required relationships, unrelated to identification matching.</p><p><strong>Why D is wrong:</strong> The problem here is the opposite \u2014 too few CIs are being created, not too many.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>You need to define that a <strong>Tomcat Web Server</strong> CI can only be uniquely identified when it is considered together with the <strong>host server</strong> it runs on. Two Tomcat instances with identical names on different servers must be treated as separate CIs.</p><p>Which IRE configuration achieves this?</p>",
+        "answers": [
+          "<p>A <strong>Hosting Rule</strong> (dependent relationship) that links Tomcat Web Server to its host server</p>",
+          "<p>A <strong>Containment Rule</strong> (dependent relationship) that links Tomcat Web Server to its host server</p>",
+          "<p>A suggested relationship between Tomcat Web Server and Server</p>",
+          "<p>A reconciliation rule that prioritises the host server's Discovery source</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Hosting Rule</strong> defines a dependent relationship where the child CI (Tomcat Web Server) is identified in combination with its host (the server). This means the IRE uses the host's identity as part of the child's identification \u2014 two Tomcat instances with identical names but on different hosts will be treated as separate CIs.</p><p><strong>Why B is wrong:</strong> A <strong>Containment Rule</strong> is used when a CI is contained within another (e.g., a Network Adapter inside a Computer). The key distinction is that hosting means \"runs on\" while containment means \"is part of\". For application-to-server relationships, hosting is the correct rule type.</p><p><strong>Why C is wrong:</strong> Suggested relationships guide the UI for manual relationship creation; they do not affect identification logic.</p><p><strong>Why D is wrong:</strong> Reconciliation rules control attribute precedence, not CI identification.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>The system property <code>glide.class.switched.enabled</code> is set to <strong>false</strong>. Discovery identifies an existing <strong>Linux Server</strong> CI and determines it should now be classified as a <strong>Windows Server</strong>.</p><p>What will happen?</p>",
+        "answers": [
+          "<p>The IRE will automatically reclassify the CI from Linux Server to Windows Server</p>",
+          "<p>The IRE will generate a reclassification task for manual review</p>",
+          "<p>The IRE will create a new Windows Server CI and mark the Linux Server as a duplicate</p>",
+          "<p>The IRE will ignore the class change and only update attributes on the existing Linux Server CI</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>Moving from Linux Server to Windows Server is a <strong>switch</strong> operation (neither an upgrade to a child class nor a downgrade to a parent class \u2014 they are sibling classes). When <code>glide.class.switched.enabled</code> is <strong>false</strong>, switch operations are not processed automatically. Instead, the IRE generates a <strong>reclassification task</strong> for an administrator to review and manually approve or reject the class change.</p><p><strong>Why A is wrong:</strong> Automatic reclassification for switches only occurs when the property is set to true.</p><p><strong>Why C is wrong:</strong> The IRE does not create duplicates in this scenario; it flags it for review.</p><p><strong>Why D is wrong:</strong> The IRE does not silently ignore class changes \u2014 it creates a task.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>Which two statements are correct regarding <strong>Static</strong> versus <strong>Dynamic Reconciliation Rules</strong>? (Select 2)</p>",
+        "answers": [
+          "<p>Static rules determine the winning value based on data source priority order</p>",
+          "<p>Dynamic rules evaluate the actual attribute values to determine the winner (e.g., most recent, largest)</p>",
+          "<p>Static rules take precedence when both a static and dynamic rule exist for the same attribute</p>",
+          "<p>Dynamic rules store historical source data in the CMDB 360 table, while static rules do not</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B</strong></p><p><strong>Static Reconciliation Rules</strong> work by assigning a priority ranking to each data source. The attribute value from the highest-priority source always wins, regardless of what the actual value is.</p><p><strong>Dynamic Reconciliation Rules</strong> evaluate the actual data values from all contributing sources and apply logic such as \"most recent\", \"largest value\", \"smallest value\", or \"longest string\" to determine the winner.</p><p><strong>Why C is wrong:</strong> Dynamic rules take precedence over static rules when both are configured for the same attribute.</p><p><strong>Why D is wrong:</strong> Both static and dynamic rules contribute data to the CMDB 360 view. The CMDB 360 table stores all source values regardless of rule type.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Configuration",
+      "prompt": {
+        "question": "<p>A CMDB Administrator configures a <strong>Dictionary Override</strong> on the <code>Serial Number</code> field to make it <strong>mandatory</strong> for the <strong>Server</strong> class only. The system property <code>glide.ire.mandatory_attributes_validation</code> is set to <strong>true</strong>.</p><p>An automated integration attempts to insert a new Server CI with a blank Serial Number via the IRE.</p><p>What happens?</p>",
+        "answers": [
+          "<p>The CI is created with a blank Serial Number and flagged on the Completeness scorecard</p>",
+          "<p>The IRE rejects the insert and the CI is not created</p>",
+          "<p>The CI is created but a remediation task is automatically generated</p>",
+          "<p>The CI is created in a \"Pending\" lifecycle stage until the Serial Number is populated</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>When a field is marked as mandatory via Dictionary Override and the system property <code>glide.ire.mandatory_attributes_validation</code> is set to true, the IRE enforces this at insert time. If a mandatory attribute is missing from an inbound payload, the IRE will <strong>reject the insert</strong> and the CI will not be created. This is a governance mechanism to prevent incomplete data from entering the CMDB.</p><p><strong>Why A is wrong:</strong> With mandatory validation enabled, the CI is rejected, not created with missing data.</p><p><strong>Why C is wrong:</strong> No remediation task is generated \u2014 the insert simply fails.</p><p><strong>Why D is wrong:</strong> There is no automatic \"Pending\" state for missing mandatory attributes.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>A customer has 5,000 point-of-sale kiosks that cannot be reached by network-based Discovery. The kiosks frequently change IP addresses and connect via intermittent Wi-Fi.</p><p>Which ingestion method is most appropriate for keeping these CIs current in the CMDB?</p>",
+        "answers": [
+          "<p>ServiceNow Discovery (Horizontal Discovery) using scheduled IP range scans</p>",
+          "<p>Agent Client Collector (ACC) installed on each kiosk</p>",
+          "<p>Service Graph Connector integrated with the kiosk management platform</p>",
+          "<p>Manual CSV import using Import Sets on a monthly basis</p>"
+        ],
+        "explanation": "<p><strong>Correct: C</strong></p><p>A <strong>Service Graph Connector</strong> integrated with the existing kiosk management platform is the best approach. Since the kiosks already report to a management system, the connector can pull that data into the CMDB using a certified, pre-built model. This avoids the network reachability issues that would plague Discovery and avoids the overhead of deploying agents to 5,000 devices.</p><p><strong>Why A is wrong:</strong> Horizontal Discovery relies on scanning IP ranges. Kiosks with changing IPs and intermittent connectivity would not be reliably discovered.</p><p><strong>Why B is wrong:</strong> While ACC would work technically, deploying and maintaining agents on 5,000 kiosks with intermittent connectivity creates significant operational overhead.</p><p><strong>Why D is wrong:</strong> Monthly CSV imports would leave the data stale and require manual effort, which does not scale.</p>"
+      },
+      "correct_response": [
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>A CMDB implementer is using <strong>Import Sets and Transform Maps</strong> to load CI data from a CSV file into the <code>cmdb_ci_server</code> table. To ensure the IRE processes the data correctly and prevents duplicates, what type of script should be added to the Transform Map?</p>",
+        "answers": [
+          "<p>An onBefore Transform script that calls <code>CMDBTransformUtil</code></p>",
+          "<p>An onAfter Transform script that runs a de-duplication check</p>",
+          "<p>A Business Rule on the <code>cmdb_ci_server</code> table that validates uniqueness</p>",
+          "<p>A scheduled job that reconciles the import set table against the CMDB</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When using Import Sets and Transform Maps to load data into CMDB tables, best practice is to add an <strong>onBefore Transform script</strong> that invokes <code>CMDBTransformUtil</code>. This utility ensures the Identification and Reconciliation Engine (IRE) processes the inbound records, applying identification rules to prevent duplicates and reconciliation rules to manage attribute precedence. Without this, the Transform Map would bypass the IRE entirely and create direct inserts, leading to potential duplicates and data quality issues.</p><p><strong>Why B is wrong:</strong> Checking for duplicates after the transform is too late \u2014 the data has already been written.</p><p><strong>Why C is wrong:</strong> A Business Rule is not the recommended approach; the IRE should handle identification and reconciliation.</p><p><strong>Why D is wrong:</strong> A scheduled job for reconciliation is reactive, not preventive.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "matching",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>Match each data ingestion method with its correct description.</p>",
+        "left_items": [
+          "Discovery (Horizontal)",
+          "Service Mapping (Top-Down)",
+          "Agent Client Collector",
+          "Service Graph Connector",
+          "Import Sets"
+        ],
+        "right_items": [
+          "Scans IP ranges using probes and sensors to identify hardware and software on the network",
+          "Traverses infrastructure from a specific entry point (e.g., URL) to map application service dependencies",
+          "Lightweight agent installed on host OS that pushes configuration and metric data to the instance",
+          "Certified pre-built integration that ingests data from external third-party systems (e.g., SCCM, SolarWinds)",
+          "Generic framework for uploading data from CSV, Excel, XML, or JDBC and mapping it via Transform Maps"
+        ],
+        "correct_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "<p><strong>Discovery (Horizontal)</strong> scans IP ranges using probes and sensors \u2014 it is agentless and network-based.</p><p><strong>Service Mapping</strong> starts from an entry point (URL, port) and traverses the infrastructure top-down to build a map of service dependencies.</p><p><strong>Agent Client Collector (ACC)</strong> is an agent installed directly on the target device that pushes real-time data to the instance.</p><p><strong>Service Graph Connectors</strong> are certified, pre-built integrations for pulling data from third-party management tools into the CMDB.</p><p><strong>Import Sets</strong> provide the generic framework for loading data from flat files and databases, using Transform Maps to map source fields to target tables.</p>"
+      },
+      "correct_response": []
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>You have implemented ServiceNow Discovery running daily. You recently installed the <strong>Service Graph Connector for Microsoft SCCM</strong>. Both Discovery and SCCM now report data for the same Windows Server CIs.</p><p>Some attribute values differ between the two sources. What mechanism controls which source's value is accepted for each attribute?</p>",
+        "answers": [
+          "<p>Reconciliation Rules configured in the CI Class Manager</p>",
+          "<p>The data source that most recently updated the CI always wins</p>",
+          "<p>Discovery always takes precedence over third-party connectors</p>",
+          "<p>The IRE creates a conflict record for each attribute difference</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Reconciliation Rules</strong> (both static and dynamic) are configured per class in the CI Class Manager and determine which data source's value is accepted for each attribute. This allows administrators to define, for example, that Discovery wins for IP address while SCCM wins for installed software. Without reconciliation rules, the default behaviour is last-write-wins, which is unpredictable.</p><p><strong>Why B is wrong:</strong> Last-write-wins is the <em>default</em> behaviour, but reconciliation rules override this.</p><p><strong>Why C is wrong:</strong> There is no automatic precedence for Discovery \u2014 it must be explicitly configured.</p><p><strong>Why D is wrong:</strong> The IRE does not create individual conflict records for attribute differences.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>A CI is created in the CMDB through the <strong>Asset Management</strong> process (an asset record is created, and the corresponding CI is automatically generated). What value is recorded in the CI's <code>Discovery source</code> field?</p>",
+        "answers": [
+          "<p><code>SNAssetManagement</code></p>",
+          "<p><code>ServiceNow</code></p>",
+          "<p><code>Manual</code></p>",
+          "<p>The field is left blank</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When a CI is created through the asset management process (e.g., when an asset record triggers CI creation), the Discovery source field is set to <code>SNAssetManagement</code>. This distinguishes asset-originated CIs from those found by Discovery (which would show the Discovery source name) or manually created CIs.</p><p>This is directly from the exam blueprint's sample question #1.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>Which two fields are <strong>automatically synchronised</strong> on the associated CI record when the <strong>State</strong> field is updated on an Asset record? (Select 2)</p>",
+        "answers": [
+          "<p>Operational Status</p>",
+          "<p>Install Status</p>",
+          "<p>Hardware Status</p>",
+          "<p>Asset Tag</p>"
+        ],
+        "explanation": "<p><strong>Correct: B, C</strong></p><p><strong>Install Status</strong> and <strong>Hardware Status</strong> are the two CI fields that are automatically synchronised when the Asset's State field changes. This synchronisation is handled by business rules that maintain alignment between the asset lifecycle and the CI status fields.</p><p><strong>Why A is wrong:</strong> Operational Status is not automatically synchronised from the Asset State field.</p><p><strong>Why D is wrong:</strong> Asset Tag is a shared field between Asset and CI, but it is not triggered by a State change.</p><p>This matches the exam blueprint's sample question #2.</p>"
+      },
+      "correct_response": [
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>An administrator wants to prevent a specific unwanted data source from inserting CIs into the CMDB. The source is an external tool that was recently decommissioned but still sends data.</p><p>Which configuration should the administrator use?</p>",
+        "answers": [
+          "<p>Configure an <strong>IRE Data Source Rule</strong> to block the unwanted source</p>",
+          "<p>Delete all reconciliation rules associated with the source</p>",
+          "<p>Set the source's priority to the lowest value in static reconciliation rules</p>",
+          "<p>Create an ACL that restricts write access to CMDB tables from the source</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>An <strong>IRE Data Source Rule</strong> allows administrators to define which data sources are authorised to insert or update CIs in the CMDB. By configuring a rule that blocks the decommissioned source, you prevent it from creating or modifying any CI records.</p><p><strong>Why B is wrong:</strong> Removing reconciliation rules does not prevent inserts \u2014 it just changes how attribute conflicts are resolved.</p><p><strong>Why C is wrong:</strong> Setting the lowest priority still allows the source to write data; it just means its values lose in reconciliation conflicts.</p><p><strong>Why D is wrong:</strong> ACLs control user-level access, not data source-level integration control.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>When using <strong>IntegrationHub ETL</strong> to load data into the <code>Location</code> table (<code>cmn_location</code>), which is <strong>not</strong> a CMDB class, you want the IRE to handle deduplication. What must be configured for the IRE to process records for a non-CMDB table?</p>",
+        "answers": [
+          "<p>An identification rule and a reconciliation rule must be configured for the non-CMDB table</p>",
+          "<p>The non-CMDB table must be added to the <code>cmdb_ci</code> hierarchy</p>",
+          "<p>IntegrationHub ETL cannot use the IRE for non-CMDB tables</p>",
+          "<p>A CMDB Group must be created that references the non-CMDB table</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The IRE can be extended to support non-CMDB tables such as Location (<code>cmn_location</code>) and User (<code>sys_user</code>). To enable this, you must configure <strong>identification rules</strong> (to define how records are uniquely identified) and <strong>reconciliation rules</strong> (to manage data source precedence) for the target non-CMDB table. This is commonly used with IntegrationHub ETL to prevent duplicate locations or user records.</p><p><strong>Why B is wrong:</strong> Non-CMDB tables do not need to be added to the CMDB hierarchy \u2014 the IRE supports them natively.</p><p><strong>Why C is wrong:</strong> IntegrationHub ETL explicitly supports IRE processing for non-CMDB tables.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>Which three of the following are considered <strong>standard shared fields</strong> that automatically synchronise between an Asset (<code>alm_asset</code>) record and its associated CI? (Select 3)</p>",
+        "answers": [
+          "<p>Assigned to</p>",
+          "<p>Serial Number</p>",
+          "<p>Company</p>",
+          "<p>Discovery source</p>",
+          "<p>IP Address</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>Standard shared fields between Asset and CI include: Assigned to, Serial Number, Company, Location, Department, and several others. These fields are kept in sync by platform business rules whenever either the Asset or CI record is updated.</p><p><strong>Why D is wrong:</strong> Discovery source is a CI-specific field and is not synchronised to the Asset record.</p><p><strong>Why E is wrong:</strong> IP Address is a CI-specific field typically populated by Discovery, not a shared field with Asset Management.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>A financial services company is implementing <strong>Vulnerability Response (VR)</strong>. They need to track security and regulatory compliance identifiers against servers in the CMDB to link vulnerability scan results to the correct CIs.</p><p>Which approach best ensures scan data can be accurately mapped to CMDB CIs?</p>",
+        "answers": [
+          "<p>Ensure CIs have accurate and unique attributes (such as IP address, FQDN, or serial number) that match the identifiers used by the vulnerability scanner</p>",
+          "<p>Create a custom \"Vulnerability ID\" field on the Server class and populate it manually</p>",
+          "<p>Use the CMDB Query Builder to link vulnerability records to CIs after import</p>",
+          "<p>Configure a Business Rule on the Vulnerability table that searches the CMDB for matching CIs by name</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The most effective approach is to ensure that CIs have accurate, unique identifying attributes that align with the identifiers used by the vulnerability scanner (typically IP address, FQDN, or serial number). This allows the Vulnerability Response integration (often via a Service Graph Connector) to automatically match scan results to existing CIs using the IRE's identification rules.</p><p><strong>Why B is wrong:</strong> A manual custom field does not scale and requires ongoing maintenance.</p><p><strong>Why C is wrong:</strong> Linking after import is reactive and misses the automated matching capability.</p><p><strong>Why D is wrong:</strong> Name-based matching is unreliable and prone to errors due to naming inconsistencies.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>An IT team is concerned about creating <strong>technical debt</strong> in the CMDB. They are considering building a custom integration to load server data from an internal tool.</p><p>Which approach best minimises technical debt and ensures upgradeability?</p>",
+        "answers": [
+          "<p>Use a Service Graph Connector if one exists for the tool, or IntegrationHub ETL with standard Transform Maps</p>",
+          "<p>Write a custom Scripted REST API that directly inserts records into the <code>cmdb_ci_server</code> table</p>",
+          "<p>Create a scheduled job that uses GlideRecord to insert CIs directly</p>",
+          "<p>Export the data as XML and use the system import feature</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Using a <strong>certified Service Graph Connector</strong> (if available) or <strong>IntegrationHub ETL</strong> with standard Transform Maps is the recommended approach to minimise technical debt. These methods are maintained by ServiceNow, follow the IRE pipeline, and are upgrade-safe. Custom scripted integrations that bypass the IRE create maintenance burden and risk breaking with platform upgrades.</p><p><strong>Why B is wrong:</strong> Direct inserts via scripted REST bypass the IRE and create technical debt.</p><p><strong>Why C is wrong:</strong> Direct GlideRecord inserts bypass identification and reconciliation.</p><p><strong>Why D is wrong:</strong> While XML import works, it does not leverage the IRE or provide a sustainable integration pattern.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>A CMDB team needs to populate <strong>non-discoverable attributes</strong> (such as Business Criticality and Environment) on server CIs. These attributes cannot be determined by Discovery or any automated tool.</p><p>Which is the recommended approach to populate and maintain these attributes?</p>",
+        "answers": [
+          "<p>Use the <strong>CMDB Data Manager attestation policy</strong> to periodically request CI owners to verify and update these attributes</p>",
+          "<p>Create a Discovery pattern that reads these values from a configuration file on each server</p>",
+          "<p>Add the attributes to the shared fields between Asset and CI so they sync from the Asset record</p>",
+          "<p>Write a Business Rule that automatically populates default values for all new CIs</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Non-discoverable attributes like Business Criticality and Environment cannot be determined by automated tools. The recommended approach is to use <strong>CMDB Data Manager attestation policies</strong> to periodically prompt CI owners or service owners to review and update these attributes. This creates an ongoing governance process that keeps the data current.</p><p><strong>Why B is wrong:</strong> These attributes are not stored on the servers themselves \u2014 they are business context that lives only in the CMDB.</p><p><strong>Why C is wrong:</strong> While some fields are shared between Asset and CI, Business Criticality and Environment are not standard shared fields and this approach shifts the problem rather than solving it.</p><p><strong>Why D is wrong:</strong> Default values would be inaccurate for most CIs and would not reflect actual business context.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>After an external inventory source runs, the IRE attempts to change an existing Computer CI to a Windows Server (child class). The system property <code>glide.class.upgrade.enabled</code> is set to <strong>false</strong>.</p><p>What happens?</p>",
+        "answers": [
+          "<p>The CI is automatically upgraded to Windows Server</p>",
+          "<p>A reclassification task is created for manual review</p>",
+          "<p>The CI remains as Computer and the inbound data is discarded</p>",
+          "<p>A new Windows Server CI is created alongside the existing Computer CI</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>Moving from a parent class (Computer) to a child class (Windows Server) is an <strong>upgrade</strong>. When <code>glide.class.upgrade.enabled</code> is <strong>false</strong>, the IRE does not automatically process upgrades. Instead, it creates a <strong>reclassification task</strong> for an administrator to review and manually approve or reject the class change.</p><p><strong>Why A is wrong:</strong> Auto-upgrade is disabled.</p><p><strong>Why C is wrong:</strong> The data is not discarded \u2014 it is queued for review via the reclassification task.</p><p><strong>Why D is wrong:</strong> The IRE does not create a separate CI in this scenario.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "matching",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Match each CMDB Health scorecard with its description.</p>",
+        "left_items": [
+          "Correctness",
+          "Completeness",
+          "Compliance"
+        ],
+        "right_items": [
+          "Validates that CIs are up to date, accurate, and have minimal duplicates (includes Staleness, Orphan, and Duplicate metrics)",
+          "Validates that CIs have all necessary attributes populated (includes Required Fields, Recommended Fields, and Relationship metrics)",
+          "Validates that CIs meet desired state expectations and audit policies (includes Audit-type checks)"
+        ],
+        "correct_pairs": [
+          0,
+          1,
+          2
+        ],
+        "explanation": "<p>The CMDB Health Dashboard provides three KPIs:</p><p><strong>Correctness</strong> includes three metrics: Staleness (is the CI up to date?), Orphan (does it have required relationships?), and Duplicates (are there multiple records for the same CI?). This is the most heavily tested area.</p><p><strong>Completeness</strong> checks whether CIs have the necessary data: Required Fields (mandatory attributes), Recommended Fields (should-have attributes), and Relationships (does the CI have connections to other CIs?).</p><p><strong>Compliance</strong> evaluates CIs against configured audits and certification criteria to ensure they meet desired state expectations.</p>"
+      },
+      "correct_response": []
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The CMDB Health Dashboard shows a low <strong>Correctness</strong> score for the Windows Server class. The primary contributor is the <strong>Staleness</strong> metric.</p><p>What does a high staleness count indicate?</p>",
+        "answers": [
+          "<p>Many Windows Server CIs have not been updated by any data source within the configured staleness threshold</p>",
+          "<p>Many Windows Server CIs are missing required attributes</p>",
+          "<p>Many Windows Server CIs have duplicate records</p>",
+          "<p>Many Windows Server CIs fail the desired state audit</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Stale CI</strong> is one that has not been updated by any data source within the defined staleness threshold (the default is typically 60 days, but this is configurable per class). High staleness indicates that CIs may represent decommissioned or unreachable infrastructure that needs investigation.</p><p><strong>Why B is wrong:</strong> Missing attributes affect the Completeness scorecard, not Correctness.</p><p><strong>Why C is wrong:</strong> Duplicates are a separate metric within Correctness.</p><p><strong>Why D is wrong:</strong> Audit failures affect the Compliance scorecard.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The Staleness metric calculation is based on which field?</p>",
+        "answers": [
+          "<p>The <code>Last discovered</code> field on the CI record</p>",
+          "<p>The <code>sys_updated_on</code> field on the CI record</p>",
+          "<p>The <code>Created</code> field on the CI record</p>",
+          "<p>The <code>Discovery source</code> field on the CI record</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The Staleness metric uses the <strong>Last discovered</strong> field to determine when a CI was last refreshed by an authorised data source. If the time since the last discovery exceeds the configured threshold, the CI is flagged as stale. The <code>sys_updated_on</code> field is not used because it changes with any update (including manual edits), which would not accurately reflect whether a CI has been validated by a discovery source.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A CMDB analyst wants to resolve duplicate CIs. They see high duplicate counts in the CMDB Health Dashboard. They navigate to the CMDB Workspace and want to open the wizard that allows them to select a main CI, merge attributes, and reconcile relationships.</p><p>What is this wizard called?</p>",
+        "answers": [
+          "<p>Duplicate CI Remediator</p>",
+          "<p>CMDB Data Manager</p>",
+          "<p>CI Class Manager</p>",
+          "<p>CMDB Query Builder</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Duplicate CI Remediator</strong> is a guided wizard accessed from the CMDB Workspace (via de-duplication tasks) that walks the user through selecting a Main CI, merging attributes from the duplicate, and reconciling relationships. The wizard provides recommendations based on factors like data source priority, last updated date, and number of relationships.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>In the <strong>Duplicate CI Remediator</strong> wizard, which three factors does the system use to recommend which duplicate record should be the <strong>Main CI</strong>? (Select 3)</p>",
+        "answers": [
+          "<p>The CI with the most recent Last Discovered date</p>",
+          "<p>The CI with the highest-priority discovery source</p>",
+          "<p>The CI with the most relationships</p>",
+          "<p>The CI with the longest name</p>",
+          "<p>The CI that was created first</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The Duplicate CI Remediator recommends the Main CI based on several factors including: <strong>most recent Last Discovered date</strong> (indicating the CI is actively being maintained), <strong>highest-priority data source</strong> (based on reconciliation rule priorities), and <strong>number of relationships</strong> (a CI with more relationships is more integrated into the service model and harder to replace).</p><p><strong>Why D is wrong:</strong> Name length is not a factor in the recommendation logic.</p><p><strong>Why E is wrong:</strong> Creation date alone is not a primary factor \u2014 recency of updates and source priority are more important.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The system property <code>glide.identification_engine.skip_duplicates</code> is set to <strong>true</strong>. Discovery encounters a CI that matches two existing records in the CMDB.</p><p>What happens?</p>",
+        "answers": [
+          "<p>The IRE skips the update entirely and does not modify either record</p>",
+          "<p>The IRE updates the oldest duplicate record</p>",
+          "<p>The IRE creates a new third CI record</p>",
+          "<p>The IRE merges the two existing records automatically</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When <code>glide.identification_engine.skip_duplicates</code> is set to <strong>true</strong>, the IRE will <strong>skip the update</strong> when it encounters a CI that matches multiple existing records. No record is modified or created. This prevents the IRE from making potentially incorrect changes when duplicates exist, allowing administrators to resolve the duplicates manually first.</p><p><strong>Why B is wrong:</strong> The default behaviour (when skip_duplicates is false) is to update the oldest duplicate, but with the property set to true, it skips entirely.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "matching",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The CMDB Health Dashboard scores are not updating. An administrator wants to manually trigger the calculation. Where should they navigate to find and execute the health calculation jobs?</p>",
+        "left_items": [
+          "Retirement Policy",
+          "Archive Policy",
+          "Delete Policy",
+          "Attestation Policy",
+          "Audit Policy"
+        ],
+        "right_items": [
+          "Defines criteria for moving CIs out of active operational use based on age or lack of discovery",
+          "Moves retired CIs to long-term storage while keeping them accessible for audit or historical reference",
+          "Permanently removes obsolete CIs from the CMDB in accordance with data retention policies",
+          "Automates task creation to request CI owners to verify the physical existence and accuracy of CI data",
+          "Automatically validates CMDB data against predefined standards to ensure accuracy and completeness"
+        ],
+        "correct_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The CMDB Health Dashboard calculation jobs can be found by navigating to <strong>Configuration > CMDB Dashboard > CMDB View</strong> and clicking <strong>CMDB Health Dashboard Jobs</strong>. The individual jobs are named:</p><ul><li>CMDB Health Dashboard - Completeness Score Calculation</li><li>CMDB Health Dashboard - Correctness Score Calculation</li><li>CMDB Health Dashboard - Compliance Score Calculation</li></ul><p>These jobs are <strong>disabled by default</strong> and must be enabled before health data will be collected. They can also be found via <strong>Configuration > Health Preference > Scheduled Jobs</strong>. An administrator can click <strong>Execute Now</strong> on any job to run it immediately.</p><p><strong>Why B is wrong:</strong> CI Class Manager does not have a recalculate health function.</p><p><strong>Why C is wrong:</strong> System Diagnostics > Stats is unrelated to CMDB Health.</p><p><strong>Why D is wrong:</strong> There is no 'CMDB Sync' scheduled job for health calculations.</p>",
+        "answers": [
+          "<p>Navigate to <strong>Configuration > CMDB Dashboard > CMDB View</strong> and click <strong>CMDB Health Dashboard Jobs</strong> to find and execute the individual score calculation jobs (e.g., Completeness, Correctness, Compliance)</p>",
+          "<p>Navigate to <strong>Configuration > CI Class Manager</strong> and click <strong>Recalculate Health</strong></p>",
+          "<p>Navigate to <strong>System Diagnostics > Stats</strong> and run the CMDB cache refresh</p>",
+          "<p>Navigate to <strong>System Definition > Scheduled Jobs</strong> and search for <strong>CMDB Sync</strong></p>"
+        ]
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Which three Data Manager policy types require that an active <strong>Life Cycle Rule (Retirement Definition)</strong> exists for the target CI class before they can be published? (Select 3)</p>",
+        "answers": [
+          "<p>Retirement Policy</p>",
+          "<p>Archive Policy</p>",
+          "<p>Delete Policy</p>",
+          "<p>Attestation Policy</p>",
+          "<p>Audit Policy</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The <strong>Retirement</strong>, <strong>Archive</strong>, and <strong>Delete</strong> policies all manage the CI lifecycle and require a Life Cycle Rule (Retirement Definition) to be active for the target class. This ensures that the lifecycle transitions (from active to retired, to archived, to deleted) follow defined rules.</p><p><strong>Why D and E are wrong:</strong> Attestation and Audit policies are governance checks that do not change the CI's lifecycle state, so they do not require a retirement definition.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>An operations team wants a CMDB Health Dashboard that focuses only on <strong>Windows Server</strong> and <strong>Linux Server</strong> CIs that are <strong>Operational</strong> and located in the <strong>Sydney data centre</strong>.</p><p>What should the CMDB administrator configure?</p>",
+        "answers": [
+          "<p>A <strong>Health Inclusion Rule</strong> that filters for Windows and Linux Servers with Operational status in the Sydney location</p>",
+          "<p>A <strong>CMDB Group</strong> of type 'Health' using an encoded query for those criteria</p>",
+          "<p>A <strong>Data Manager policy</strong> that excludes non-matching CIs from the dashboard</p>",
+          "<p>A <strong>PA Dashboard</strong> with custom filters on the CMDB Health scorecard</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Health Inclusion Rules</strong> define the scope of CIs evaluated by the CMDB Health Dashboard. By configuring an inclusion rule that filters for the specific classes (Windows Server, Linux Server), operational status, and location (Sydney), the dashboard will only calculate health scores for those CIs. This is the standard approach for focusing health monitoring on a specific subset of the CMDB.</p><p><strong>Why B is wrong:</strong> CMDB Groups of type 'Health' can be used to create focused groups, but the inclusion rule is the primary mechanism for scoping the Health Dashboard itself.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A CMDB Administrator has just manually remediated 50 duplicate CI records. They immediately check the CMDB Health Dashboard but the <strong>Correctness</strong> score has not changed.</p><p>Why?</p>",
+        "answers": [
+          "<p>The CMDB Health scores are calculated by a scheduled job that runs periodically, not in real time</p>",
+          "<p>The administrator needs to manually trigger a recalculation from the CI Class Manager</p>",
+          "<p>Duplicate remediation does not affect the Correctness score</p>",
+          "<p>The Health Dashboard only updates after a platform upgrade</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>CMDB Health scores are calculated by a <strong>scheduled job</strong> that runs on a defined schedule (typically daily). Changes to CI data are not reflected in the dashboard immediately. The administrator needs to wait for the next scheduled run or manually trigger the calculation job to see updated scores.</p><p><strong>Why B is wrong:</strong> While you can trigger a recalculation, the primary reason the score hasn't changed is that it's schedule-based, not real-time.</p><p><strong>Why C is wrong:</strong> Duplicate remediation directly affects the Correctness scorecard's Duplicate metric.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>What is the name of the <strong>scheduled job</strong> that must run to populate the charts and analytics data displayed on the CMDB Health Dashboard?</p>",
+        "answers": [
+          "<p>CMDB Health: Calculate KPIs</p>",
+          "<p>CMDB Data Refresh</p>",
+          "<p>CMDB Health Scorecard Collector</p>",
+          "<p>CMDB Metric Generator</p>"
+        ],
+        "explanation": "<p><strong>Correct: C</strong></p><p>The <strong>CMDB Health Scorecard Collector</strong> is the scheduled job responsible for running the health calculations and populating the data that drives the CMDB Health Dashboard charts and metrics. Without this job running, the dashboard will show stale or empty data.</p>"
+      },
+      "correct_response": [
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A customer wants to configure an <strong>orphan rule</strong> for the <strong>Application</strong> class. The rule should flag applications that do not have a <strong>Runs on::Runs</strong> relationship to a server.</p><p>When configuring the orphan rule in the CI Class Manager, what type of condition is used?</p>",
+        "answers": [
+          "<p>A <strong>relationship-based</strong> condition that checks for the existence of a specific relationship type</p>",
+          "<p>An <strong>attribute-based</strong> condition that checks for a null value in a specific field</p>",
+          "<p>A <strong>script-based</strong> condition that queries related records</p>",
+          "<p>A <strong>query-based</strong> condition that uses CMDB Query Builder output</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Orphan rules in the CI Class Manager evaluate the CI's <strong>relationships</strong> to determine if the CI is an orphan. In this case, the rule checks whether the Application CI has a \"Runs on::Runs\" relationship to a server. If the relationship is missing, the CI is flagged as an orphan. This is a relationship-based condition, which is the standard approach for orphan detection.</p><p><strong>Why B is wrong:</strong> Orphan rules assess relationships, not individual attribute values.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>To update the <strong>CMDB Data Foundations Dashboard</strong> health metrics and reports immediately (rather than waiting for the next scheduled run), what action should the administrator take?</p>",
+        "answers": [
+          "<p>Navigate to the dashboard and click the <strong>Refresh</strong> button to trigger an on-demand recalculation</p>",
+          "<p>Execute the relevant <strong>CMDB Health Dashboard</strong> score calculation jobs manually (e.g., Correctness Score Calculation)</p>",
+          "<p>Clear the browser cache and reload the dashboard page</p>",
+          "<p>Restart the ServiceNow instance</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>To force an immediate update of the health metrics, the administrator should manually execute the relevant <strong>CMDB Health Dashboard</strong> score calculation jobs (found via Configuration > CMDB Dashboard > CMDB View > CMDB Health Dashboard Jobs, or via Health Preference > Scheduled Jobs). Clicking <strong>Execute Now</strong> on each job recalculates the scores and populates the dashboard data. Simply refreshing the browser page would only reload the existing (stale) data.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Which two types of audits are calculated and displayed on the CMDB Health Dashboard <strong>Compliance Scorecard</strong>?</p>",
+        "answers": [
+          "<p>Certification audits and Desired State audits</p>",
+          "<p>Certification audits and Discovery audits</p>",
+          "<p>Desired State audits and Reconciliation audits</p>",
+          "<p>Configuration audits and Security audits</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The CMDB Health Compliance Scorecard evaluates CIs against two types of audits: <strong>Certification audits</strong> (which check whether CIs meet specific criteria defined in certification templates) and <strong>Desired State audits</strong> (which verify that CI attributes match expected values). Both must have their Audit Type set appropriately to be included in the compliance calculation.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A CI Manager has synchronised the <strong>Managed By Group</strong> attribute for a class of CIs. While the 'Change Group' field on the CI is correctly populated, the 'Support Group' field is blank.</p><p>What is the most likely cause?</p>",
+        "answers": [
+          "<p>The Technical Service Offering linked to these CIs does not have the Support Group field populated</p>",
+          "<p>Support Group is not synchronised from the Managed By Group \u2014 it must be set separately</p>",
+          "<p>The CIs do not have an active lifecycle stage</p>",
+          "<p>The CI Class Manager has a configuration error</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Managed By Group</strong> attribute on CIs is typically synchronised from the <strong>Technical Service Offering</strong> (or Technical Management Offering). When group attributes like Support Group and Change Group are set on the offering, they flow down to the CIs in the associated dynamic CI group. If the Change Group is populated but the Support Group is not, the most likely cause is that the Support Group field on the Technical Service Offering was never filled in.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Which <strong>CMDB Data Manager</strong> role is responsible for creating, editing, and publishing lifecycle policies (such as Retirement, Archive, and Delete)?</p>",
+        "answers": [
+          "<p><code>data_manager_admin</code></p>",
+          "<p><code>data_manager_user</code></p>",
+          "<p><code>cmdb_admin</code></p>",
+          "<p><code>itil</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <code>data_manager_admin</code> role is responsible for creating, editing, and publishing Data Manager policies. The <code>data_manager_user</code> role has more limited capabilities, typically focused on viewing and executing tasks rather than policy creation. These roles are specific to the Data Manager functionality in the CMDB Workspace.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A CMDB Administrator configures a <strong>remediation rule</strong> (e.g., Remediate Orphans) that triggers a workflow when CIs fail the orphan health check. Which component on the remediation rule record specifies the workflow to be executed?</p>",
+        "answers": [
+          "<p>The <strong>Remediation Workflow</strong> field on the remediation rule</p>",
+          "<p>The <strong>Flow Designer trigger</strong> associated with the CI class</p>",
+          "<p>The <strong>Data Manager policy</strong> linked to the orphan rule</p>",
+          "<p>The <strong>Business Rule</strong> on the <code>cmdb_ci</code> table</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Remediation rules have a <strong>Remediation Workflow</strong> field that directly references the workflow to be executed when CIs fail the associated health check. This workflow can automate actions like sending notifications to CI owners, creating tasks, or triggering lifecycle transitions.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The <strong>CMDB and CSDM Data Foundations Dashboards</strong> are distinguished from the <strong>CMDB Health Dashboard</strong> by several characteristics. Which statement is correct?</p>",
+        "answers": [
+          "<p>Data Foundations Dashboards are acquired from the ServiceNow Store and are <strong>fixed and non-customisable</strong></p>",
+          "<p>Data Foundations Dashboards replace the CMDB Health Dashboard entirely</p>",
+          "<p>Data Foundations Dashboards are only available to Impact customers</p>",
+          "<p>Data Foundations Dashboards require a separate licence</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The CMDB and CSDM <strong>Data Foundations Dashboards</strong> are downloaded from the ServiceNow Store and provide a fixed, standardised view of foundational data quality. Unlike the CMDB Health Dashboard (which is configurable), the Data Foundations Dashboards are <strong>non-customisable</strong> \u2014 their metrics, layouts, and playbooks are predefined by ServiceNow. They complement the Health Dashboard rather than replacing it.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "matching",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Match each CMDB governance role with its primary responsibility.</p>",
+        "left_items": [
+          "Configuration Manager",
+          "CMDB Process Owner",
+          "CMDB Administrator",
+          "CMDB Data Steward / Librarian",
+          "Service Owner"
+        ],
+        "right_items": [
+          "Day-to-day operations, reporting on KPIs, and ensuring teams follow the process",
+          "Overall strategy, governance, and defining the policies of the CMDB",
+          "Technical configuration, access controls (ACLs), and setting up Discovery schedules",
+          "Executing data quality tasks, fixing orphans/staleness, and remediating duplicates",
+          "Accountable for the delivery of a specific service and validating the accuracy of that service's data"
+        ],
+        "correct_pairs": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "explanation": "<p><strong>Configuration Manager:</strong> Responsible for the day-to-day operational management of the CMDB process, reporting on health KPIs, and ensuring that teams follow established governance procedures.</p><p><strong>CMDB Process Owner:</strong> Accountable at the strategic level \u2014 defines policies, approves governance frameworks, and owns the overall CMDB strategy.</p><p><strong>CMDB Administrator:</strong> Handles the technical side \u2014 configuring the platform, managing ACLs, setting up Discovery schedules, and maintaining the technical infrastructure of the CMDB.</p><p><strong>CMDB Data Steward / Librarian:</strong> The hands-on data quality role \u2014 executes remediation tasks, fixes orphans and stale CIs, and processes deduplication tasks.</p><p><strong>Service Owner:</strong> Accountable for a specific service and responsible for validating that the service's CMDB data is accurate and complete.</p>"
+      },
+      "correct_response": []
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Your organisation is migrating from the legacy status fields (<code>install_status</code> and <code>hardware_status</code>) to the new CSDM-aligned <strong>Lifecycle Stage</strong> and <strong>Lifecycle Status</strong> fields.</p><p>Which statement best describes the recommended approach?</p>",
+        "answers": [
+          "<p>Activate the CSDM Life Cycle plugin and use the <strong>Life Cycle Mapping</strong> table to translate legacy field values to the new lifecycle fields automatically</p>",
+          "<p>Manually update all existing CIs to populate the new fields and then disable the legacy fields</p>",
+          "<p>Run a scripted job to delete the legacy fields from all CI tables</p>",
+          "<p>Use both field sets simultaneously without any mapping, as they are independent</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The recommended approach is to activate the CSDM Life Cycle plugin, which provides a <strong>Life Cycle Mapping</strong> table. This table contains the configuration logic that automatically translates legacy field values (<code>install_status</code>, <code>hardware_status</code>) into the new <code>lifecycle_stage</code> and <code>lifecycle_status</code> fields. This ensures a smooth transition without requiring manual updates to every CI.</p><p><strong>Why B is wrong:</strong> Manual updates are impractical at scale and unnecessary given the mapping capability.</p><p><strong>Why C is wrong:</strong> Deleting legacy fields would break existing integrations, workflows, and reports.</p><p><strong>Why D is wrong:</strong> Using both without mapping leads to data inconsistency.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Which table acts as a <strong>governor</strong> to ensure data integrity by defining exactly which <strong>Stage</strong> and <strong>Stage Status</strong> combinations are valid for a CI?</p>",
+        "answers": [
+          "<p>Life Cycle Stage Status Validation (<code>life_cycle_stage_status_m2m</code>)</p>",
+          "<p>Life Cycle Stage (<code>life_cycle_stage</code>)</p>",
+          "<p>Life Cycle Mapping (<code>life_cycle_mapping</code>)</p>",
+          "<p>Life Cycle Stage Status (<code>life_cycle_stage_status</code>)</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Life Cycle Stage Status Validation</strong> table (a many-to-many table) defines which Stage and Stage Status combinations are permitted. This prevents invalid combinations (e.g., a CI in the \"Production\" stage with a \"Disposed\" status) from being set, ensuring data integrity across the lifecycle model.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>A CMDB Administrator wants to use the <strong>CMDB Workspace</strong> to bulk-manage CIs through actions such as deletion, archival, and attestation.</p><p>Which feature within the CMDB Workspace enables this?</p>",
+        "answers": [
+          "<p>CMDB Data Manager</p>",
+          "<p>CMDB Query Builder</p>",
+          "<p>Unified Map</p>",
+          "<p>CI Class Manager</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>CMDB Data Manager</strong> within the CMDB Workspace enables bulk management of CIs through configurable policies including deletion, archival, retirement, and attestation. It provides the tooling to automate lifecycle management at scale, unlike the other options which serve different purposes (querying, visualisation, and class configuration respectively).</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The CMDB and CSDM Data Foundations Dashboards include remediation guidance via <strong>Playbooks</strong>. What is the correct sequential structure of a Playbook?</p>",
+        "answers": [
+          "<p>Summary of indicator \u2192 Overview of problem \u2192 Importance of addressing issue \u2192 Fix or Improve</p>",
+          "<p>Overview of problem \u2192 Summary of indicator \u2192 Fix or Improve \u2192 Importance of addressing issue</p>",
+          "<p>Fix or Improve \u2192 Summary of indicator \u2192 Overview of problem \u2192 Importance of addressing issue</p>",
+          "<p>Importance of addressing issue \u2192 Overview of problem \u2192 Summary of indicator \u2192 Fix or Improve</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>This is directly from the exam blueprint's sample question #3. Playbooks follow a structured sequence: first a <strong>Summary of the indicator</strong>, then an <strong>Overview of the problem</strong>, followed by the <strong>Importance of addressing the issue</strong>, and finally <strong>Fix or Improve</strong> guidance with actionable steps.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>To update the <strong>CMDB Data Foundations Dashboard</strong> health metrics and reports immediately (rather than waiting for the next scheduled run), what action should the administrator take?</p>",
+        "answers": [
+          "<p>Navigate to the dashboard and click the <strong>Refresh</strong> button to trigger an on-demand recalculation</p>",
+          "<p>Run the <strong>CMDB Health Scorecard Collector</strong> scheduled job manually</p>",
+          "<p>Clear the browser cache and reload the dashboard page</p>",
+          "<p>Restart the ServiceNow instance</p>"
+        ],
+        "explanation": "<p><strong>Correct: B</strong></p><p>To force an immediate update of the health metrics, the administrator should manually run the <strong>CMDB Health Scorecard Collector</strong> scheduled job. This recalculates all health scores and populates the dashboard data. Simply refreshing the browser page would only reload the existing (stale) data.</p>"
+      },
+      "correct_response": [
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>Which two roles are introduced specifically for utilising the <strong>Data Manager</strong> functionality in the CMDB Workspace? (Select 2)</p>",
+        "answers": [
+          "<p><code>data_manager_admin</code></p>",
+          "<p><code>data_manager_user</code></p>",
+          "<p><code>cmdb_admin</code></p>",
+          "<p><code>itil_admin</code></p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B</strong></p><p>The <code>data_manager_admin</code> and <code>data_manager_user</code> roles are specifically designed for the Data Manager feature. The admin role can create, edit, and publish policies, while the user role has more limited capabilities focused on executing tasks. <code>cmdb_admin</code> and <code>itil_admin</code> are broader platform roles not specific to Data Manager.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>A Service Desk Manager needs to generate a quick list of <strong>\"All critical Linux Servers in the Sydney data centre\"</strong> to prepare for a maintenance window. The manager is not technical and needs a simple interface.</p><p>Which CMDB Workspace feature should they use?</p>",
+        "answers": [
+          "<p>Intelligent Search (Natural Language Query / NLQ)</p>",
+          "<p>CMDB Query Builder</p>",
+          "<p>Unified Map</p>",
+          "<p>CMDB 360 View</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Intelligent Search</strong> (also known as Natural Language Query or NLQ) allows users to type plain-language queries like \"critical Linux servers in Sydney\" and receive results without needing to understand table structures or query syntax. It is specifically designed for non-technical users who need quick access to CI information.</p><p><strong>Why B is wrong:</strong> The CMDB Query Builder is a more powerful tool for complex queries but requires technical knowledge of CI classes and relationships.</p><p><strong>Why C is wrong:</strong> The Unified Map shows visual dependencies, not filtered CI lists.</p><p><strong>Why D is wrong:</strong> CMDB 360 shows multi-source data for individual CIs, not filtered lists.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>When using the <strong>Intelligent Search (NLQ)</strong> feature and a query involves multiple tables (e.g., \"servers with critical incidents\"), which component is utilised to resolve the cross-table search?</p>",
+        "answers": [
+          "<p>Federated search across multiple tables</p>",
+          "<p>A pre-configured CMDB Query Builder saved query</p>",
+          "<p>A Business Rule that joins the tables</p>",
+          "<p>The Performance Analytics engine</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When Intelligent Search handles queries that span multiple tables, it uses a <strong>federated search</strong> approach to resolve results across the different data sources. This allows it to combine results from CMDB tables with data from other tables (like Incident or Change) without requiring the user to understand the underlying table relationships.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>In the <strong>CMDB Query Builder</strong>, an administrator has selected a \"Server\" class node on the canvas and wants the query to return servers that are connected to a specific Application \u2014 but only through <strong>direct or indirect</strong> relationships (up to 3 levels deep).</p><p>What should the administrator configure?</p>",
+        "answers": [
+          "<p>Increase the <strong>relationship level</strong> search depth from the default of 1 to 3</p>",
+          "<p>Add three separate relationship nodes between Server and Application</p>",
+          "<p>Use a <strong>Combination Query</strong> to merge three separate queries</p>",
+          "<p>Enable the <strong>Display Suggested Connection</strong> setting</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The CMDB Query Builder allows administrators to configure the <strong>relationship level</strong> (depth) when linking CI classes. The default is 1 (direct relationships only). By increasing this to 3, the query will find servers connected to the application through up to 3 levels of intermediate relationships.</p><p><strong>Why B is wrong:</strong> Adding separate nodes does not achieve multi-level traversal.</p><p><strong>Why C is wrong:</strong> A Combination Query merges results from different queries; it does not change relationship depth.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>What is the purpose of a <strong>Combination Query</strong> in the CMDB Query Builder?</p>",
+        "answers": [
+          "<p>To combine the results of querying infrastructure CI classes with non-CMDB tables (such as Incident or Change) into a single result set</p>",
+          "<p>To merge two separate CMDB queries into a single scheduled report</p>",
+          "<p>To create a compound filter on a single CI class using AND/OR logic</p>",
+          "<p>To link the CMDB Query Builder with the CMDB 360 View</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Combination Query</strong> in the CMDB Query Builder allows administrators to combine results from CMDB CI classes with non-CMDB tables. For example, you could query servers and combine the results with their associated incident records to see which servers have the most incidents. This is essential for connecting infrastructure data with operational data.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>A Change Manager needs to assess the risk of a planned change on a critical server. They need a quick, visual overview of all upstream and downstream dependencies for that server.</p><p>Which CMDB Workspace feature should they use?</p>",
+        "answers": [
+          "<p>Unified Map</p>",
+          "<p>CMDB Query Builder</p>",
+          "<p>CMDB Health Dashboard</p>",
+          "<p>CMDB Data Manager</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Unified Map</strong> provides a visual, graphical representation of CIs and their upstream/downstream relationships and dependencies. It combines features from the legacy Dependency View and Service Map into a single interface, making it ideal for impact analysis during change management.</p><p><strong>Why B is wrong:</strong> The Query Builder returns tabular data, not a visual dependency map.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>Which two features are combined in the <strong>Unified Map</strong> that were previously separate? (Select 2)</p>",
+        "answers": [
+          "<p>Dependency View map</p>",
+          "<p>Service Map</p>",
+          "<p>CMDB Query Builder</p>",
+          "<p>CMDB 360 View</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B</strong></p><p>The <strong>Unified Map</strong> consolidates the legacy <strong>Dependency View map</strong> and <strong>Service Map</strong> into a single, enhanced visualisation tool within the CMDB Workspace. It provides the CI relationship topology from Dependency View alongside the service-level mapping from Service Map.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>A CMDB Admin is reviewing complex service dependencies in the <strong>Unified Map</strong> within the CMDB Workspace and wants to temporarily hide irrelevant CI types to focus on key infrastructure.</p><p>Which Unified Map capability allows this?</p>",
+        "answers": [
+          "<p>Toggling <strong>Layers</strong> to show or hide specific CI types or contextual data</p>",
+          "<p>Applying a <strong>Health Inclusion Rule</strong> to filter the map</p>",
+          "<p>Using the <strong>CMDB Query Builder</strong> to pre-filter before opening the map</p>",
+          "<p>Configuring a <strong>Data Manager policy</strong> to exclude certain CI classes</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The Unified Map supports <strong>Layers</strong> that can be toggled to overlay or hide specific types of contextual data on top of the CI topology. This allows administrators to focus on relevant infrastructure by hiding irrelevant CI types without changing the underlying CMDB data or configuration.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>Which CMDB Workspace feature provides an analytics dashboard and enhanced querying for <strong>multisource CMDB data</strong>, showing which sources contributed to each CI attribute?</p>",
+        "answers": [
+          "<p>CMDB 360 View</p>",
+          "<p>CMDB Health Dashboard</p>",
+          "<p>CMDB Data Foundations Dashboard</p>",
+          "<p>CI Class Manager</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>CMDB 360 View</strong> provides analytics and visibility into multisource CMDB data. It shows the raw records from each data source that contributed to a CI, including values that were accepted and values that were rejected by reconciliation rules. It also provides gap analysis and conflict analysis capabilities.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>Which three specific analysis options does the <strong>CMDB 360 Query</strong> feature provide? (Select 3)</p>",
+        "answers": [
+          "<p>Gap Analysis (identifying missing data from specific sources)</p>",
+          "<p>Conflict Analysis (identifying attribute value disagreements between sources)</p>",
+          "<p>Coverage Analysis (identifying which sources contribute to each class)</p>",
+          "<p>Cost Analysis (calculating the financial impact of CI ownership)</p>",
+          "<p>Trend Analysis (showing attribute changes over time)</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The CMDB 360 Query feature provides three key analysis types: <strong>Gap Analysis</strong> (finding CIs or attributes that a particular source should be providing but isn't), <strong>Conflict Analysis</strong> (identifying where different sources report different values for the same attribute), and <strong>Coverage Analysis</strong> (showing which data sources are contributing data to each CI class).</p>"
+      },
+      "correct_response": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>After saving a query in the CMDB Query Builder, an administrator wants to email the results automatically every Monday to the Infrastructure team.</p><p>Which feature of the CMDB Query Builder enables this?</p>",
+        "answers": [
+          "<p>Creating a <strong>Schedule</strong> on the saved query record</p>",
+          "<p>Configuring a Flow Designer flow triggered by a timer</p>",
+          "<p>Setting up a Performance Analytics scheduled report</p>",
+          "<p>Creating a notification on the CMDB Query Builder table</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Saved queries in the CMDB Query Builder can have <strong>Schedules</strong> configured directly on the query record. The schedule defines when the query runs (e.g., every Monday), who receives the results, and the format of the output (e.g., CSV attachment). Options like \"Omit if no records\" and \"Zip output\" are available to control the email behaviour.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>A service owner wants to answer one question: <strong>\"For our Payment Processing application, which ServiceNow products rely on its CMDB data, and what is the current health status?\"</strong></p><p>Which CMDB feature best answers this question?</p>",
+        "answers": [
+          "<p>CMDB Data Foundations Dashboard with its cross-product dependency views</p>",
+          "<p>CMDB 360 View for the Payment Processing CI</p>",
+          "<p>A CMDB Query Builder query linking the Application to product tables</p>",
+          "<p>The CI record's Related Lists</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>CMDB Data Foundations Dashboard</strong> provides cross-product views that show how CMDB data is consumed by various ServiceNow products (ITSM, ITOM, CSM, etc.). It includes metrics that demonstrate the value of the CMDB by showing product adoption and data usage alongside health status.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>A CMDB analyst wants to find all <strong>Business Applications that do NOT have a related Application Service</strong>. This is an ongoing gap analysis that needs to run regularly.</p><p>Which tool is best suited for this?</p>",
+        "answers": [
+          "<p>A saved <strong>CMDB Query Builder</strong> query with a schedule</p>",
+          "<p>A one-time report on the Business Application table</p>",
+          "<p>The Unified Map filtered to show only Business Applications</p>",
+          "<p>Intelligent Search with a natural language query</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>CMDB Query Builder</strong> can build complex relationship-based queries (e.g., Business Applications without a specific relationship to Application Services). By saving the query and adding a schedule, the analysis runs automatically on a regular basis, making it ideal for ongoing gap analysis.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>Which application workspace centralises the management of configuration data and includes features like the Unified Map, CMDB Query Builder, Intelligent Search, and CMDB 360?</p>",
+        "answers": [
+          "<p>CMDB Workspace</p>",
+          "<p>Service Operations Workspace</p>",
+          "<p>IT Operations Management Workspace</p>",
+          "<p>Configuration Management Dashboard</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>CMDB Workspace</strong> is the centralised application that brings together all CMDB management tools including the Unified Map, CMDB Query Builder, Intelligent Search (NLQ), CMDB 360, Health Dashboards, CI Class Manager, and Data Manager.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>The CMDB and CSDM Data Foundations Dashboards provide remediation guidance via <strong>Playbooks</strong>. Which three types of guidance do Playbooks contain?</p>",
+        "answers": [
+          "<p>Problem context, importance of remediation, and actionable fix steps</p>",
+          "<p>Technical documentation, code samples, and API references</p>",
+          "<p>Training links, certification paths, and exam preparation</p>",
+          "<p>Vendor comparisons, product recommendations, and licensing details</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>Playbooks in the Data Foundations Dashboards provide structured remediation guidance containing: a summary of the metric/indicator, an overview of the problem, the importance of addressing the issue, and actionable steps to fix or improve the metric. They are designed to be practical and actionable, not theoretical.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Insight",
+      "prompt": {
+        "question": "<p>To demonstrate the value of the CMDB to business stakeholders, the CMDB team needs to show how CIs are effectively integrated with ITSM processes like Incident and Change Management.</p><p>Which dashboard metric best demonstrates this?</p>",
+        "answers": [
+          "<p>The <strong>\"Percent of Incidents referencing a CI\"</strong> metric on the Data Foundations Dashboard</p>",
+          "<p>The Correctness score on the CMDB Health Dashboard</p>",
+          "<p>The number of CIs in the CMDB</p>",
+          "<p>The number of active Discovery schedules</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>\"Percent of Incidents referencing a CI\"</strong> metric directly demonstrates the operational value of the CMDB by showing how frequently it is used in incident management processes. A high percentage indicates that the CMDB is actively contributing to ITSM workflows, which is a compelling metric for business stakeholders.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "matching",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>Match each CSDM component with its correct domain.</p>",
+        "left_items": [
+          "Business Application",
+          "Application Service",
+          "Business Service",
+          "Technical Service Offering"
+        ],
+        "right_items": [
+          "Design and Planning (non-operational, represents the logical design of an application)",
+          "Service Delivery (operational CI, a deployed instance of an application stack)",
+          "Service Consumption (available to end users and selectable in ITSM processes)",
+          "Service Delivery (defines how a technical service is offered with specific support and change groups)"
+        ],
+        "correct_pairs": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "<p><strong>Business Application</strong> sits in the <strong>Design and Planning</strong> domain. It is a non-operational CI that represents the logical concept of an application \u2014 think of it as the \"blueprint\" rather than a running instance.</p><p><strong>Application Service</strong> is in the <strong>Service Delivery</strong> domain. It is an operational CI representing a unique, deployed instance of an application stack and its dependencies.</p><p><strong>Business Service</strong> is in the <strong>Service Consumption</strong> domain. It represents a service that is visible to and consumed by end users and is selectable in ITSM processes (Incident, Problem, Change).</p><p><strong>Technical Service Offering</strong> is in the <strong>Service Delivery</strong> domain. It defines how a technical service is offered, including the support group, change group, and the dynamic CI group of associated infrastructure.</p>"
+      },
+      "correct_response": []
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>According to CSDM principles, why are <strong>Business Applications</strong> considered <strong>non-operational</strong> CIs?</p>",
+        "answers": [
+          "<p>Because they represent the logical design and planning concept of an application, not a running deployed instance</p>",
+          "<p>Because they are not stored in the CMDB</p>",
+          "<p>Because they cannot be linked to incidents or changes</p>",
+          "<p>Because they are only used during the initial implementation phase</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>In CSDM, <strong>Business Applications</strong> represent the logical, conceptual view of an application \u2014 they sit in the Design and Planning domain. They are not operational because they do not represent a running, deployed instance. The operational equivalent is the <strong>Application Service</strong> (Service Instance) in the Service Delivery domain, which represents the actual deployed stack.</p><p><strong>Why B is wrong:</strong> Business Applications are stored in the CMDB, in the <code>cmdb_ci_business_app</code> table.</p><p><strong>Why C is wrong:</strong> They can be referenced in ITSM processes, though Application Services are more commonly linked to operational incidents.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>According to ServiceNow best practices, what is the correct chronological order of the CSDM implementation stages?</p>",
+        "answers": [
+          "<p>Foundation \u2192 Crawl \u2192 Walk \u2192 Run \u2192 Fly</p>",
+          "<p>Crawl \u2192 Walk \u2192 Run \u2192 Fly \u2192 Foundation</p>",
+          "<p>Foundation \u2192 Walk \u2192 Crawl \u2192 Run \u2192 Fly</p>",
+          "<p>Crawl \u2192 Foundation \u2192 Walk \u2192 Run \u2192 Fly</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The CSDM implementation follows a maturity model: <strong>Foundation</strong> (establish the base data model), <strong>Crawl</strong> (basic service definitions), <strong>Walk</strong> (service relationships and governance), <strong>Run</strong> (operational maturity with service offerings and SLAs), and <strong>Fly</strong> (strategic alignment with business capabilities). Each stage builds on the previous one.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>An Incident Analyst is required to link the specific operational application that is experiencing an issue to the <strong>Configuration Item</strong> field on the Incident record.</p><p>According to CSDM, which CI type should they select?</p>",
+        "answers": [
+          "<p>Application Service (Service Instance)</p>",
+          "<p>Business Application</p>",
+          "<p>Technical Service</p>",
+          "<p>Business Service</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>For operational incidents, the CSDM recommends linking to the <strong>Application Service</strong> (also called Service Instance), which represents the actual deployed, running application stack. This is an operational CI in the Service Delivery domain. The Business Application (Design and Planning domain) represents the logical concept and is not the appropriate link for operational incidents.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>A large bank provides customers with a mobile capability to transfer money between accounts. They want to create a service in ServiceNow that end users can select when raising an incident about this capability.</p><p>According to CSDM, which type of record should they create?</p>",
+        "answers": [
+          "<p>Business Service</p>",
+          "<p>Business Application</p>",
+          "<p>Application Service</p>",
+          "<p>Technical Service</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>A <strong>Business Service</strong> resides in the Service Consumption domain and represents a service that is visible to and consumed by end users. It is the appropriate entity for something that end users would select when raising incidents. The mobile banking capability is a business-facing service, not a technical component.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>Which CSDM domain includes tables used for <strong>Service Portfolio Management (SPM)</strong> and <strong>Customer Service Management (CSM)</strong>, and contains Service Offerings that are visible to customers?</p>",
+        "answers": [
+          "<p>Service Consumption</p>",
+          "<p>Service Delivery</p>",
+          "<p>Design and Planning</p>",
+          "<p>Foundation Data</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Service Consumption</strong> domain contains the entities that are visible to and consumed by end users and customers. This includes Business Services, Business Service Offerings, and related entities used by SPM and CSM. These are the \"front-facing\" components of the service model.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multi-select",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>Which two statements are correct about <strong>Business Applications</strong> in the CSDM framework? (Select 2)</p>",
+        "answers": [
+          "<p>They reside in the Design and Planning domain</p>",
+          "<p>They are non-operational CIs that should not be populated in the CI field of operational processes</p>",
+          "<p>They are discoverable by ServiceNow Discovery</p>",
+          "<p>They represent a deployed, running application instance</p>"
+        ],
+        "explanation": "<p><strong>Correct: A, B</strong></p><p>Business Applications are in the <strong>Design and Planning</strong> domain and are <strong>non-operational</strong> CIs. They represent the conceptual, logical view of an application. They should not be selected as the CI on operational records like Incidents \u2014 the Application Service (operational) should be used instead.</p><p><strong>Why C is wrong:</strong> Business Applications are not discoverable; they are manually created or imported as part of the service model.</p><p><strong>Why D is wrong:</strong> That describes the Application Service, not the Business Application.</p>"
+      },
+      "correct_response": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>Which persona is primarily associated with the <strong>Design and Planning</strong> CSDM domain, focusing on the logical design of applications and their relationships?</p>",
+        "answers": [
+          "<p>Enterprise Architect</p>",
+          "<p>Service Desk Manager</p>",
+          "<p>CMDB Administrator</p>",
+          "<p>Change Manager</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>The <strong>Enterprise Architect</strong> is the persona most associated with the Design and Planning domain. They are responsible for defining the logical architecture of applications, information objects, and business capabilities \u2014 all of which reside in this domain.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "CSDM",
+      "prompt": {
+        "question": "<p>Aligning to the Common Service Data Model (CSDM) allows for auto-population of which key field on new incident records when a CI is selected?</p>",
+        "answers": [
+          "<p>Assignment Group (based on the Technical Service Offering's Support Group)</p>",
+          "<p>Priority (based on the CI's Business Criticality)</p>",
+          "<p>Category (based on the CI's class)</p>",
+          "<p>Description (based on the CI's name)</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>One of the key operational benefits of CSDM alignment is that when a CI is selected on an Incident, the <strong>Assignment Group</strong> can be automatically populated based on the <strong>Support Group</strong> defined on the associated Technical Service Offering. This streamlines incident routing and reduces manual triage effort, which is a major value proposition for CSDM adoption.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Ingest",
+      "prompt": {
+        "question": "<p>Which application utilises a <strong>content library</strong> to automatically normalise manufacturer and model data for hardware and software CIs, and orchestrates the physical-to-logical CI creation workflow?</p>",
+        "answers": [
+          "<p>Hardware Asset Management (HAM)</p>",
+          "<p>Software Asset Management (SAM)</p>",
+          "<p>CMDB Data Manager</p>",
+          "<p>IntegrationHub ETL</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p><strong>Hardware Asset Management (HAM)</strong> uses a normalisation content library to automatically standardise manufacturer and model data. It orchestrates the flow from physical asset creation (procurement, receiving) through to the corresponding CI creation in the CMDB. This normalisation ensures consistent naming conventions and reduces duplicates caused by manufacturer name variations (e.g., 'HP' vs 'Hewlett-Packard').</p><p><strong>Why B is wrong:</strong> SAM handles software licensing and entitlements, not hardware normalisation.</p><p><strong>Why C is wrong:</strong> Data Manager handles lifecycle policies, not data normalisation.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    },
+    {
+      "assessment_type": "multiple-choice",
+      "domain": "Govern",
+      "prompt": {
+        "question": "<p>The <strong>CMDB Data Foundations Dashboard</strong> shows that the <strong>\"Unique Locations\"</strong> metric is below 100%. What is the most effective first step to remediate this?</p>",
+        "answers": [
+          "<p>Review the <strong>Duplicate Locations</strong> list and use the <code>Stock Room</code> field or parent/child hierarchy to identify and merge duplicates</p>",
+          "<p>Delete all location records and reimport from a clean source</p>",
+          "<p>Create a new custom location table to replace <code>cmn_location</code></p>",
+          "<p>Disable the metric on the dashboard</p>"
+        ],
+        "explanation": "<p><strong>Correct: A</strong></p><p>When the Unique Locations metric is below 100%, it means duplicate location records exist in the <code>cmn_location</code> table. The recommended remediation is to review the duplicates and use identifying fields like the <strong>Stock Room</strong> field and the parent/child location hierarchy to determine which records are genuine duplicates. These can then be merged or removed. The location table supports hierarchical structures that help distinguish between legitimately different locations with similar names.</p><p><strong>Why B is wrong:</strong> Deleting all records is destructive and unnecessary.</p><p><strong>Why C is wrong:</strong> Custom tables create technical debt and break OOTB functionality.</p>"
+      },
+      "correct_response": [
+        "a"
+      ]
+    }
+  ]
+}
+
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
