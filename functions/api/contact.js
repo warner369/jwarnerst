@@ -46,9 +46,9 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
             from:     FROM_ADDRESS,
             to:       from_email ? [TO_ADDRESS, from_email] : [TO_ADDRESS],
-            reply_to: TO_ADDRESS,
-            subject:  'Someone wants to get in touch',
-            text:     (from_email ? `From: ${from_email}\n\n` : '') + message,
+            reply_to: from_email ? [TO_ADDRESS, from_email] : [TO_ADDRESS],
+            subject:  'Inquiry',
+            text:     message,
         }),
     });
 

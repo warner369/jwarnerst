@@ -50,16 +50,25 @@ let lastResults = null;
 const calcBtn = document.getElementById('calc-btn');
 
 function updateCalcBtnState() {
-    const anyChecked = ['chk-itsm']
+    const anyChecked = ['chk-itsm', 'chk-custom']
         .some(id => document.getElementById(id).checked);
     calcBtn.classList.toggle('ready', anyChecked);
 }
 
 // ** Render results **********************************************
+function getCustomDays() {
+    const raw = parseInt(document.getElementById('custom-days').value, 10);
+    return Math.max(1, isNaN(raw) ? 1 : Math.floor(raw));
+}
+
 function renderResults() {
     const selected = [
         { key: 'itsm', checked: document.getElementById('chk-itsm').checked },
     ].filter(u => u.checked);
+
+    if (document.getElementById('chk-custom').checked) {
+        selected.push({ key: 'custom', checked: true });
+    }
 
     const body         = document.getElementById('results-body');
     const emailCapture = document.getElementById('email-capture');
@@ -72,6 +81,7 @@ function renderResults() {
     }
 
     const results = selected.map(({ key }) => {
+        if (key === 'custom') return { key, days: getCustomDays(), scopes: [] };
         const scopes = getSelectedScopes(key);
         const days   = calcUplift(key, scopes);
         return { key, days, scopes };
@@ -94,6 +104,16 @@ function renderResults() {
     }
 
     for (const { key, days, scopes } of results) {
+        if (key === 'custom') {
+            html += `
+        <div class="result-block">
+            <div class="result-block-label">Custom Daily Estimate</div>
+            <div class="result-value ${multi ? '' : 'accent'}">${fmtDays(days)}</div>
+            <div class="result-cost">${fmtCost(days)} excl. GST</div>
+        </div>`;
+            continue;
+        }
+
         const def = UPLIFTS[key];
 
         const scopeRows = scopes.length
@@ -171,16 +191,16 @@ function generatePDF(recipientEmail) {
 
     // Per-uplift blocks
     for (const { key, days, scopes } of results) {
-        const def = UPLIFTS[key];
         y += 10;
         doc.setDrawColor(...light);
         doc.line(20, y, 190, y);
         y += 8;
 
+        const blockLabel = key === 'custom' ? 'CUSTOM DAILY ESTIMATE' : UPLIFTS[key].label.toUpperCase();
         doc.setFontSize(8);
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(...grey);
-        doc.text(def.label.toUpperCase(), 20, y);
+        doc.text(blockLabel, 20, y);
 
         y += 7;
         doc.setFontSize(18);
@@ -194,7 +214,8 @@ function generatePDF(recipientEmail) {
         doc.setTextColor(...grey);
         doc.text(`${fmtCost(days)} excl. GST`, 20, y);
 
-        if (scopes.length) {
+        if (key !== 'custom' && scopes.length) {
+            const def = UPLIFTS[key];
             y += 6;
             doc.setFontSize(7.5);
             doc.setTextColor(...grey);
@@ -240,6 +261,10 @@ function buildEstimateText() {
     }
 
     for (const { key, days, scopes } of results) {
+        if (key === 'custom') {
+            text += `Custom Daily Estimate\n${fmtDays(days)}  |  ${fmtCost(days)} excl. GST\n\n`;
+            continue;
+        }
         const def = UPLIFTS[key];
         text += `${def.label}\n${fmtDays(days)}  |  ${fmtCost(days)} excl. GST\n`;
         text += `  Base: ${def.base}d\n`;
@@ -257,13 +282,36 @@ function buildEstimateText() {
 async function sendEstimateEmail(recipientEmail) {
     const date = new Date().toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
 
+    const sections = lastResults.results.map(({ key, days, scopes }) => {
+        if (key === 'custom') {
+            return {
+                label:     'Custom Daily Estimate',
+                days,
+                cost:      days * DAILY_RATE,
+                base_days: days,
+                scopes:    [],
+            };
+        }
+        const def = UPLIFTS[key];
+        return {
+            label:     def.label,
+            days,
+            cost:      days * DAILY_RATE,
+            base_days: def.base,
+            scopes:    scopes.map(s => ({ label: def.scopes[s].label, days: def.scopes[s].days })),
+        };
+    });
+
     const res = await fetch('/api/send-estimate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            to_email:      recipientEmail,
-            estimate_text: buildEstimateText(),
+            to_email:   recipientEmail,
             date,
+            sections,
+            total_days: lastResults.totalDays,
+            total_cost: lastResults.totalDays * DAILY_RATE,
+            multi:      lastResults.multi,
         }),
     });
 
@@ -275,7 +323,6 @@ async function sendEstimateEmail(recipientEmail) {
 
 // ** Email button handler **********************************************
 
-/*
 document.getElementById('email-btn').addEventListener('click', async () => {
     const emailInput = document.getElementById('recipient-email');
     const statusEl   = document.getElementById('email-status');
@@ -296,19 +343,18 @@ document.getElementById('email-btn').addEventListener('click', async () => {
     statusEl.className   = 'email-status';
 
     try {
-        generatePDF(email).save('groundwork-estimate.pdf');
         await sendEstimateEmail(email);
-        statusEl.textContent = 'PDF generated. Estimate sent — check your inbox.';
+        statusEl.textContent = 'Estimate sent — check your inbox.';
         statusEl.className   = 'email-status success';
     } catch (err) {
         console.error('Email send failed:', err);
-        statusEl.textContent = 'PDF generated. Email failed — check server config.';
+        statusEl.textContent = 'Send failed — try again or email directly.';
         statusEl.className   = 'email-status error';
     }
 
-    btn.textContent = 'Download PDF & Send →';
+    btn.textContent = 'Send Estimate →';
     btn.disabled    = false;
-});*/
+});
 
 // ** Card toggle bindings **********************************************
 function bindCard(checkId, scopesId) {
@@ -324,6 +370,7 @@ function bindCard(checkId, scopesId) {
 }
 
 bindCard('chk-itsm', 'scopes-itsm');
+bindCard('chk-custom', 'scopes-custom');
 
 // Scope checkbox visual state
 document.querySelectorAll('.scope-check input[type="checkbox"]').forEach(cb => {

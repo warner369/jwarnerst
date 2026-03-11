@@ -555,6 +555,27 @@ a { color: inherit; text-decoration: none; }
 .field input[type="email"]:focus { border-color: var(--accent); }
 
 
+/* ** Uplift groups **/
+
+.uplift-group {
+    margin-bottom: 2rem;
+}
+
+.uplift-group-label {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding-bottom: 0.5rem;
+}
+
+.custom-estimate-section {
+    margin-top: 0.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px dashed var(--border-bright);
+}
+
 /* ** Uplift cards **/
 
 .uplift-list {
@@ -805,6 +826,41 @@ a { color: inherit; text-decoration: none; }
 }
 
 .scope-row-weeks { color: var(--text-dim); }
+
+/* ** Custom days input **/
+
+.custom-days-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.custom-days-row input[type="number"] {
+    width: 5rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+    font-family: var(--mono);
+    -moz-appearance: textfield;
+}
+
+.custom-days-row input[type="number"]::-webkit-inner-spin-button,
+.custom-days-row input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+.custom-days-row input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.custom-days-unit {
+    font-size: 0.825rem;
+    color: var(--text-dim);
+}
 
 
 /* ** Email capture (Groundwork) **/

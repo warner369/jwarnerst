@@ -6,9 +6,9 @@
     widget.innerHTML = `
         <div class="cw-panel">
             <p class="cw-question">Work with me</p>
-            <p class="cw-context">I take on ServiceNow strategy, pre-sales scoping, and custom builds. Typical engagement: a discovery call, a fixed-scope proposal, then delivery. Advisory-only works too.</p>
-            <textarea class="cw-message" placeholder="what are you working on?"></textarea>
-            <input class="cw-email" type="email" placeholder="your email (optional)" />
+            <p class="cw-context">I take on ServiceNow strategy, pre-sales scoping, advisory engagements and work on regular implementations + custom builds.</p>
+            <textarea class="cw-message" placeholder="What's on your mind?"></textarea>
+            <input class="cw-email" type="email" placeholder="Your email" />
             <button class="cw-send">send →</button>
         </div>
         <button class="cw-trigger">${TRIGGER_LABEL}</button>
@@ -41,7 +41,7 @@
         sendBtn.disabled = true;
 
         try {
-            const res = await fetch('/api/contact', {
+            const res = await fetch('/functions/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg, from_email: email.value.trim() }),
