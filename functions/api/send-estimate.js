@@ -1,11 +1,14 @@
-const FROM_ADDRESS = 'Services Estimator <estimator@jameswarner.com.au>';
-const CC_ADDRESS   = 'jwarnerst@gmail.com';
+const FROM_ADDRESS    = 'Services Estimator <estimator@jameswarner.com.au>';
+const CC_ADDRESS      = 'jwarnerst@gmail.com';
+const ALLOWED_ORIGINS = ['https://jameswarner.com.au', 'https://jameswarner.au', 'https://jameswarner.site'];
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+    const origin = context.request.headers.get('Origin');
+    const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
     return new Response(null, {
         status: 204,
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': allowed,
             'Access-Control-Allow-Methods': 'POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         },
@@ -15,25 +18,30 @@ export async function onRequestOptions() {
 export async function onRequestPost(context) {
     const { request, env } = context;
 
+    const origin = request.headers.get('Origin');
+    if (!ALLOWED_ORIGINS.includes(origin)) {
+        return new Response(null, { status: 403 });
+    }
+
     if (!env.RESEND_API_KEY) {
-        return json({ error: 'RESEND_API_KEY not configured' }, 500);
+        return json({ error: 'RESEND_API_KEY not configured' }, 500, origin);
     }
 
     let body;
     try {
         body = await request.json();
     } catch {
-        return json({ error: 'Invalid request body' }, 400);
+        return json({ error: 'Invalid request body' }, 400, origin);
     }
 
     const { to_email, date, sections, total_days, total_cost, multi } = body;
 
     if (!to_email || !sections || !date) {
-        return json({ error: 'Missing required fields' }, 400);
+        return json({ error: 'Missing required fields' }, 400, origin);
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to_email)) {
-        return json({ error: 'Invalid email address' }, 400);
+        return json({ error: 'Invalid email address' }, 400, origin);
     }
 
     const html = buildEmailHTML({ to_email, date, sections, total_days, total_cost, multi });
@@ -59,16 +67,14 @@ export async function onRequestPost(context) {
     if (!resendRes.ok) {
         const err = await resendRes.text();
         console.error('Resend error:', err);
-        return json({ error: 'Failed to send email' }, 500);
+        return json({ error: 'Failed to send email' }, 500, origin);
     }
 
-    return json({ ok: true }, 200);
+    return json({ ok: true }, 200, origin);
 }
 
 // ---------------------------------------------------------------------------
 // HTML email builder
-// Best-practice: XHTML doctype, table layout, inline styles only,
-// bgcolor attributes for Outlook, no external resources.
 // ---------------------------------------------------------------------------
 
 function buildEmailHTML({ to_email, date, sections, total_days, total_cost, multi }) {
@@ -143,8 +149,16 @@ function buildEmailHTML({ to_email, date, sections, total_days, total_cost, mult
 
           <!-- Date bar -->
           <tr>
-            <td bgcolor="#111820" style="padding:8px 36px 24px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;">
+            <td bgcolor="#111820" style="padding:8px 36px 16px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;">
               <p style="margin:0;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:2px;color:#3d4550;">${escHtml(date)}</p>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td bgcolor="#111820" style="padding:0 36px 28px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;">
+              <p style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#c9d1d9;line-height:1.6;">Thank you for taking the time to walk through your goals with me &mdash; I&rsquo;m pleased to put together the following estimate for your engagement.</p>
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#7d8590;line-height:1.6;">The breakdown below reflects the proposed scope and indicative effort. Please review at your convenience and don&rsquo;t hesitate to reach out if you&rsquo;d like to adjust anything.</p>
             </td>
           </tr>
 
@@ -154,9 +168,28 @@ function buildEmailHTML({ to_email, date, sections, total_days, total_cost, mult
           <!-- Per-uplift sections -->
           ${sectionBlocks}
 
+          <!-- Next steps / contact -->
+          <tr>
+            <td bgcolor="#111820" style="padding:24px 36px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;border-top:1px solid #2d3848;">
+              <p style="margin:0 0 6px 0;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#3d4550;">Next Steps</p>
+              <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#c9d1d9;line-height:1.6;">If everything looks good or you&rsquo;d like to refine the scope, I&rsquo;m happy to jump on a call at your convenience. Simply reply to this email and we can go from there.</p>
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding-right:24px;font-family:'Courier New',Courier,monospace;font-size:11px;color:#7d8590;">
+                    <span style="color:#3d4550;">Email</span>&nbsp;&nbsp;<a href="mailto:james@jameswarner.com.au" style="color:#00c864;text-decoration:none;">james@jameswarner.com.au</a>
+                  </td>
+                  <td style="font-family:'Courier New',Courier,monospace;font-size:11px;color:#7d8590;">
+                    <span style="color:#3d4550;">Web</span>&nbsp;&nbsp;<a href="https://jwarnerst.com" style="color:#00c864;text-decoration:none;">jwarnerst.com</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:14px 0 0 0;font-family:'Courier New',Courier,monospace;font-size:10px;color:#3d4550;">This estimate is valid for 30 days from the date above.</p>
+            </td>
+          </tr>
+
           <!-- Disclaimer -->
           <tr>
-            <td bgcolor="#111820" style="padding:20px 36px;border:1px solid #1e2530;border-top:1px solid #2d3848;">
+            <td bgcolor="#111820" style="padding:20px 36px;border:1px solid #1e2530;border-top:1px solid #1e2530;">
               <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#3d4550;line-height:1.7;">Estimates are indicative only and based on typical delivery patterns. Actual effort varies based on data quality, integration complexity, stakeholder availability, and organisational change readiness.</p>
             </td>
           </tr>
@@ -194,7 +227,7 @@ function buildEmailText({ date, sections, total_days, total_cost, multi }) {
     const fmtDays = d => d === 1 ? '1 day' : `${d} days`;
     const fmtCost = c => '$' + Number(c).toLocaleString('en-AU') + ' AUD';
     const rule = '\u2500'.repeat(48);
-    let text = `SERVICES ESTIMATOR \u2014 JAMES WARNER\n${rule}\nDate: ${date}\n\n`;
+    let text = `SERVICES ESTIMATOR \u2014 JAMES WARNER\n${rule}\nDate: ${date}\n\nThank you for taking the time to walk through your goals with me \u2014 I\u2019m pleased to put together the following estimate for your engagement.\n\n${rule}\n\n`;
 
     if (multi) {
         text += `COMBINED TOTAL\n${fmtDays(total_days)}  |  ${fmtCost(total_cost)} excl. GST\n\n${rule}\n\n`;
@@ -209,7 +242,7 @@ function buildEmailText({ date, sections, total_days, total_cost, multi }) {
         text += '\n';
     }
 
-    text += `${rule}\nEstimates are indicative only.\njwarnerst.com`;
+    text += `${rule}\nNEXT STEPS\nIf everything looks good or you\u2019d like to refine the scope, I\u2019m happy to jump on a call. Simply reply to this email and we can go from there.\n\nEmail: james@jameswarner.com.au\nWeb:   jwarnerst.com\n\nThis estimate is valid for 30 days from the date above.\n\n${rule}\nEstimates are indicative only and based on typical delivery patterns. Actual effort varies based on data quality, integration complexity, stakeholder availability, and organisational change readiness.\njwarnerst.com`;
     return text;
 }
 
@@ -225,12 +258,12 @@ function escHtml(str) {
         .replace(/"/g, '&quot;');
 }
 
-function json(data, status = 200) {
+function json(data, status = 200, origin = ALLOWED_ORIGINS[0]) {
     return new Response(JSON.stringify(data), {
         status,
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': origin,
             'Access-Control-Allow-Methods': 'POST, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
         },
