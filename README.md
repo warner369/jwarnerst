@@ -14,9 +14,7 @@ Personal portfolio site and toolset for a ServiceNow Enterprise Solutions Consul
 | `/about` | Background and contact |
 | `/experience` | Career timeline and certifications |
 | `/tools` | Tool directory |
-| `/tools/estimator` | ServiceNow Services Estimator |
-| `/tools/mock-exams/cis-df` | CIS-DF Mock Exam (75 questions) |
-| `/tools/mock-exams/cad` | CAD Mock Exam (60 questions) |
+| `/tools/mock-exams/cis-df` | Mock Exams |
 
 ---
 
@@ -25,7 +23,6 @@ Personal portfolio site and toolset for a ServiceNow Enterprise Solutions Consul
 ### Services Estimator
 Pre-sales scoping calculator for ServiceNow ITSM implementations. Configures module scope, calculates effort in days and cost (AUD), and delivers a formatted PDF and email estimate to a recipient.
 
-- Daily rate: $1,200 AUD excl. GST
 - Supports multi-module selection with per-scope uplifts
 - PDF generation via jsPDF (loaded via CDN)
 - Email delivery via `/api/send-estimate` → Resend API
@@ -56,81 +53,9 @@ No frameworks, no bundler, no `node_modules`.
 
 ---
 
-## Project Structure
-
-```
-├── index.html                   # Homepage
-├── about/index.html
-├── experience/index.html
-├── tools/
-│   ├── index.html               # Tool directory
-│   ├── estimator/
-│   │   ├── index.html
-│   │   └── script.js
-│   └── mock-exams/
-│       ├── index.html
-│       ├── exam.css
-│       ├── cis-df/
-│       │   ├── index.html       # Contains embedded quiz JSON
-│       │   └── script.js
-│       └── cad/
-│           ├── index.html       # Contains embedded quiz JSON
-│           └── script.js
-├── functions/
-│   └── api/
-│       ├── contact.js           # Contact form handler
-│       └── send-estimate.js     # Estimate email handler
-├── components.js                # Rail, search, footer
-├── contact-widget.js            # Floating contact panel
-├── style.css
-└── favicon.svg
-```
-
----
-
-## API Functions
-
-Both functions run as Cloudflare Workers and require origin validation against an allowlist before processing requests.
-
-### `POST /functions/api/contact`
-Sends a contact message via the floating widget.
-
-```json
-{
-  "message": "string (required)",
-  "from_email": "string (optional)"
-}
-```
-
-### `POST /api/send-estimate`
-Delivers a formatted estimate email with HTML and plain-text parts.
-
-```json
-{
-  "to_email": "string",
-  "date": "string",
-  "sections": [...],
-  "total_days": 0,
-  "total_cost": 0,
-  "multi": false
-}
-```
-
----
-
-## Environment Variables
-
-Set these in the Cloudflare Pages dashboard under **Settings → Environment Variables**.
-
-| Variable | Required | Description |
-|---|---|---|
-| `RESEND_API_KEY` | Yes | API key from [resend.com](https://resend.com). Must begin with `re_`. |
-
----
-
 ## Local Development
 
-No build step required. Serve the root directory with any static server:
+If you like this website, it is super simple to replicate. No build step required. Serve the root directory with any static server:
 
 ```bash
 npx serve .
