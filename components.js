@@ -69,7 +69,7 @@
     rail.innerHTML =
       `<div class="rail-top">` +
         `<a href="/" class="rail-name">JW</a>` +
-        `<button class="rail-toggle" id="rail-toggle" aria-label="Collapse sidebar">&#8249;</button>` +
+        `<button class="rail-toggle" id="rail-toggle" aria-label="Collapse sidebar" aria-expanded="true">&#8249;</button>` +
       `</div>` +
       `<button class="rail-search-btn" id="rail-search-btn" aria-label="Search site">` +
         searchIconSVG +
@@ -92,6 +92,7 @@
       rail.classList.toggle('collapsed', collapsed);
       document.body.classList.toggle('rail-collapsed', collapsed);
       toggle.innerHTML = collapsed ? '&#8250;' : '&#8249;';
+      toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
     };
 
     if (!isMobile() && localStorage.getItem('rail-collapsed') === '1') {
@@ -129,24 +130,28 @@
     const input = overlay.querySelector('#search-input');
     const results = overlay.querySelector('#search-results');
 
+    let searchTimeout;
     input.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) { results.innerHTML = ''; return; }
-      const matches = SEARCH_INDEX.filter(item =>
-        item.keywords.toLowerCase().includes(q) ||
-        item.title.toLowerCase().includes(q) ||
-        item.excerpt.toLowerCase().includes(q)
-      );
-      if (matches.length === 0) {
-        results.innerHTML = `<div class="search-no-results">No results for "${input.value}"</div>`;
-        return;
-      }
-      results.innerHTML = matches.map(item =>
-        `<a href="${item.url}" class="search-result-item">` +
-          `<div class="search-result-title">${item.title}</div>` +
-          `<div class="search-result-excerpt">${item.excerpt}</div>` +
-        `</a>`
-      ).join('');
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const q = input.value.trim().toLowerCase();
+        if (!q) { results.innerHTML = ''; return; }
+        const matches = SEARCH_INDEX.filter(item =>
+          item.keywords.toLowerCase().includes(q) ||
+          item.title.toLowerCase().includes(q) ||
+          item.excerpt.toLowerCase().includes(q)
+        );
+        if (matches.length === 0) {
+          results.innerHTML = `<div class="search-no-results">No results for "${input.value}"</div>`;
+          return;
+        }
+        results.innerHTML = matches.map(item =>
+          `<a href="${item.url}" class="search-result-item">` +
+            `<div class="search-result-title">${item.title}</div>` +
+            `<div class="search-result-excerpt">${item.excerpt}</div>` +
+          `</a>`
+        ).join('');
+      }, 150);
     });
 
     overlay.addEventListener('click', (e) => {

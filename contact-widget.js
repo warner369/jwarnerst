@@ -54,7 +54,8 @@
             widget.classList.remove('cw-open');
             trigger.textContent = '✓';
             setTimeout(() => { trigger.textContent = TRIGGER_LABEL; }, 3000);
-        } catch {
+        } catch (err) {
+            console.error('Contact form send failed:', err);
             sendBtn.textContent = 'error. retry? →';
         } finally {
             sendBtn.disabled = false;

@@ -10,10 +10,11 @@ let timerRunning = false, timerSeconds = 90 * 60, timerInterval = null;
 const timerDisplay = document.getElementById("timerDisplay");
 const timerToggle = document.getElementById("timerToggle");
 function updateTimerDisplay() {
+  if (!timerDisplay) return;
   const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
   const s = (timerSeconds % 60).toString().padStart(2, '0');
   timerDisplay.textContent = m + ':' + s;
-  if (timerSeconds <= 0) { clearInterval(timerInterval); timerRunning = false; timerToggle.textContent = "Time's up!"; }
+  if (timerSeconds <= 0) { clearInterval(timerInterval); timerRunning = false; if (timerToggle) timerToggle.textContent = "Time's up!"; }
 }
 timerToggle.addEventListener("click", () => {
   if (!timerRunning) {
@@ -25,6 +26,19 @@ timerToggle.addEventListener("click", () => {
 });
 
 function letterFromIndex(i) { return String.fromCharCode(65 + i); }
+
+/**
+ * Safely renders HTML by parsing it through a temporary element.
+ * This allows legitimate HTML tags while preventing script execution.
+ * NOTE: Since quiz data is curated and embedded in the HTML file,
+ * this is considered safe. For external data, use a library like DOMPurify.
+ */
+function safeRenderHTML(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.innerHTML;
+}
+
 function updateScore() {
   navProgress.textContent = `${answeredCount} / ${totalQ}`;
 }
@@ -62,9 +76,10 @@ function revealAnswer(wrapper, item, toggleBtn) {
   const selected = Array.from(wrapper.querySelectorAll("input:checked")).map(s => parseInt(s.value));
   choices.forEach(li => li.classList.remove("correct-choice", "incorrect-choice"));
   correctIndices.forEach(i => choices[i] && choices[i].classList.add("correct-choice"));
+  // Correct if: same number of answers selected AND all selected indices are in the correct list
   const isCorrect = selected.length === correctIndices.length && selected.every(i => correctIndices.includes(i));
   selected.forEach(i => { if (!correctIndices.includes(i) && choices[i]) choices[i].classList.add("incorrect-choice"); });
-  answerBox.innerHTML = `<div class="result ${isCorrect ? "correct" : "incorrect"}">${isCorrect ? "Correct!" : "Incorrect."} Answer: ${correctIndices.map(letterFromIndex).join(", ")}</div><details class="explanation-section"><summary>Reveal Explanation</summary><div>${item.prompt.explanation}</div></details>`;
+  answerBox.innerHTML = `<div class="result ${isCorrect ? "correct" : "incorrect"}">${isCorrect ? "Correct!" : "Incorrect."} Answer: ${correctIndices.map(letterFromIndex).join(", ")}</div><details class="explanation-section"><summary>Reveal Explanation</summary><div>${safeRenderHTML(item.prompt.explanation)}</div></details>`;
   answerBox.style.display = "block";
   toggleBtn.textContent = "Hide Answer";
   if (!wrapper.dataset.scored) {

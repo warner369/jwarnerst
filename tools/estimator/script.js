@@ -16,7 +16,6 @@ const UPLIFTS = {
             integrations:          { label: 'Integrations',                  days: 5  },
         },
     },
-    
 };
 
 // ** Helpers **********************************************
@@ -143,6 +142,11 @@ function renderResults() {
 
 // ** PDF generation **********************************************
 function generatePDF(recipientEmail) {
+    // Check if jsPDF is loaded before using it
+    if (!window.jspdf || typeof window.jspdf.jsPDF !== 'function') {
+        console.error('jsPDF is required but not loaded');
+        throw new Error('PDF generation library not available. Please ensure all resources are loaded.');
+    }
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
