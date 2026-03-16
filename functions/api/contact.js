@@ -40,6 +40,10 @@ export async function onRequestPost(context) {
         return json({ error: 'Message is required.' }, 400, origin);
     }
 
+    if (message.length > 5000) {
+        return json({ error: 'Message must be 5,000 characters or fewer.' }, 400, origin);
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (from_email && !emailRegex.test(from_email)) {
         return json({ error: 'Please provide a valid email address.' }, 400, origin);
@@ -53,8 +57,8 @@ export async function onRequestPost(context) {
         },
         body: JSON.stringify({
             from:     FROM_ADDRESS,
-            to:       from_email ? [TO_ADDRESS, from_email] : [TO_ADDRESS],
-            reply_to: from_email ? [TO_ADDRESS, from_email] : [TO_ADDRESS],
+            to:       [TO_ADDRESS],
+            reply_to: from_email ? [from_email] : undefined,
             subject:  'Inquiry',
             text:     message,
         }),

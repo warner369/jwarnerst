@@ -44,42 +44,8 @@
 </main>
 
 <footer class="site-footer" id="site-footer"></footer>
-<script src="/components.js"></script>
-<script src="/contact-widget.js"></script>
-<script>
-(function () {
-  var el = document.querySelector('.hero-name');
-  if (!el) return;
-  var lines = ['James', 'Warner'];
-  var typed = ['', ''];
-  var lineIdx = 0, charIdx = 0;
-
-  function render() {
-    var html = '';
-    for (var i = 0; i <= lineIdx; i++) {
-      if (i > 0) html += '<br>';
-      html += typed[i];
-    }
-    el.innerHTML = html + '<span class="cursor"></span>';
-  }
-
-  function type() {
-    var line = lines[lineIdx];
-    if (charIdx < line.length) {
-      typed[lineIdx] += line[charIdx++];
-      render();
-      setTimeout(type, 80);
-    } else if (lineIdx < lines.length - 1) {
-      lineIdx++;
-      charIdx = 0;
-      render();
-      setTimeout(type, 140);
-    }
-  }
-
-  render();
-  setTimeout(type, 250);
-})();
-</script>
+<script src="/components.js" defer></script>
+<script src="/contact-widget.js" defer></script>
+<script src="/typewriter.js" defer></script>
 </body>
 </html>

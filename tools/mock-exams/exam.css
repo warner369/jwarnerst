@@ -56,7 +56,8 @@
     font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.45rem 0.875rem;
+    padding: 0.55rem 0.875rem;
+    min-height: var(--touch-target-min);
     cursor: pointer;
     transition: border-color 0.12s, color 0.12s;
 }
@@ -171,6 +172,7 @@
     border: 1px solid transparent;
     transition: all 0.15s;
     color: var(--text-dim);
+    min-height: var(--touch-target-min);
 }
 
 .choices li:hover { border-color: var(--border); color: var(--text); }
@@ -212,8 +214,11 @@
     color: var(--text);
     font-family: var(--sans);
     outline: none;
+    min-height: var(--touch-target-min);
     transition: border-color 0.12s;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
 .matching-right select:focus  { border-color: var(--accent); }
@@ -298,7 +303,8 @@ details.explanation-section strong { color: var(--text); }
     font-size: 0.68rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.4rem 0.75rem;
+    padding: 0.55rem 0.75rem;
+    min-height: var(--touch-target-min);
     cursor: pointer;
     transition: border-color 0.12s, color 0.12s;
 }
@@ -320,10 +326,17 @@ details.explanation-section strong { color: var(--text); }
 /* Score summary */
 
 .score-summary {
+    display: none; /* shown via .visible class toggle in exam-engine.js */
     padding: 1.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
 }
+
+.score-summary.visible { display: block; }
+
+/* Answer section — hidden until revealed */
+.answer-section         { display: none; }
+.answer-section.visible { display: block; }
 
 .score-summary h2 {
     font-size: 1.25rem;

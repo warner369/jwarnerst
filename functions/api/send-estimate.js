@@ -44,8 +44,29 @@ export async function onRequestPost(context) {
         return json({ error: 'Invalid email address' }, 400, origin);
     }
 
-    const html = buildEmailHTML({ to_email, date, sections, total_days, total_cost, multi });
-    const text = buildEmailText({ date, sections, total_days, total_cost, multi });
+    if (!Array.isArray(sections) || sections.length === 0 || sections.length > 20) {
+        return json({ error: 'sections must be an array of 1–20 items' }, 400, origin);
+    }
+
+    /* Coerce and validate each section so a crafted payload cannot corrupt the email */
+    const safeSections = sections.map(sec => ({
+        label:     String(sec.label     ?? '').slice(0, 200),
+        days:      Math.max(0, Math.floor(Number(sec.days)      || 0)),
+        cost:      Math.max(0, Math.floor(Number(sec.cost)      || 0)),
+        base_days: Math.max(0, Math.floor(Number(sec.base_days) || 0)),
+        scopes: Array.isArray(sec.scopes)
+            ? sec.scopes.slice(0, 20).map(s => ({
+                label: String(s.label ?? '').slice(0, 200),
+                days:  Math.max(0, Math.floor(Number(s.days) || 0)),
+              }))
+            : [],
+    }));
+
+    const safeTotalDays = Math.max(0, Math.floor(Number(total_days) || 0));
+    const safeTotalCost = Math.max(0, Math.floor(Number(total_cost) || 0));
+
+    const html = buildEmailHTML({ to_email, date, sections: safeSections, total_days: safeTotalDays, total_cost: safeTotalCost, multi });
+    const text = buildEmailText({ date, sections: safeSections, total_days: safeTotalDays, total_cost: safeTotalCost, multi });
 
     const resendRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -157,8 +178,8 @@ function buildEmailHTML({ to_email, date, sections, total_days, total_cost, mult
           <!-- Greeting -->
           <tr>
             <td bgcolor="#111820" style="padding:0 36px 28px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;">
-              <p style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#c9d1d9;line-height:1.6;">Thank you for taking the time to walk through your goals with me &mdash; I&rsquo;m pleased to put together the following estimate for your engagement.</p>
-              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#7d8590;line-height:1.6;">The breakdown below reflects the proposed scope and indicative effort. Please review at your convenience and don&rsquo;t hesitate to reach out if you&rsquo;d like to adjust anything.</p>
+              <p style="margin:0 0 10px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#c9d1d9;line-height:1.6;">Here&rsquo;s the estimate based on what we discussed.</p>
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#7d8590;line-height:1.6;">Let me know if anything needs adjusting.</p>
             </td>
           </tr>
 
@@ -172,7 +193,7 @@ function buildEmailHTML({ to_email, date, sections, total_days, total_cost, mult
           <tr>
             <td bgcolor="#111820" style="padding:24px 36px;border-left:1px solid #1e2530;border-right:1px solid #1e2530;border-top:1px solid #2d3848;">
               <p style="margin:0 0 6px 0;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#3d4550;">Next Steps</p>
-              <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#c9d1d9;line-height:1.6;">If everything looks good or you&rsquo;d like to refine the scope, I&rsquo;m happy to jump on a call at your convenience. Simply reply to this email and we can go from there.</p>
+              <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#c9d1d9;line-height:1.6;">Happy to jump on a call if you want to talk through it. Just reply and we&rsquo;ll sort it from there.</p>
               <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="padding-right:24px;font-family:'Courier New',Courier,monospace;font-size:11px;color:#7d8590;">
@@ -227,7 +248,7 @@ function buildEmailText({ date, sections, total_days, total_cost, multi }) {
     const fmtDays = d => d === 1 ? '1 day' : `${d} days`;
     const fmtCost = c => '$' + Number(c).toLocaleString('en-AU') + ' AUD';
     const rule = '\u2500'.repeat(48);
-    let text = `SERVICES ESTIMATOR \u2014 JAMES WARNER\n${rule}\nDate: ${date}\n\nThank you for taking the time to walk through your goals with me \u2014 I\u2019m pleased to put together the following estimate for your engagement.\n\n${rule}\n\n`;
+    let text = `SERVICES ESTIMATOR \u2014 JAMES WARNER\n${rule}\nDate: ${date}\n\nHere\u2019s the estimate based on what we discussed.\n\n${rule}\n\n`;
 
     if (multi) {
         text += `COMBINED TOTAL\n${fmtDays(total_days)}  |  ${fmtCost(total_cost)} excl. GST\n\n${rule}\n\n`;
@@ -242,7 +263,7 @@ function buildEmailText({ date, sections, total_days, total_cost, multi }) {
         text += '\n';
     }
 
-    text += `${rule}\nNEXT STEPS\nIf everything looks good or you\u2019d like to refine the scope, I\u2019m happy to jump on a call. Simply reply to this email and we can go from there.\n\nEmail: james@jameswarner.com.au\nWeb:   jwarnerst.com\n\nThis estimate is valid for 30 days from the date above.\n\n${rule}\nEstimates are indicative only and based on typical delivery patterns. Actual effort varies based on data quality, integration complexity, stakeholder availability, and organisational change readiness.\njwarnerst.com`;
+    text += `${rule}\nNEXT STEPS\nHappy to jump on a call if you want to talk through it. Just reply and we\u2019ll sort it from there.\n\nEmail: james@jameswarner.com.au\nWeb:   jwarnerst.com\n\nThis estimate is valid for 30 days from the date above.\n\n${rule}\nEstimates are indicative only and based on typical delivery patterns. Actual effort varies based on data quality, integration complexity, stakeholder availability, and organisational change readiness.\njwarnerst.com`;
     return text;
 }
 

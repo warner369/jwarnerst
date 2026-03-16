@@ -135,22 +135,43 @@
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
         const q = input.value.trim().toLowerCase();
-        if (!q) { results.innerHTML = ''; return; }
+        if (!q) { results.replaceChildren(); return; }
+
         const matches = SEARCH_INDEX.filter(item =>
           item.keywords.toLowerCase().includes(q) ||
           item.title.toLowerCase().includes(q) ||
           item.excerpt.toLowerCase().includes(q)
         );
+
         if (matches.length === 0) {
-          results.innerHTML = `<div class="search-no-results">No results for "${input.value}"</div>`;
+          /* Use textContent — never innerHTML — for user-supplied query strings */
+          const noResult = document.createElement('div');
+          noResult.className = 'search-no-results';
+          noResult.textContent = `No results for "${input.value}"`;
+          results.replaceChildren(noResult);
           return;
         }
-        results.innerHTML = matches.map(item =>
-          `<a href="${item.url}" class="search-result-item">` +
-            `<div class="search-result-title">${item.title}</div>` +
-            `<div class="search-result-excerpt">${item.excerpt}</div>` +
-          `</a>`
-        ).join('');
+
+        /* SEARCH_INDEX values are developer-controlled string literals, but we still
+           use DOM methods to stay consistent with the guidelines and avoid any
+           future risk if the index is ever loaded dynamically. */
+        const nodes = matches.map(item => {
+          const a = document.createElement('a');
+          a.href = item.url;
+          a.className = 'search-result-item';
+
+          const title = document.createElement('div');
+          title.className = 'search-result-title';
+          title.textContent = item.title;
+
+          const excerpt = document.createElement('div');
+          excerpt.className = 'search-result-excerpt';
+          excerpt.textContent = item.excerpt;
+
+          a.append(title, excerpt);
+          return a;
+        });
+        results.replaceChildren(...nodes);
       }, 150);
     });
 
@@ -167,7 +188,7 @@
     setTimeout(() => {
       const input = overlay.querySelector('#search-input');
       if (input) { input.value = ''; input.focus(); }
-      const results = overlay.querySelector('#search-results');
+      const results  = overlay.querySelector('#search-results');
       if (results) results.innerHTML = '';
     }, 30);
   }

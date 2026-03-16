@@ -6,7 +6,7 @@
     widget.innerHTML = `
         <div class="cw-panel">
             <p class="cw-question">Work with me</p>
-            <p class="cw-context">I take on ServiceNow strategy, pre-sales scoping, advisory engagements and work on regular implementations + custom builds.</p>
+            <p class="cw-context">ServiceNow strategy, pre-sales, and implementations. Drop me a message.</p>
             <textarea class="cw-message" placeholder="What's on your mind?"></textarea>
             <input class="cw-email" type="email" placeholder="Your email" />
             <button class="cw-send">send →</button>

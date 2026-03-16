@@ -15,7 +15,7 @@
 <main class="content">
 
     <div class="pg-header">
-        <p class="pg-label"><a href="/tools/mock-exams">Mock Exams</a> &mdash; ServiceNow</p>
+        <p class="pg-label"><a href="/tools/mock-exams">Mock Exams</a> &middot; ServiceNow</p>
         <h1 class="pg-title">CAD Mock Exam</h1>
         <p class="pg-sub">60 questions &bull; 90 minutes &bull; Zurich Release &bull; Aligned to the 2026 exam blueprint.</p>
     </div>
@@ -46,7 +46,7 @@
         <button class="quiz-btn" id="resetQuiz">Reset Quiz</button>
     </div>
 
-    <div class="score-summary" id="scoreSummary" style="display:none"></div>
+    <div class="score-summary" id="scoreSummary"></div>
 
 </main>
 
@@ -1094,8 +1094,8 @@
   ]
 }
 </script>
-<script src="/components.js"></script>
-<script src="script.js"></script>
-<script src="/contact-widget.js"></script>
+<script src="/components.js" defer></script>
+<script src="/tools/mock-exams/exam-engine.js" defer></script>
+<script src="/contact-widget.js" defer></script>
 </body>
 </html>

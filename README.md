@@ -21,10 +21,9 @@ Personal portfolio site and toolset for a ServiceNow Enterprise Solutions Consul
 ## Tools
 
 ### Services Estimator
-Pre-sales scoping calculator for ServiceNow ITSM implementations. Configures module scope, calculates effort in days and cost (AUD), and delivers a formatted PDF and email estimate to a recipient.
+Pre-sales scoping calculator for ServiceNow ITSM implementations. Pick your modules, get an effort breakdown in days and cost (AUD), and email the estimate directly to yourself or a client.
 
-- Supports multi-module selection with per-scope uplifts
-- PDF generation via jsPDF (loaded via CDN)
+- Multi-module selection with per-scope uplifts
 - Email delivery via `/api/send-estimate` → Resend API
 
 ### Mock Exams
@@ -33,7 +32,7 @@ Practice exams for ServiceNow certifications. Questions are embedded directly in
 - 90-minute countdown timer with pause/resume
 - Per-domain score breakdown
 - Instant answer reveal with explanations
-- CIS-DF: Certified Implementation Specialist — Discovery & Service Mapping (75 questions)
+- CIS-DF: Certified Implementation Specialist – Data Foundations (75 questions)
 - CAD: Certified Application Developer (60 questions)
 
 ---
