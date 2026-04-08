@@ -43,6 +43,12 @@
       keywords: 'mock exam certification practice questions cad certified application developer servicenow'
     },
     {
+      title: 'Invoice Generator',
+      url: '/tools/invoice',
+      excerpt: 'Create and download PDF invoices with automatic GST calculation.',
+      keywords: 'invoice generator pdf billing gst tax james warner servicenow consulting'
+    },
+    {
       title: 'Experience',
       url: '/experience',
       excerpt: 'Professional timeline and certifications.',

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice Generator: James Warner</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../../style.css" />
+</head>
+<body>
+
+<aside class="rail" id="site-rail"></aside>
+
+<main class="content">
+
+    <div class="pg-header">
+        <p class="pg-label">ServiceNow</p>
+        <h1 class="pg-title">Invoice Generator</h1>
+        <p class="pg-sub">Create and download PDF invoices.</p>
+    </div>
+
+    <div class="tool-layout">
+
+        <div class="inputs-col">
+
+            <div class="uplift-group">
+                <div class="uplift-group-label">Invoice Details</div>
+                <div class="uplift-list">
+
+                    <div class="field">
+                        <label class="field-label" for="invoice-number">Invoice Number</label>
+                        <input type="text" id="invoice-number" placeholder="INV-001" />
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="issue-date">Issue Date</label>
+                        <input type="date" id="issue-date" />
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="due-days">Payment Terms (days)</label>
+                        <input type="number" id="due-days" min="0" step="1" value="30" />
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="period">Period</label>
+                        <input type="text" id="period" placeholder="April 2026" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="uplift-group">
+                <div class="uplift-group-label">Billed To</div>
+                <div class="uplift-list">
+
+                    <div class="field">
+                        <label class="field-label" for="company-name">Company Name</label>
+                        <input type="text" id="company-name" placeholder="Acme Corporation" />
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="street-address">Street Address</label>
+                        <input type="text" id="street-address" placeholder="123 Main Street" />
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="suburb-postcode">Suburb, State, Postcode</label>
+                        <input type="text" id="suburb-postcode" placeholder="Sydney NSW 2000" />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="uplift-group">
+                <div class="uplift-group-label">Line Items</div>
+                <div class="uplift-list" id="line-items">
+
+                    <div class="line-item-row" data-index="0">
+                        <div class="line-item-fields">
+                            <div class="field field-description">
+                                <label class="field-label">Description</label>
+                                <input type="text" class="line-description" placeholder="ServiceNow Consulting" />
+                            </div>
+                            <div class="field field-days">
+                                <label class="field-label">Days</label>
+                                <input type="number" class="line-days" min="0" step="0.5" value="1" />
+                            </div>
+                            <div class="field field-rate">
+                                <label class="field-label">Rate (AUD)</label>
+                                <input type="number" class="line-rate" min="0" step="1" value="1200" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="btn-add-line" id="add-line-btn">+ Add Line Item</button>
+            </div>
+
+            <button class="btn-calculate ready" id="generate-btn">Generate PDF Invoice</button>
+
+            <p class="disclaimer">Invoices are generated client-side and do not store any data. Payment details are pre-filled from the template.</p>
+
+        </div>
+
+        <div class="results-col" id="results-col">
+            <p class="results-heading">Summary</p>
+            <div id="results-body">
+                <div class="result-block">
+                    <div class="result-block-label">Subtotal</div>
+                    <div class="result-value" id="subtotal-value">$0</div>
+                    <div class="result-cost">excl. GST</div>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">GST (10%)</div>
+                    <div class="result-value" id="gst-value">$0</div>
+                </div>
+                <div class="result-block">
+                    <div class="result-block-label">Total Due</div>
+                    <div class="result-value accent" id="total-value">$0</div>
+                    <div class="result-cost">incl. GST</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/components.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js" defer></script>
+<script src="/contact-widget.js" defer></script>
+</body>
+</html>
