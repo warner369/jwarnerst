@@ -18,6 +18,7 @@ Personal portfolio site and toolset for a ServiceNow Enterprise Solutions Consul
 | `/tools/mock-exams` | Mock Exams hub |
 | `/tools/mock-exams/cis-df` | CIS-DF Mock Exam |
 | `/tools/mock-exams/cad` | CAD Mock Exam |
+| `/tools/invoice` | Invoice Generator |
 
 ---
 
@@ -38,6 +39,15 @@ Practice exams for ServiceNow certifications. Questions are embedded directly in
 - CIS-DF: Certified Implementation Specialist – Data Foundations (75 questions)
 - CAD: Certified Application Developer (60 questions)
 
+### Invoice Generator
+Client-side PDF invoice generator for consulting work.
+
+- Dynamic line items with add/remove
+- Auto-calculated subtotal, GST (10%), and total
+- Pre-filled issue date and period
+- Customizable payment details
+- PDF download via jsPDF
+
 ---
 
 ## Tech Stack
@@ -47,8 +57,9 @@ Practice exams for ServiceNow certifications. Questions are embedded directly in
 | Frontend | HTML5, CSS3, Vanilla JS (ES6+) |
 | Hosting | Cloudflare Pages |
 | Build tool | None |
+| External lib | jsPDF (CDN, invoice generator only) |
 
-No frameworks, no bundler, no `node_modules`.
+No frameworks, no bundler, no `node_modules`. The only external dependency is jsPDF, loaded via CDN for the invoice generator.
 
 ---
 
@@ -84,8 +95,10 @@ This is a static site with no server-side code or user authentication. Security 
 - **Content Security Policy**: Recommended to add CSP headers at the Cloudflare Pages level:
 
 ```
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';
 ```
+
+Note: `unsafe-eval` and `cdnjs.cloudflare.com` are required for jsPDF in the invoice generator.
 
 ---
 

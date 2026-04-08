@@ -535,7 +535,7 @@
           "<p>Execute</p>",
           "<p>Query</p>"
         ],
-        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The standard database operations controlled by ACLs are: <strong>Read</strong> (view records), <strong>Write</strong> (update records), <strong>Create</strong> (insert records), and <strong>Delete</strong> (remove records). <strong>Execute</strong> is not a standard ACL operation type. While there are some specialty ACL types, the core CRUD operations are Read, Write, Create, and Delete.</p>"
+        "explanation": "<p><strong>Correct: A, B, C</strong></p><p>The standard operations controlled by ACLs on table records are <strong>Read</strong>, <strong>Write</strong>, <strong>Create</strong>, and <strong>Delete</strong>. <strong>Execute</strong> is also a valid ACL operation, but it applies to different resource types like Script Includes, UI Pages, and Processors—not to table records. For this question about controlling data access, Read, Write, and Delete are the correct choices. Query is not an ACL operation.</p>"
       },
       "correct_response": [
         "a",
