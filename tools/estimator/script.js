@@ -42,9 +42,6 @@ function fmtCost(days) {
     return '$' + total.toLocaleString('en-AU') + ' AUD';
 }
 
-// ** Last computed results (used by PDF + email) **********************************************
-let lastResults = null;
-
 // ** Calculate button active state **********************************************
 const calcBtn = document.getElementById('calc-btn');
 
@@ -69,13 +66,10 @@ function renderResults() {
         selected.push({ key: 'custom', checked: true });
     }
 
-    const body         = document.getElementById('results-body');
-    const emailCapture = document.getElementById('email-capture');
+    const body = document.getElementById('results-body');
 
     if (!selected.length) {
         body.innerHTML = '<p class="result-empty">Select at least one uplift.</p>';
-        emailCapture.classList.remove('visible');
-        lastResults = null;
         return;
     }
 
@@ -88,8 +82,6 @@ function renderResults() {
 
     const totalDays = results.reduce((sum, r) => sum + r.days, 0);
     const multi     = results.length > 1;
-
-    lastResults = { results, totalDays, multi };
 
     let html = '';
 
@@ -135,88 +127,7 @@ function renderResults() {
     }
 
     body.innerHTML = html;
-    emailCapture.classList.add('visible');
-    document.getElementById('email-status').textContent = '';
-    document.getElementById('email-status').className   = 'email-status';
 }
-
-// ** Email send via Pages Function **********************************************
-async function sendEstimateEmail(recipientEmail) {
-    const date = new Date().toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
-
-    const sections = lastResults.results.map(({ key, days, scopes }) => {
-        if (key === 'custom') {
-            return {
-                label:     'Custom Daily Estimate',
-                days,
-                cost:      days * DAILY_RATE,
-                base_days: days,
-                scopes:    [],
-            };
-        }
-        const def = UPLIFTS[key];
-        return {
-            label:     def.label,
-            days,
-            cost:      days * DAILY_RATE,
-            base_days: def.base,
-            scopes:    scopes.map(s => ({ label: def.scopes[s].label, days: def.scopes[s].days })),
-        };
-    });
-
-    const res = await fetch('/api/send-estimate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            to_email:   recipientEmail,
-            date,
-            sections,
-            total_days: lastResults.totalDays,
-            total_cost: lastResults.totalDays * DAILY_RATE,
-            multi:      lastResults.multi,
-        }),
-    });
-
-    if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || 'Send failed');
-    }
-}
-
-// ** Email button handler **********************************************
-
-document.getElementById('email-btn').addEventListener('click', async () => {
-    const emailInput = document.getElementById('recipient-email');
-    const statusEl   = document.getElementById('email-status');
-    const btn        = document.getElementById('email-btn');
-    const email      = emailInput.value.trim();
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        statusEl.textContent = 'Please enter a valid email address.';
-        statusEl.className   = 'email-status error';
-        return;
-    }
-
-    if (!lastResults) return;
-
-    btn.disabled    = true;
-    btn.textContent = 'Sending…';
-    statusEl.textContent = '';
-    statusEl.className   = 'email-status';
-
-    try {
-        await sendEstimateEmail(email);
-        statusEl.textContent = 'Estimate sent — check your inbox.';
-        statusEl.className   = 'email-status success';
-    } catch (err) {
-        console.error('Email send failed:', err);
-        statusEl.textContent = 'Send failed — try again or email directly.';
-        statusEl.className   = 'email-status error';
-    }
-
-    btn.textContent = 'Send Estimate →';
-    btn.disabled    = false;
-});
 
 // ** Card toggle bindings **********************************************
 function bindCard(checkId, scopesId) {
@@ -240,5 +151,71 @@ document.querySelectorAll('.scope-check input[type="checkbox"]').forEach(cb => {
         cb.closest('.scope-check').classList.toggle('selected', cb.checked);
     });
 });
+
+// ** Email quote functionality **********************************************
+function generateEmailBody() {
+    const selected = [
+        { key: 'itsm', checked: document.getElementById('chk-itsm').checked },
+    ].filter(u => u.checked);
+
+    if (document.getElementById('chk-custom').checked) {
+        selected.push({ key: 'custom', checked: true });
+    }
+
+    if (!selected.length) return null;
+
+    const results = selected.map(({ key }) => {
+        if (key === 'custom') return { key, days: getCustomDays(), scopes: [] };
+        const scopes = getSelectedScopes(key);
+        const days   = calcUplift(key, scopes);
+        return { key, days, scopes };
+    });
+
+    const totalDays = results.reduce((sum, r) => sum + r.days, 0);
+    const multi     = results.length > 1;
+
+    let body = 'Hi James,\n\n';
+    body += 'I\'d like to discuss the following ServiceNow estimate:\n\n';
+
+    for (const { key, days, scopes } of results) {
+        if (key === 'custom') {
+            body += `Custom Daily Estimate - ${fmtDays(days)} - ${fmtCost(days)} excl. GST\n`;
+            continue;
+        }
+
+        const def = UPLIFTS[key];
+        body += `${def.label} - ${fmtDays(days)} - ${fmtCost(days)} excl. GST\n`;
+
+        if (scopes.length) {
+            for (const s of scopes) {
+                body += `  - ${def.scopes[s].label} (+${def.scopes[s].days}d)\n`;
+            }
+        }
+    }
+
+    if (multi) {
+        body += `\nCombined Estimate: ${fmtDays(totalDays)} - ${fmtCost(totalDays)} excl. GST\n`;
+    }
+
+    body += '\n\n[Add your message here]\n\n';
+    body += 'Regards,\n[Your name]';
+
+    return body;
+}
+
+function emailQuote() {
+    const body = generateEmailBody();
+    if (!body) {
+        alert('Please calculate an estimate first.');
+        return;
+    }
+
+    const subject = encodeURIComponent('ServiceNow Estimate Request');
+    const encodedBody = encodeURIComponent(body);
+    window.location.href = `mailto:jwarnerst@gmail.com?subject=${subject}&body=${encodedBody}`;
+}
+
+// Add email button listener
+document.getElementById('email-quote-btn').addEventListener('click', emailQuote);
 
 calcBtn.addEventListener('click', renderResults);

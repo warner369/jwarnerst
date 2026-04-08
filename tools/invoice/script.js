@@ -12,13 +12,6 @@
         phone: '+61 421 747 786'
     };
 
-    const PAYMENT_DETAILS = {
-        bank: 'Bendigo and Adelaide Bank',
-        accountName: 'James Warner',
-        bsb: '633 123',
-        accountNumber: '168 668 846'
-    };
-
     // ** State *******************************************************
     let lineItemCount = 1;
 
@@ -173,6 +166,12 @@
         const items = getLineItems();
         const { subtotal, gst, total } = calculateTotals();
 
+        // Get payment details from form
+        const bankName = document.getElementById('bank-name').value || '';
+        const accountName = document.getElementById('account-name').value || '';
+        const bsb = document.getElementById('bsb').value || '';
+        const accountNumber = document.getElementById('account-number').value || '';
+
         // Page dimensions
         const pageWidth = doc.internal.pageSize.getWidth();
         const margin = 20;
@@ -292,20 +291,19 @@
         y += 15;
 
         // ** Payment Details **
-        doc.setFontSize(8);
-        doc.setTextColor(gray);
-        doc.text('PAYMENT DETAILS', margin, y);
-        y += 6;
+        if (bankName || accountName || bsb || accountNumber) {
+            doc.setFontSize(8);
+            doc.setTextColor(gray);
+            doc.text('PAYMENT DETAILS', margin, y);
+            y += 6;
 
-        doc.setTextColor(darkGray);
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Bank: ${PAYMENT_DETAILS.bank}`, margin, y);
-        y += 5;
-        doc.text(`Account Name: ${PAYMENT_DETAILS.accountName}`, margin, y);
-        y += 5;
-        doc.text(`BSB: ${PAYMENT_DETAILS.bsb}  |  Account: ${PAYMENT_DETAILS.accountNumber}`, margin, y);
-        y += 10;
+            doc.setTextColor(darkGray);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            if (bankName) doc.text(`Bank: ${bankName}`, margin, y), y += 5;
+            if (accountName) doc.text(`Account Name: ${accountName}`, margin, y), y += 5;
+            if (bsb && accountNumber) doc.text(`BSB: ${bsb}  |  Account: ${accountNumber}`, margin, y), y += 10;
+        }
 
         doc.setFontSize(8);
         doc.setTextColor(gray);

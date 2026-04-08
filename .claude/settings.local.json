@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -p Invoice_Template.docx word/document.xml)",
+      "Bash(sed 's/<[^>]*>//g')",
+      "WebSearch"
+    ]
+  }
+}
