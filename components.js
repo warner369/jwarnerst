@@ -46,7 +46,7 @@
       title: 'Invoice Generator',
       url: '/tools/invoice',
       excerpt: 'Create and download PDF invoices with automatic GST calculation.',
-      keywords: 'invoice generator pdf billing gst tax james warner servicenow consulting'
+      keywords: 'invoice generator pdf billing gst tax consulting'
     },
     {
       title: 'Experience',

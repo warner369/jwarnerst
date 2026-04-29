@@ -2,15 +2,7 @@
     'use strict';
 
     // ** Constants **************************************************
-    const DEFAULT_RATE = 1200;
     const GST_RATE = 0.10;
-
-    const FROM_DETAILS = {
-        name: 'James Warner',
-        abn: '75 993 329 368',
-        email: 'jwarnerst@gmail.com',
-        phone: '+61 421 747 786'
-    };
 
     // ** State *******************************************************
     let lineItemCount = 1;
@@ -88,11 +80,11 @@
                 </div>
                 <div class="field field-days">
                     <label class="field-label">Days</label>
-                    <input type="number" class="line-days" min="0" step="0.5" value="1" />
+                    <input type="number" class="line-days" min="0" step="0.5" placeholder="1" />
                 </div>
                 <div class="field field-rate">
                     <label class="field-label">Rate (AUD)</label>
-                    <input type="number" class="line-rate" min="0" step="1" value="${DEFAULT_RATE}" />
+                    <input type="number" class="line-rate" min="0" step="1" placeholder="1200" />
                 </div>
             </div>
             <button class="btn-remove-line" type="button">remove</button>
@@ -159,6 +151,14 @@
         const dueDays = parseInt(document.getElementById('due-days').value, 10) || 30;
         const dueDate = addDays(issueDateStr, dueDays);
         const period = document.getElementById('period').value || '';
+
+        // FROM details
+        const fromName = document.getElementById('from-name').value || '';
+        const fromAbn = document.getElementById('from-abn').value || '';
+        const fromEmail = document.getElementById('from-email').value || '';
+        const fromPhone = document.getElementById('from-phone').value || '';
+
+        // BILLED TO details
         const companyName = document.getElementById('company-name').value || '';
         const streetAddress = document.getElementById('street-address').value || '';
         const suburbPostcode = document.getElementById('suburb-postcode').value || '';
@@ -191,7 +191,9 @@
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(gray);
-        doc.text('James Warner | ServiceNow Consulting', margin, y);
+        if (fromName) {
+            doc.text(fromName, margin, y);
+        }
         y += 15;
 
         // Reset color
@@ -220,12 +222,18 @@
         doc.setTextColor(gray);
         doc.text('FROM', col1X, colY);
         doc.setTextColor(darkGray);
-        doc.setFontSize(10);
-        doc.text(FROM_DETAILS.name, col1X, colY + 6);
-        doc.setFontSize(9);
-        doc.text(`ABN: ${FROM_DETAILS.abn}`, col1X, colY + 12);
-        doc.text(FROM_DETAILS.email, col1X, colY + 18);
-        doc.text(FROM_DETAILS.phone, col1X, colY + 24);
+        if (fromName) {
+            doc.setFontSize(10);
+            doc.text(fromName, col1X, colY + 6);
+            doc.setFontSize(9);
+            let fromY = colY + 12;
+            if (fromAbn) { doc.text(`ABN: ${fromAbn}`, col1X, fromY); fromY += 6; }
+            if (fromEmail) { doc.text(fromEmail, col1X, fromY); fromY += 6; }
+            if (fromPhone) { doc.text(fromPhone, col1X, fromY); }
+        } else {
+            doc.setFontSize(10);
+            doc.setTextColor(darkGray);
+        }
 
         // BILLED TO column
         doc.setFontSize(8);
